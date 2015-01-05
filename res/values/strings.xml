@@ -56,6 +56,13 @@
 
     <string name="app_id">744704282282176</string>
 
-    <string name="date_pregnancy">Date of Pregnancy</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="count">Number of Pigs</string>
+    <string name="purpose">Purpose</string>
+	<string name="birthdate">Date of Birth</string>
+	<string name="date_giving_birth">Date of Giving Birth</string>
+	<string name="date_pregnancy">Date of Pregnancy</string>
 	<string name="date_added">Date Added</string>
 </resources>

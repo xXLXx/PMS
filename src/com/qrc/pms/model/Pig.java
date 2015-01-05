@@ -1,12 +1,19 @@
 package com.qrc.pms.model;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 
-import android.content.res.Resources;
+import net.glxn.qrgen.QRCode;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.android.Contents;
 import com.qrc.pms.R;
 
 public class Pig {
@@ -31,15 +38,17 @@ public class Pig {
 	public int count = 1;
 	private int dateAdded = 0;
 	
-	public Pig(int purpose, int birthDate) {
-		this(purpose, birthDate, "", 1, 0);
+	private String id;
+	
+	public Pig(String id, int purpose, int birthDate) {
+		this(id, purpose, birthDate, "", 1, 0);
 	}
 	
-	public Pig(int purpose, int birthDate, String groupName, int count) {
-		this(purpose, birthDate, groupName, count, 0);
+	public Pig(String id, int purpose, int birthDate, String groupName, int count) {
+		this(id, purpose, birthDate, groupName, count, 0);
 	}
 	
-	public Pig(int purpose, int birthDate, String groupName, int count, int extraDate) {
+	public Pig(String id, int purpose, int birthDate, String groupName, int count, int extraDate) {
 		super();
 		this.purpose = purpose;
 		this.birthDate = birthDate;
@@ -55,6 +64,23 @@ public class Pig {
 	
 	public String getGroupName() {
 		return groupName.equals("") ? "Pig Added " + formatDate(dateAdded) : groupName;
+	}
+	
+	public Bitmap getQrCodeBitmap() {
+//		return QRCode.from(getSerializedString()).bitmap();
+		return null;
+	}
+	
+	public String getSerializedString() throws JSONException {
+		JSONObject data = new JSONObject();
+		data.put("birthdate", birthDate);
+		data.put("dateAdded", dateAdded);
+		data.put("id", id);
+		return data.toString();
+	}
+	
+	public String getPig(String json) {
+		return null;
 	}
 	
 	public int indexOfPurpose(String purpose) {
