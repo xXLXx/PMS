@@ -1,14 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true" >
 
     <ListView
         android:id="@+id/pig_listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
+        android:cacheColorHint="#00000000" >
     </ListView>
 
-</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/details_modal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#b0000000"
+        android:orientation="vertical"
+        android:visibility="gone" >
+	
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp" >
+
+            <TextView
+                android:id="@+id/tv_detail_groupname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Large Text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/main_color_dark" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="#3FFFFFFF" >
+
+            </FrameLayout>
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true" >
+				
+                <TableLayout
+                    android:layout_width="match_parent"
+	                android:layout_height="wrap_content">
+                    <TableRow >
+	                	<TextView
+	                        android:text="@string/count"
+	                        style="@style/DetailTextLead" />
+	                	
+                        <TextView
+	                        android:id="@+id/tv_detail_count"
+	                        android:text="@string/count"
+	                        style="@style/DetailText" />
+
+                        <EditText
+                            android:id="@+id/et_detail_count"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:textColor="@color/secondary_color"
+                            android:visibility="gone" >
+
+                            <requestFocus />
+                        </EditText>
+
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+	                        android:text="@string/purpose"
+	                        style="@style/DetailTextLead"  />
+                        <TextView
+	                        android:id="@+id/tv_detail_purpose"
+	                        android:text="@string/purpose"
+	                        style="@style/DetailText"  />
+
+                        <Spinner
+                            android:id="@+id/spinner_detail_purpose"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:entries="@array/purpose_list"
+                            android:visibility="gone" />
+
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+	                        android:text="@string/birthdate"
+	                        style="@style/DetailTextLead"  />
+
+                        <TextView
+                            android:id="@+id/tv_detail_birthdate"
+                            style="@style/DetailText"
+                            android:text="as das 3 3 ds dfs fs dfs dfsdfsf33  a" />
+
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+                            android:id="@+id/tv_detaillead_extradate"
+	                        android:text="@string/date_giving_birth"
+	                        style="@style/DetailTextLead" />
+                        <TextView
+	                        android:id="@+id/tv_detail_extradate"
+	                        android:text="@string/date_giving_birth"
+	                        style="@style/DetailText" />
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+	                        android:text="@string/date_added"
+	                        style="@style/DetailTextLead" />
+                        <TextView
+	                        android:id="@+id/tv_detail_dateadded"
+	                        android:text="@string/date_added"
+	                        style="@style/DetailText" />
+                    </TableRow>
+                </TableLayout>
+                
+
+            </ScrollView>
+            	
+        </LinearLayout>
+            
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/btn_edit"
+                style="@style/ResultButton"
+                android:text="@string/edit" />
+
+            <Button
+                android:id="@+id/btn_cancel"
+                style="@style/ResultButton"
+                android:text="@string/cancel" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

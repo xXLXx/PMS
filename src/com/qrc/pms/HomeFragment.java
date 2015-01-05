@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.qrc.pms.R;
+import com.qrc.pms.views.CustomCaptureActivity;
 import com.nineoldandroids.animation.ObjectAnimator;
 
 //edited
@@ -83,7 +84,7 @@ public class HomeFragment extends SherlockFragment {
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					
-					Intent intent = new Intent(HomeFragment.this.getActivity(), CaptureActivity.class);
+					Intent intent = new Intent(HomeFragment.this.getActivity(), CustomCaptureActivity.class);
 					intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
 			        startActivityForResult(intent, 0);
 				}
