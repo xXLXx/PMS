@@ -29,6 +29,7 @@ import com.qrc.pms.adapter.NavDrawerListAdapter;
 import com.qrc.pms.config.Config;
 import com.qrc.pms.helper.ConnectionHelper;
 import com.qrc.pms.model.NavDrawerItem;
+import com.qrc.pms.model.Pig;
 
 
 public class MainActivity extends SherlockFragmentActivity implements LocationListener{
@@ -59,6 +60,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		
+		Pig.setPurposeList(this.getResources());
+		
 		getLocation();
 		mTitle = mDrawerTitle = getTitle();
 
@@ -235,16 +239,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			fragment = new FindPeopleFragment();
 			break;
 		case 2:
-			fragment = new PhotosFragment();
+			fragment = new CommunityFragment();
 			break;
 		case 3:
-			fragment = new CommunityFragment();
+			fragment = new PhotosFragment();
 			break;
 		case 4:
 			fragment = new PagesFragment();
-			break;
-		case 5:
-			fragment = new WhatsHotFragment();
 			break;
 
 		default:
