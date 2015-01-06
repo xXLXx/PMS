@@ -30,10 +30,8 @@
 
     <string-array name="purpose_list">
         <item>Not Specified</item>
-        <item>Nursing Piglet</item>
-        <item>Fattening Pig</item>
-        <item>Pregnant Sow / Gilt</item>
-        <item>Milking Sow</item>
+        <item>For Fattening</item>
+        <item>For Sow</item>
     </string-array>
 
     <!-- Content Description -->

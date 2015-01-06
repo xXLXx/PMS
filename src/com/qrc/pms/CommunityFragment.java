@@ -54,7 +54,7 @@ public class CommunityFragment extends SherlockFragment {
 		ListView pigListView = (ListView) view.findViewById(R.id.pig_listView);
 		final ArrayList<Pig> pigList = new ArrayList<Pig>();
 		for (int x = 0; x < 30; x++) {
-			pigList.add(new Pig(x + "", x % 4 + 1, (int) (System.currentTimeMillis() / 1000 + 86400 * x), x < 10 ? x + " Little Piggies" : "", x));
+			pigList.add(new Pig(x % 4 + 1, (int) (System.currentTimeMillis() / 1000 + 86400 * x), x < 10 ? x + " Little Piggies" : "", x));
 		}
 		pigListAdapter = new PigListAdapter(view.getContext(), pigList);
 		pigListView.setAdapter(pigListAdapter);
@@ -80,7 +80,7 @@ public class CommunityFragment extends SherlockFragment {
 				if (!(extraDate = pig.getPregnancyDate()).equals("")) {
 					tvExtraDate.setText(extraDate);
 					tvExtraDateLead.setText(getResources().getString(R.string.date_pregnancy));
-				} else if (!(extraDate = pig.getGivingBirthDate()).equals("")) {
+				} else if (!(extraDate = pig.getMilkingDate()).equals("")) {
 					tvExtraDate.setText(extraDate);
 					tvExtraDateLead.setText(getResources().getString(R.string.date_giving_birth));
 				} else {
