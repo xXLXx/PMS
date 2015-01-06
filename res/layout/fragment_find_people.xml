@@ -5,32 +5,24 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_main" >
 
-  <ImageView
-      android:id="@+id/imageView1"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_alignParentTop="true"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="94dp"
-      android:src="@drawable/piggy_bank_logo" />
+     <com.facebook.widget.LoginButton
+         android:id="@+id/authButton"
+         android:layout_width="300dp"
+         android:layout_height="wrap_content"
+         android:layout_alignParentTop="true"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="91dp"
+         fb:login_text="Connect with Facebook"
+         fb:logout_text="Logout" />
 
-  <ImageView
-      android:id="@+id/imageView2"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/imageView1"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="14dp"
-      android:src="@drawable/pms_title" />
-
-  <com.facebook.widget.LoginButton
-      android:id="@+id/authButton"
-      android:layout_width="300dp"
-      android:layout_height="wrap_content"
-      android:layout_below="@+id/imageView2"
-      android:layout_centerHorizontal="true"
-      android:layout_marginTop="25dp"
-      fb:login_text="Connect with Facebook"
-      fb:logout_text="Logout" />
+     <TextView
+         android:id="@+id/textView1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/authButton"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="26dp"
+         android:text="@string/or"
+         android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>

@@ -44,8 +44,9 @@
     <string name="btn_send">Send</string>
     <string name="btn_cancel">Cancel</string>
     <string name="editText1">No Location Detected (Please Open your GPS or Internet)</string>
-    <string name="btn_connect_fb">Connect with Facebook</string>
-    <string name="app_id">744704282282176</string>
+    <string name="btn_connect_fb">Login with Facebook</string>
+    <string name="app_id">824429670931760</string>
+    <string name="or">OR</string>
 
 
 </resources>

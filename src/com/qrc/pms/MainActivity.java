@@ -32,25 +32,27 @@ import com.qrc.pms.model.NavDrawerItem;
 
 
 public class MainActivity extends SherlockFragmentActivity implements LocationListener{
-	private DrawerLayout mDrawerLayout;
-	private ListView mDrawerList;
+	public DrawerLayout mDrawerLayout;
+	public ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	private LocationManager locMngr;
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; 
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;	
 	
+	public boolean isAdmin = false;
+	
 //	public boolean isMain = t;
 	// nav drawer title
-	private CharSequence mDrawerTitle;
+	public CharSequence mDrawerTitle;
 
 	// used to store app title
 	private CharSequence mTitle;
 
 	// slide menu items
-	private String[] navMenuTitles;
-	private TypedArray navMenuIcons;
+	public String[] navMenuTitles;
+	public TypedArray navMenuIcons;
 
-	private ArrayList<NavDrawerItem> navDrawerItems;
+	public ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
 
 	@Override
@@ -216,7 +218,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	/**
 	 * Diplaying fragment view for selected nav drawer list item
 	 * */
-	private void displayView(int position) {
+	public void displayView(int position) {
 		// update the main content by replacing fragments
 		SherlockFragment fragment = null;
 		switch (position) {
@@ -224,6 +226,12 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			fragment = new HomeFragment();
 			break;
 		case 1:
+			if (isAdmin) {
+				Log.e("dsfsf", "" + isAdmin);
+				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+			} else {
+				// loginfunction
+			}
 			fragment = new FindPeopleFragment();
 			break;
 		case 2:
