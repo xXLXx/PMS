@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#b0000000"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:orientation="vertical" >
 	
         <LinearLayout
             android:layout_width="match_parent"
@@ -34,15 +33,45 @@
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/main_color_dark" />
+            
+            <EditText
+                android:id="@+id/et_detail_groupname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:hint="@string/group_name_nocol"
+                android:inputType="text"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/main_color_dark"
+                android:visibility="gone" />
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="10dp"
                 android:background="#3FFFFFFF" >
 
             </FrameLayout>
+
+            <TextView
+                android:id="@+id/tv_feeds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NUTRI-GRO"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/secondary_color"
+                android:layout_gravity="center_horizontal" />
+            
+            <TextView
+                android:id="@+id/tv_feeds_consumption"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center_horizontal"
+                android:text="50ml/head/day\n(16.7ml per serving)"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/secondary_color" />
 
             <ScrollView
                 android:layout_width="match_parent"
@@ -52,6 +81,16 @@
                 <TableLayout
                     android:layout_width="match_parent"
 	                android:layout_height="wrap_content">
+	                <TableRow >
+                        <TextView
+	                        android:text="@string/purpose"
+	                        style="@style/DetailTextLead"  />
+                        <TextView
+	                        android:id="@+id/tv_detail_purpose"
+	                        android:text="@string/purpose"
+	                        style="@style/DetailText"  />
+
+                    </TableRow>
                     <TableRow >
 	                	<TextView
 	                        android:text="@string/count"
@@ -72,23 +111,6 @@
 
                             <requestFocus />
                         </EditText>
-
-                    </TableRow>
-                    <TableRow >
-                        <TextView
-	                        android:text="@string/purpose"
-	                        style="@style/DetailTextLead"  />
-                        <TextView
-	                        android:id="@+id/tv_detail_purpose"
-	                        android:text="@string/purpose"
-	                        style="@style/DetailText"  />
-
-                        <Spinner
-                            android:id="@+id/spinner_detail_purpose"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:entries="@array/purpose_list"
-                            android:visibility="gone" />
 
                     </TableRow>
                     <TableRow >

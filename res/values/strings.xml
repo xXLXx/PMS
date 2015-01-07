@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">PMS QR Code</string>
+    <string name="service_name">PMS QR Code Notifier</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="drawer_open">Slider Menu Opened</string>
@@ -52,10 +53,13 @@
 <string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
-    <string name="count">Number of Pigs</string>
-    <string name="purpose">Purpose</string>
-	<string name="birthdate">Date of Birth</string>
-	<string name="date_giving_birth">Date of Giving Birth</string>
-	<string name="date_pregnancy">Date of Pregnancy</string>
-	<string name="date_added">Date Added</string>
+    <string name="count">Number of Pigs:</string>
+    <string name="group_name">Group Name:</string>
+    <string name="group_name_nocol">Group Name</string>
+    <string name="purpose">Purpose:</string>
+    <string name="timebirth">Time of Birth:</string>
+	<string name="birthdate">Date of Birth:</string>
+	<string name="date_giving_birth">Date of Giving Birth:</string>
+	<string name="date_pregnancy">Date of Pregnancy:</string>
+	<string name="date_added">Date Added:</string>
 </resources>

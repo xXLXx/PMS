@@ -11,5 +11,5 @@ public class Config {
 	public static int CONNECTION_TIMEOUTE_MILIS = 10000;
 	public static String FILE_PATH = ROOT_FOLDER + "download.xml"; 
 	
-	
+	public static String PREF_NAME = "PMS";
 }

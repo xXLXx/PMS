@@ -9,6 +9,7 @@ import net.glxn.qrgen.core.image.ImageType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
@@ -44,12 +45,12 @@ public class Pig {
 	 */
 	private String groupName = "";
 	public int count = 1;
-	private int dateAdded = 0;
+	private long dateAdded = 0;
 	
 	private String id;
 	
 	public Pig(int purpose, int birthDate) {
-		this("", purpose, birthDate, "", 1, 0, 0);
+		this("", purpose, birthDate, "", 1, 0, 0, System.currentTimeMillis());
 	}
 	
 	/**
@@ -61,10 +62,10 @@ public class Pig {
 	 * @param count
 	 */
 	public Pig(int purpose, int birthDate, String groupName, int count) {
-		this("", purpose, birthDate, groupName, count, 0, 0);
+		this("", purpose, birthDate, groupName, count, 0, 0, System.currentTimeMillis());
 	}
 	
-	public Pig(String id, int purpose, int birthDate, String groupName, int count, int pregnancyDate, int milkingDate) {
+	public Pig(String id, int purpose, int birthDate, String groupName, int count, int pregnancyDate, int milkingDate, long dateAdded) {
 		super();
 		this.id = id;
 		this.purpose = purpose;
@@ -73,11 +74,15 @@ public class Pig {
 		this.count = purpose == PURPOSE_SOW ? 1 : count;
 		this.pregnancyDate = pregnancyDate;
 		this.milkingDate = milkingDate;
-		this.dateAdded = (int) (System.currentTimeMillis() / 1000);
+		this.dateAdded = dateAdded;
 	}
 	
 	public static void setPurposeList(Resources res) {
 		PURPOSE_LIST = res.getStringArray(R.array.purpose_list);
+	}
+	
+	public String getId() {
+		return "" + dateAdded;
 	}
 	
 	public String getGroupName() {
@@ -87,7 +92,7 @@ public class Pig {
 	public Bitmap getQrCodeBitmap() {
 		try {
 			return ((QRCode) QRCode
-					.from(getSerializedString())
+					.from(getSerializedString(true))
 					.to(ImageType.JPG)
 					.withSize(400, 400)
 					.withHint(EncodeHintType.CHARACTER_SET, "UTF-8")
@@ -100,16 +105,48 @@ public class Pig {
 		}
 	}
 	
-	public String getSerializedString() throws JSONException {
+	public String getSerializedString(boolean minimal) throws JSONException {
+		return getSerializedObject(minimal).toString();
+	}
+	
+	public Object getSerializedObject(boolean minimal) throws JSONException {
 		JSONObject data = new JSONObject();
 		data.put("purpose", purpose);
 		data.put("birthdate", birthDate);
 		data.put("dateAdded", dateAdded);
-		return data.toString();
+		
+		if (!minimal) {
+			data.put("id", id);
+			data.put("groupName", groupName);
+			data.put("count", count);
+			data.put("pregnancyDate", pregnancyDate);
+			data.put("milkingDate", milkingDate);
+		}
+		
+		return data;
 	}
 	
-	public Pig getPig(String json) {
-		
+	public static Pig getPig(SharedPreferences prefs, String id) {
+		return Pig.getPig(prefs.getString(id, ""));
+	}
+	
+	public static Pig getPig(String json) {
+		try {
+			JSONObject data = new JSONObject(json);
+			return new Pig(
+					data.getString("id"),
+					data.getInt("purpose"),
+					data.getInt("birthdate"),
+					data.getString("groupName"),
+					data.getInt("count"),
+					data.getInt("pregnancyDate"),
+					data.getInt("milkingDate"),
+					data.getLong("dateAdded")
+					);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
 	}
 	
@@ -122,8 +159,12 @@ public class Pig {
 	}
 	
 	public String formatDate(int seconds) {
+		return formatDate((long)seconds * 1000);
+	}
+	
+	public String formatDate(long milliseconds) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yy", Locale.ROOT);
-		return dateFormat.format(seconds * 1000);
+		return dateFormat.format(milliseconds);
 	}
 	
 	public String getPregnancyDate() {

@@ -5,12 +5,21 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -24,12 +33,13 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.qrc.pms.R;
 import com.qrc.pms.adapter.NavDrawerListAdapter;
 import com.qrc.pms.config.Config;
 import com.qrc.pms.helper.ConnectionHelper;
 import com.qrc.pms.model.NavDrawerItem;
 import com.qrc.pms.model.Pig;
+import com.qrc.pms.service.NotifierService;
+import com.qrc.pms.service.NotifierService.NotifierBinder;
 
 
 public class MainActivity extends SherlockFragmentActivity implements LocationListener{
@@ -55,6 +65,11 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 
 	public ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+	
+	public JSONObject pigs = new JSONObject();
+	public SharedPreferences prefs;
+	
+	NotifierService notifierService;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -155,7 +170,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		});
 		t.start();
 		
-		}
+		prefs = getSharedPreferences(Config.PREF_NAME, MODE_PRIVATE);
+	}
 
 	/**
 	 * Slide menu item click listener
@@ -169,8 +185,24 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			displayView(position);
 		}
 	}
-
 	
+	public boolean addPig(Pig pig) throws JSONException {
+//		pigs.put(pig.getId(), pig.getSerializedObject(false));
+//		
+//		Log.e("asd", pigs.toString());
+		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
+		return false;
+	}
+	
+	public boolean updatePig(Pig pig) throws JSONException {
+		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
+		return false;
+	}
+	
+	public boolean removePig(String id) {
+		prefs.edit().remove(id).commit();
+		return false;
+	}
 
 	//edited
 	@Override
@@ -269,6 +301,38 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			Log.e("MainActivity", "Error in creating fragment");
 		}
 	}
+	
+	private void startNotifierService() {
+		Intent i = new Intent(this, NotifierService.class);
+		bindService(i, serviceConnection, Context.BIND_AUTO_CREATE);
+		startService(i);
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		startNotifierService();
+		super.onResume();
+	}
+
+	private ServiceConnection serviceConnection = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			// TODO Auto-generated method stub
+			NotifierBinder binder = (NotifierBinder) service;
+			notifierService = (NotifierService) binder.getService();
+			Toast.makeText(getApplicationContext(), "Connected to service", Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			// TODO Auto-generated method stub
+			notifierService = null;
+			Toast.makeText(getApplicationContext(), "Disconnected to service", Toast.LENGTH_SHORT).show();
+		}
+		
+	};
 
 	@Override
 	public void setTitle(CharSequence title) {

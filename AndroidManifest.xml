@@ -55,6 +55,12 @@
            android:label="@string/app_name"
             />
         
+        <service
+            android:name="MyService"
+		 	android:icon="@drawable/piggy_bank_logo"
+		 	android:label="@string/app_name">
+		</service> 
+        
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/app_id"/>
         
     </application>
