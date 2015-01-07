@@ -16,7 +16,7 @@
          fb:logout_text="Logout" />
 
      <TextView
-         android:id="@+id/textView1"
+         android:id="@+id/label_no_of_pigs"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_below="@+id/authButton"

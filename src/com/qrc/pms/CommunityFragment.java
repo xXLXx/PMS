@@ -2,7 +2,7 @@ package com.qrc.pms;
 
 import java.util.ArrayList;
 
-import android.R;
+import com.qrc.pms.R;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;

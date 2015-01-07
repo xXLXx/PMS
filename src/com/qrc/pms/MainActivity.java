@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
@@ -24,7 +29,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
-import com.qrc.pms.R;
 import com.qrc.pms.adapter.NavDrawerListAdapter;
 import com.qrc.pms.config.Config;
 import com.qrc.pms.helper.ConnectionHelper;
@@ -90,7 +94,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
-//		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
 		
 
 		// Recycle the typed array
@@ -231,8 +235,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			break;
 		case 1:
 			if (isAdmin) {
-				Log.e("dsfsf", "" + isAdmin);
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+				
 			} else {
 				// loginfunction
 			}
@@ -246,6 +249,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			break;
 		case 4:
 			fragment = new PagesFragment();
+			break;
+		case 5:
+			fragment = new WhatsHotFragment();
 			break;
 
 		default:
@@ -352,6 +358,48 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
         }
  
     }
+	
+
+	@SuppressWarnings("deprecation")
+	public void showAlertDialog(Context context, String title, String message, Boolean status, 
+			Boolean twoButtons, String btnTitle, String btnCancel)
+	{
+
+		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+		alertDialog.setTitle(title);
+		alertDialog.setMessage(message);
+		alertDialog.setButton(btnTitle, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		if (twoButtons) {
+		  alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnTitle, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		  });
+		  
+		   alertDialog.setButton(Dialog.BUTTON_NEGATIVE, btnCancel, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				// TODO Auto-generated method stub
+				
+			}
+		   });
+		}
+		
+		alertDialog.show();
+	}
+
 	
 	
 	
