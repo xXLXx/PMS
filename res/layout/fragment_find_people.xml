@@ -25,4 +25,32 @@
          android:text="@string/or"
          android:textAppearance="?android:attr/textAppearanceLarge" />
 
+     <EditText
+         android:id="@+id/editText1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_below="@+id/textView1"
+         android:layout_centerHorizontal="true"
+         android:layout_marginTop="29dp"
+         android:ems="10" />
+
+     <TextView
+         android:id="@+id/textView1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignLeft="@+id/authButton"
+         android:layout_below="@+id/label_no_of_pigs"
+         android:layout_marginTop="47dp"
+         android:text="Medium Text"
+         android:textAppearance="?android:attr/textAppearanceMedium" />
+
+     <Button
+         android:id="@+id/button1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_alignRight="@+id/editText1"
+         android:layout_below="@+id/editText1"
+         android:layout_marginTop="14dp"
+         android:text="Button" />
+
 </RelativeLayout>

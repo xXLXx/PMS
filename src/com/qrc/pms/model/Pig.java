@@ -13,11 +13,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.android.Contents;
-import com.google.zxing.datamatrix.encoder.ErrorCorrection;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.qrc.pms.R;
 
@@ -33,7 +29,7 @@ public class Pig {
 	public static String[] STAGES = {"Unknown", "Piglet", "Fattened Pig", "Pregnant Sow", "Milking Sow"};
 	
 	public int purpose = 0;
-	private int birthDate = 0;
+	public int birthDate = 0;
 	/**
 	 * For pregnant date or date of giving birth
 	 */
@@ -43,7 +39,7 @@ public class Pig {
 	/**
 	 * Optional fields
 	 */
-	private String groupName = "";
+	public String groupName = "";
 	public int count = 1;
 	private long dateAdded = 0;
 	

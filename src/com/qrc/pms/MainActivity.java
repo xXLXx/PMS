@@ -5,11 +5,18 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
@@ -419,13 +426,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 
 	@SuppressWarnings("deprecation")
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
-			Boolean twoButtons, String btnTitle, String btnCancel)
+			Boolean twoButtons, String btnOk, String btnCancel, Runnable runUi)
 	{
 
 		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);
-		alertDialog.setButton(btnTitle, new DialogInterface.OnClickListener() {
+		alertDialog.setButton(btnOk, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
@@ -435,12 +442,15 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		});
 		
 		if (twoButtons) {
-		  alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnTitle, new OnClickListener() {
+		  alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, new OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				
+				FragmentManager fm = getSupportFragmentManager();
+				//if you added fragment via layout xml
+				WhatsHotFragment fragment = (WhatsHotFragment)fm.findFragmentById(R.id.frame_container);
+				fragment.addPigDetails();
 			}
 		  });
 		  
@@ -449,7 +459,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				// TODO Auto-generated method stub
-				
 			}
 		   });
 		}
