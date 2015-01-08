@@ -91,10 +91,9 @@ public class WhatsHotFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(num_of_pigs.getEditableText().toString().equals("") ||
-						group_name.getEditableText().toString().equals("")){
+				if(num_of_pigs.getEditableText().toString().equals("") || group_name.getEditableText().toString().equals("")){
 					((MainActivity) getActivity()).showAlertDialog(getActivity(),"Error", 
-								"Please Fill in all the Fields", true, false, "OK", "");
+							"Please Fill in all the Fields", true, false, "OK", "");
 				} else {
 					((MainActivity) getActivity()).showAlertDialog(getActivity(),"Confirmation", 
 							"Are you sure you want to add this Pig?", true, true, "Add", "Cancel");
@@ -138,8 +137,9 @@ public class WhatsHotFragment extends SherlockFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		pigAddedDetails.getQrCodeBitmap();
-
+//		pigAddedDetails.getQrCodeBitmap();
+	    
+	    ((MainActivity) getActivity()).displayView(2);
 	
 		
 	}

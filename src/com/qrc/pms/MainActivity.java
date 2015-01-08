@@ -4,6 +4,7 @@ package com.qrc.pms;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +39,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.qrc.pms.adapter.NavDrawerListAdapter;
+import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.config.Config;
 import com.qrc.pms.helper.ConnectionHelper;
 import com.qrc.pms.model.NavDrawerItem;
@@ -74,6 +76,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public SharedPreferences prefs;
 	
 	NotifierService notifierService;
+	
+	public PigListAdapter pigListAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -175,7 +179,20 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		t.start();
 		
 		prefs = getSharedPreferences(Config.PREF_NAME, MODE_PRIVATE);
+		
+		ArrayList<Pig> pigList = new ArrayList<Pig>();
+		
+		Map<String, ?> pigMap = prefs.getAll();
+		for (Object pig : pigMap.values()) {
+			pigList.add(Pig.getPig(pig.toString()));
 		}
+		
+		for (int x = 0; x < 30; x++) {
+			pigList.add(new Pig(x % 4 + 1, (int) (System.currentTimeMillis() / 1000 + 86400 * x), x < 10 ? x + " Little Piggies" : "", x));
+		}
+		
+		pigListAdapter = new PigListAdapter(this, pigList);
+	}
 
 	/**
 	 * Slide menu item click listener
@@ -194,16 +211,18 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 //		pigs.put(pig.getId(), pig.getSerializedObject(false));
 //		
 //		Log.e("asd", pigs.toString());
+		pigListAdapter.add(pig);
 		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
 		return false;
 	}
 	
-	public boolean updatePig(Pig pig) throws JSONException {
+	public boolean updatePig(int currentPigIdx, Pig pig) throws JSONException {
+		pigListAdapter.set(currentPigIdx, pig);
 		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
 		return false;
 	}
 	
-	public boolean removePig(String id) {
+	public boolean removePig(int currentPigIdx, String id) {
 		prefs.edit().remove(id).commit();
 		return false;
 	}
@@ -382,22 +401,17 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 	}
 
-
 	@Override
 	public void onProviderEnabled(String arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 
-
 	@Override
 	public void onStatusChanged(String arg0, int arg1, Bundle arg2) {
 		// TODO Auto-generated method stub
 		
 	}
-	
-	
-
 	
 	public void getLocation() {
 		Log.e("hhhg", "hjgj");
@@ -423,10 +437,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
  
     }
 	
-
-	@SuppressWarnings("deprecation")
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
-			Boolean twoButtons, String btnOk, String btnCancel, Runnable runUi)
+			Boolean twoButtons, String btnOk, String btnCancel)
 	{
 
 		AlertDialog alertDialog = new AlertDialog.Builder(context).create();

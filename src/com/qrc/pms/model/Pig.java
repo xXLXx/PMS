@@ -12,6 +12,8 @@ import org.json.JSONObject;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -90,7 +92,7 @@ public class Pig {
 			return ((QRCode) QRCode
 					.from(getSerializedString(true))
 					.to(ImageType.JPG)
-					.withSize(400, 400)
+					.withSize(300, 300)
 					.withHint(EncodeHintType.CHARACTER_SET, "UTF-8")
 					.withErrorCorrection(ErrorCorrectionLevel.H))
 					.bitmap();
@@ -159,8 +161,7 @@ public class Pig {
 	}
 	
 	public String formatDate(long milliseconds) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yy", Locale.ROOT);
-		return dateFormat.format(milliseconds);
+		return DateFormat.format("MM/dd/yyyy", milliseconds).toString();
 	}
 	
 	public String getPregnancyDate() {
@@ -200,6 +201,9 @@ public class Pig {
 		int changeInDate = 0;
 		
 		changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
+		
+		Log.e("-" + feeds, "" + changeInDate);
+		
 		if (changeInDate >= 3 && changeInDate <= 5) {
 			feeds = new Feeds("MILKO-PLUS", "50 ml/head/day");
 		} else if (changeInDate >= 6 && changeInDate <= 35) {

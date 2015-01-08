@@ -56,7 +56,7 @@
     <string name="or">OR</string>
 
 
-<string name="edit">Edit</string>
+	<string name="edit">Edit</string>
     <string name="save">Save</string>
     <string name="cancel">Cancel</string>
     <string name="count">Number of Pigs:</string>
@@ -76,5 +76,6 @@
 	<string name="input_add_noof_pigs"></string>	
 	<string name="label_group_name">Group Name:</string>	
 	<string name="label_date_of_birth">Date of Birth:</string>	
-	<string name="add_time_of_birth">Time of Birth:</string>
+	<string name="add_time_of_birth">Time of Birth:</string>	
+	<string name="stock">In Stock:</string>
 </resources>

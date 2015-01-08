@@ -1,14 +1,9 @@
 package com.qrc.pms;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Map;
 
-import org.json.JSONException;
-
-import com.qrc.pms.R;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,13 +12,14 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.model.Pig;
+import com.qrc.pms.model.Pig.Feeds;
 
 //edited
 public class CommunityFragment extends SherlockFragment {
@@ -32,11 +28,11 @@ public class CommunityFragment extends SherlockFragment {
 	private View detailsModal;
 	
 	private TextView tvDetailCount;
-	private TextView tvDetailPurpose;
 	private EditText etDetailCount;
+	private TextView tvGroupName;
+	private EditText etGroupName;
 	
 	private int currentPigIdx = -1;
-	private PigListAdapter pigListAdapter;
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,19 +48,13 @@ public class CommunityFragment extends SherlockFragment {
 		detailsModal = view.findViewById(R.id.details_modal);
 
 		tvDetailCount = (TextView) detailsModal.findViewById(R.id.tv_detail_count);
-		tvDetailPurpose = (TextView) detailsModal.findViewById(R.id.tv_detail_purpose);
 		etDetailCount = (EditText) detailsModal.findViewById(R.id.et_detail_count);
+		tvGroupName = (TextView) detailsModal.findViewById(R.id.tv_detail_groupname);
+		etGroupName = (EditText) detailsModal.findViewById(R.id.et_detail_groupname);
 		
 		ListView pigListView = (ListView) view.findViewById(R.id.pig_listView);
-		final ArrayList<Pig> pigList = new ArrayList<Pig>();
 		
-		Map<String, ?> pigMap = ((MainActivity) getActivity()).prefs.getAll();
-		for (Object pig : pigMap.values()) {
-			pigList.add(Pig.getPig(pig.toString()));
-		}
-		
-		pigListAdapter = new PigListAdapter(view.getContext(), pigList);
-		pigListView.setAdapter(pigListAdapter);
+		pigListView.setAdapter(((MainActivity) getActivity()).pigListAdapter);
 		pigListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -72,12 +62,16 @@ public class CommunityFragment extends SherlockFragment {
 					long arg3) {
 				// TODO Auto-generated method stub
 				detailsModal.setVisibility(View.VISIBLE);
-				Pig pig = pigList.get(currentPigIdx = arg2);
+				Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx = arg2);
 				((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
 				tvDetailCount.setText("" + pig.count);
-				tvDetailPurpose.setText(pig.getPurpose());
 				((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
 				((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
+				((TextView) detailsModal.findViewById(R.id.tv_detail_purpose)).setText(pig.getPurpose());
+				Feeds feeds = pig.getFeeds();
+				((TextView) detailsModal.findViewById(R.id.tv_feeds)).setText(feeds == null ? "" : feeds.feed);
+				((TextView) detailsModal.findViewById(R.id.tv_feeds_consumption)).setText(feeds == null ? "" : feeds.consumption);
+				((ImageView) detailsModal.findViewById(R.id.img_qrcode)).setImageBitmap(pig.getQrCodeBitmap());
 				
 				String extraDate = "";
 				TextView tvExtraDate = ((TextView) detailsModal.findViewById(R.id.tv_detail_extradate));
@@ -113,14 +107,16 @@ public class CommunityFragment extends SherlockFragment {
 				// TODO Auto-generated method stub
 				if (((Button) arg0).getText().equals(getResources().getString(R.string.save))) {
 					resetDetailsModal();
-					Pig pig = pigListAdapter.getItem(currentPigIdx);
+					Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
 					pig.count = Integer.parseInt(etDetailCount.getText().toString());
-					pigListAdapter.set(currentPigIdx, pig);
+					pig.groupName = etGroupName.getText().toString();
+					((MainActivity) getActivity()).pigListAdapter.set(currentPigIdx, pig);
 				} else {
 					tvDetailCount.setVisibility(View.GONE);
 					etDetailCount.setText(tvDetailCount.getText());
 					etDetailCount.setVisibility(View.VISIBLE);
-					tvDetailPurpose.setVisibility(View.GONE);
+					etGroupName.setText(tvGroupName.getText());
+					etGroupName.setVisibility(View.VISIBLE);
 					((Button) arg0).setText(getResources().getString(R.string.save));
 				}
 			}
@@ -130,8 +126,8 @@ public class CommunityFragment extends SherlockFragment {
 	private void resetDetailsModal() {
 		detailsModal.setVisibility(View.GONE);
 		etDetailCount.setVisibility(View.GONE);
+		etGroupName.setVisibility(View.GONE);
 		tvDetailCount.setVisibility(View.VISIBLE);
-		tvDetailPurpose.setVisibility(View.VISIBLE);
 		((Button) detailsModal.findViewById(R.id.btn_edit)).setText(getResources().getString(R.string.edit));
 	}
 	

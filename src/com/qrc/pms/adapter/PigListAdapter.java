@@ -48,6 +48,11 @@ public class PigListAdapter extends BaseAdapter{
 		notifyDataSetChanged();
 	}
 	
+	public void add(Pig object) {
+		pigList.add(object);
+		notifyDataSetChanged();
+	}
+	
 	private class ViewHolder{
 		public TextView tvGroupName;
 		public TextView tvCount;
