@@ -44,7 +44,7 @@ public class Pig {
 	 */
 	public String groupName = "";
 	public int count = 1;
-	private long dateAdded = 0;
+	public long dateAdded = 0;
 	
 	private String id;
 	

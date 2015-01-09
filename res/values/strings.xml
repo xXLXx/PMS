@@ -74,7 +74,7 @@
 	<string name="date_giving_birth">Date of Giving Birth:</string>
 	<string name="date_pregnancy">Date of Pregnancy:</string>
 	<string name="date_added">Date Added:</string>
-	<string name="pregnancy_count">Times :</string>
+	<string name="pregnancy_count">Times Pregnant:</string>
 	<string name="btn_add_pigs">Add Pig</string>
 	<string name="label_purpose">Purpose:</string>
 	<string name="input_add_purpose"></string>

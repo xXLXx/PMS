@@ -36,8 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#b0000000"
-        android:orientation="vertical"
-        android:visibility="gone" >
+        android:orientation="vertical" >
 	
         <LinearLayout
             android:layout_width="match_parent"
@@ -133,6 +132,15 @@
                         <TextView
 	                        android:id="@+id/tv_detail_extradate"
 	                        android:text="@string/date_giving_birth"
+	                        style="@style/DetailText" />
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+	                        android:text="@string/pregnancy_count"
+	                        style="@style/DetailTextLead" />
+                        <TextView
+	                        android:id="@+id/tv_pregnancy_count"
+	                        android:text="@string/pregnancy_count"
 	                        style="@style/DetailText" />
                     </TableRow>
                     <TableRow >

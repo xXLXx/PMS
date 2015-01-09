@@ -1,6 +1,8 @@
 package com.qrc.pms.adapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -22,6 +24,14 @@ public class PigListAdapter extends BaseAdapter{
 		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
+		Collections.sort(pigList, new Comparator<Pig>() {
+
+			@Override
+			public int compare(Pig lhs, Pig rhs) {
+				// TODO Auto-generated method stub
+				return (int) (lhs.dateAdded - rhs.dateAdded);
+			}
+		});
 		this.pigList = pigList;
 	}
 
