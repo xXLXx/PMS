@@ -90,11 +90,11 @@ public class NotifierService extends Service{
 	}
 	
 	private boolean inWhiteList() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		String dateNow = dateFormat.format(new Date());
 		
-		for (int item : Config.TIME_SLOTS) {
-			if (item == Integer.parseInt(dateNow)) {
+		for (String item : Config.TIME_SLOTS) {
+			if (item.equals(dateNow)) {
 				return true;
 			}
 		}

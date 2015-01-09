@@ -16,5 +16,5 @@ public class Config {
 	
 	public static String PREF_NAME = "PMS";
 	
-	public static int[] TIME_SLOTS = {6, 12, 18};
+	public static String[] TIME_SLOTS = {"06:00:00", "12:00:00", "18:00:00"};
 }
