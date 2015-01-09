@@ -154,16 +154,26 @@
         </LinearLayout>
 
       </LinearLayout>
+	  
+      <TextView
+          android:id="@+id/tv_invalid_qr"
+          style="@style/DetailText"
+          android:layout_marginLeft="10dp"
+          android:text="@string/invalid_qr"
+          android:visibility="gone" />
 
       <ScrollView
+          android:id="@+id/table_qrdetails"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:fillViewport="true">
+          android:layout_marginLeft="10dp"
+          android:fillViewport="true" >
 
 	        <TableLayout
 	        	android:layout_width="match_parent"
 	       		android:layout_height="wrap_content">
-          			<TableRow >
+          			<TableRow
+          			    android:visibility="gone">
 	               		<TextView
 	                		android:text="@string/group_name"
 	                		style="@style/DetailTextLead"  />
@@ -218,19 +228,21 @@
           android:visibility="gone" />
 
       <Button style="@style/ResultButton"
-              android:visibility="gone"/>
+          android:visibility="gone"/>
 
       <Button style="@style/ResultButton"
-              android:visibility="gone"/>
+          android:visibility="gone"/>
 
       <Button style="@style/ResultButton"
-              android:visibility="gone"/>
+          android:visibility="gone"/>
       
       <Button
+          android:onClick="gotoDetails"
           style="@style/ResultButton"
           android:text="@string/goto_details" />
       
       <Button
+          android:onClick="cancel"
           style="@style/ResultButton"
           android:text="@string/cancel" />
 

@@ -70,7 +70,7 @@ public class WhatsHotFragment extends SherlockFragment {
 					int arg2, long arg3) {
 				// TODO Auto-generated method stub
 				
-				if(arg2 == 1) {
+				if(arg2 == 2) {
 					num_of_pigs.setEnabled(false);
 					num_of_pigs.setText("" + 1);
 				}else {

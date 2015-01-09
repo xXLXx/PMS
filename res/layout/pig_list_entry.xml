@@ -1,63 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="horizontal" >
+    android:layout_height="wrap_content" >
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1" >
+        android:orientation="horizontal"
+        android:padding="10dp" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/tv_groupname"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="The Pigs"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/main_color" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/tv_bday"
+                <TextView
+                    android:id="@+id/tv_groupname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="The Pigs"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/main_color" />
+
+                <TextView
+                    android:id="@+id/tv_bday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="02/24/14"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="02/24/14"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:layout_height="wrap_content" >
 
+                <TextView
+                    android:id="@+id/tv_purpose"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Fattening Pig"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+            </LinearLayout>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/tv_purpose"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Fattening Pig"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/pig_count_badge"
+            android:gravity="center"
+            android:padding="5dp"
+            android:singleLine="true"
+            android:text="1"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="#FFFFFF" />
     </LinearLayout>
-	
+    
+    <FrameLayout
+        android:id="@+id/listentry_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/result_view" >
+        
+    </FrameLayout>
+    
     <TextView
-        android:id="@+id/tv_count"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/pig_count_badge"
-        android:gravity="center"
-        android:padding="5dp"
-        android:singleLine="true"
-        android:text="1"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="#FFFFFF" />
+        android:id="@+id/tv_sold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/sold"
+        android:textAllCaps="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/secondary_color"
+        android:textStyle="bold" />
 
-</LinearLayout>
+</FrameLayout>

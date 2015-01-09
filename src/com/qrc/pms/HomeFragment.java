@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.qrc.pms.R;
+import com.qrc.pms.model.Pig;
 import com.qrc.pms.views.CustomCaptureActivity;
 import com.nineoldandroids.animation.ObjectAnimator;
 
@@ -84,7 +85,7 @@ public class HomeFragment extends SherlockFragment {
 				public void onClick(View arg0) {
 					// TODO Auto-generated method stub
 					
-					Intent intent = new Intent(HomeFragment.this.getActivity(), CustomCaptureActivity.class);
+					Intent intent = new Intent(getActivity(), CustomCaptureActivity.class);
 					intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
 			        startActivityForResult(intent, 0);
 				}
@@ -97,6 +98,10 @@ public class HomeFragment extends SherlockFragment {
 		// TODO Auto-generated method stub
 		if (requestCode == 0) {
             if (resultCode == Activity.RESULT_OK) {
+              Log.e("data", data.getStringExtra("pigId"));
+              ((MainActivity) getActivity()).openListPosition = ((MainActivity) getActivity()).pigListAdapter.getPosition(data.getStringExtra("pigId"));
+              ((MainActivity) getActivity()).displayView(2);
+        		
               String contents = data.getStringExtra("SCAN_RESULT");
               String format = data.getStringExtra("SCAN_RESULT_FORMAT");
               Log.e("QR Code", contents + "-" + format);

@@ -300,7 +300,10 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			fragment = new FindPeopleFragment();
 			break;
 		case 2:
+			Bundle bundle = new Bundle();
+			bundle.putInt("openListPosition", openListPosition);
 			fragment = new CommunityFragment();
+			fragment.setArguments(bundle);
 			break;
 		case 3:
 			fragment = new PhotosFragment();

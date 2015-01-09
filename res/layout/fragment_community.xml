@@ -36,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#b0000000"
+        android:visibility="gone"
+        android:clickable="true"
         android:orientation="vertical" >
 	
         <LinearLayout
@@ -134,7 +136,8 @@
 	                        android:text="@string/date_giving_birth"
 	                        style="@style/DetailText" />
                     </TableRow>
-                    <TableRow >
+                    <TableRow
+                        android:id="@+id/pregnant_count_row">
                         <TextView
 	                        android:text="@string/pregnancy_count"
 	                        style="@style/DetailTextLead" />
@@ -152,27 +155,13 @@
 	                        android:text="@string/date_added"
 	                        style="@style/DetailText" />
                     </TableRow>
-                    <TableRow >
-                        <TextView
-	                        android:text="@string/date_added"
-	                        style="@style/DetailTextLead" />
-                        <TextView
-	                        android:id="@+id/tv_detail_dateadded"
-	                        android:text="@string/date_added"
-	                        style="@style/DetailText" />
-                    </TableRow>
-                    <TableRow >
-
-                        <ImageView
-                            android:id="@+id/img_qrcode"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:layout_weight="1"
-                            android:layout_marginTop="5dp"
-                            android:src="@color/main_color" />
-
-                    </TableRow>
+                    <ImageView
+	                    android:id="@+id/img_qrcode"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="wrap_content"
+	                    android:layout_gravity="center_horizontal"
+	                    android:layout_marginTop="5dp"
+	                    android:src="@color/main_color" />
                 </TableLayout>
                 
 
