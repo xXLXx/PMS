@@ -89,7 +89,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 		Pig.setPurposeList(this.getResources());
 		
-		getLocation();
+//		getLocation();
 		mTitle = mDrawerTitle = getTitle();
 
 		// load slide menu items
@@ -289,10 +289,14 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			break;
 		case 1:
 			if (isAdmin) {
-				
+				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+				mDrawerList.setSelection(1);
+				setTitle(navMenuTitles[1]);
+				mDrawerLayout.closeDrawer(mDrawerList);
 			} else {
 				// loginfunction
 			}
+			
 			fragment = new FindPeopleFragment();
 			break;
 		case 2:
@@ -394,7 +398,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		// TODO Auto-generated method stub
 		Config.lat = arg0.getLatitude();
 		Config.lng = arg0.getLongitude();
-		Toast.makeText(this, "" + Config.lat + " " + Config.lng, Toast.LENGTH_LONG).show();
 	}
 
 

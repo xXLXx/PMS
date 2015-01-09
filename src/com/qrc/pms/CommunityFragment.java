@@ -141,23 +141,23 @@ public class CommunityFragment extends SherlockFragment {
 	}
 	
 	private void showDetailsModal(int position) {
-		detailsModal.setVisibility(View.VISIBLE);
+				detailsModal.setVisibility(View.VISIBLE);
 		Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx = position);
-		((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
-		tvDetailCount.setText("" + pig.count);
-		((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
-		((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
+				((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
+				tvDetailCount.setText("" + pig.count);
+				((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
+				((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_purpose)).setText(pig.getPurpose());
 		Feeds feeds = pig.getFeeds();
 		((TextView) detailsModal.findViewById(R.id.tv_feeds)).setText(feeds == null ? "" : feeds.feed);
 		((TextView) detailsModal.findViewById(R.id.tv_feeds_consumption)).setText(feeds == null ? "" : feeds.consumption);
 		((ImageView) detailsModal.findViewById(R.id.img_qrcode)).setImageBitmap(pig.getQrCodeBitmap());
-		
-		String extraDate = "";
-		TextView tvExtraDate = ((TextView) detailsModal.findViewById(R.id.tv_detail_extradate));
-		TextView tvExtraDateLead = ((TextView) detailsModal.findViewById(R.id.tv_detaillead_extradate));
-		tvExtraDate.setVisibility(View.VISIBLE);
-		tvExtraDateLead.setVisibility(View.VISIBLE);
+				
+				String extraDate = "";
+				TextView tvExtraDate = ((TextView) detailsModal.findViewById(R.id.tv_detail_extradate));
+				TextView tvExtraDateLead = ((TextView) detailsModal.findViewById(R.id.tv_detaillead_extradate));
+				tvExtraDate.setVisibility(View.VISIBLE);
+				tvExtraDateLead.setVisibility(View.VISIBLE);
 		
 		if (pig.purpose == Pig.PURPOSE_SOW) {
 			btnPregnant.setVisibility(View.VISIBLE);
@@ -166,17 +166,56 @@ public class CommunityFragment extends SherlockFragment {
 			btnPregnant.setVisibility(View.GONE);
 		}
 		
-		if (!(extraDate = pig.getPregnancyDate()).equals("")) {
-			tvExtraDate.setText(extraDate);
-			tvExtraDateLead.setText(getResources().getString(R.string.date_pregnancy));
+				if (!(extraDate = pig.getPregnancyDate()).equals("")) {
+					tvExtraDate.setText(extraDate);
+					tvExtraDateLead.setText(getResources().getString(R.string.date_pregnancy));
 			btnPregnant.setText(getResources().getString(R.string.gave_birth));
-		} else if (!(extraDate = pig.getMilkingDate()).equals("")) {
-			tvExtraDate.setText(extraDate);
-			tvExtraDateLead.setText(getResources().getString(R.string.date_giving_birth));
-		} else {
-			tvExtraDate.setVisibility(View.GONE);
-			tvExtraDateLead.setVisibility(View.GONE);
-		}
+				} else if (!(extraDate = pig.getMilkingDate()).equals("")) {
+					tvExtraDate.setText(extraDate);
+					tvExtraDateLead.setText(getResources().getString(R.string.date_giving_birth));
+				} else {
+					tvExtraDate.setVisibility(View.GONE);
+					tvExtraDateLead.setVisibility(View.GONE);
+				}
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_cancel)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				resetDetailsModal();
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_edit)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (((Button) arg0).getText().equals(getResources().getString(R.string.save))) {
+					resetDetailsModal();
+					Pig pig = pigListAdapter.getItem(currentPigIdx);
+					pig.count = Integer.parseInt(etDetailCount.getText().toString());
+					pigListAdapter.set(currentPigIdx, pig);
+				} else {
+					tvDetailCount.setVisibility(View.GONE);
+					etDetailCount.setText(tvDetailCount.getText());
+					etDetailCount.setVisibility(View.VISIBLE);
+					tvDetailPurpose.setVisibility(View.GONE);
+					((Button) arg0).setText(getResources().getString(R.string.save));
+				}
+			}
+		});
+	}
+	
+	private void resetDetailsModal() {
+		detailsModal.setVisibility(View.GONE);
+		etDetailCount.setVisibility(View.GONE);
+		tvDetailCount.setVisibility(View.VISIBLE);
+		tvDetailPurpose.setVisibility(View.VISIBLE);
+		((Button) detailsModal.findViewById(R.id.btn_edit)).setText(getResources().getString(R.string.edit));
 	}
 	
 	
