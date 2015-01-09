@@ -59,6 +59,7 @@
 
 	<string name="edit">Edit</string>
 	<string name="sell">Sell</string>
+	<string name="sell_count">Pigs Sold:</string>
 	<string name="pregnant">Pregnant</string>
 	<string name="gave_birth">Gave Birth</string>
     <string name="save">Save</string>
@@ -67,6 +68,7 @@
     <string name="cancel">Cancel</string>
     <string name="count">Number of Pigs:</string>
     <string name="group_name">Group Name:</string>
+    <string name="invalid_qr">Invalid QR Code</string>
     <string name="group_name_nocol">Group Name</string>
     <string name="purpose">Purpose:</string>
     <string name="timebirth">Time of Birth:</string>

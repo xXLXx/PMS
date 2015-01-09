@@ -99,7 +99,7 @@ public class Pig {
 			return ((QRCode) QRCode
 					.from(getSerializedString(true))
 					.to(ImageType.JPG)
-					.withSize(400, 400)
+					.withSize(800, 800)
 					.withHint(EncodeHintType.CHARACTER_SET, "UTF-8")
 					.withErrorCorrection(ErrorCorrectionLevel.H))
 					.bitmap();
@@ -119,9 +119,10 @@ public class Pig {
 		data.put("purpose", purpose);
 		data.put("birthdate", birthDate);
 		data.put("dateAdded", dateAdded);
-		data.put("groupName", groupName);
+		
 		
 		if (!minimal) {
+			data.put("groupName", groupName);
 			data.put("id", id);
 			data.put("count", count);
 			data.put("pregnancyDate", pregnancyDate);
@@ -207,14 +208,14 @@ public class Pig {
 	
 	public void setExtraDate(int extraDateSec) {
 		if (purpose == PURPOSE_SOW) {
-			if (milkingDate >= 0) {
+			if (milkingDate > 0 || (milkingDate <= 0 && pregnancyDate <= 0)) {
 				pregnancyCount++;
 				pregnancyDate = extraDateSec;
 				milkingDate = 0;
 			} else {
 				pregnancyDate = 0;
 				milkingDate = extraDateSec;
-			}
+			} 
 		}
 	}
 	

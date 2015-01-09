@@ -6,8 +6,10 @@ import java.util.Map;
 
 import org.json.JSONException;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -27,16 +30,27 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.model.Pig.Feeds;
+import com.qrc.pms.utils.InputFilterMinMax;
 
 //edited
 public class CommunityFragment extends SherlockFragment {
 	
-	public CommunityFragment(){}
+	private int openListPosition = -1;
+	public CommunityFragment() {}
+
+	@Override
+	public void setArguments(Bundle args) {
+		this.openListPosition = args.getInt("openListPosition");
+		// TODO Auto-generated method stub
+		super.setArguments(args);
+	}
+
 	private View detailsModal;
 	
 	private TextView tvDetailCount;
 	private TextView tvGroupName;
 	private Button btnPregnant;
+	private TableRow pregnantCountRow;
 	
 	private int currentPigIdx = -1;
 
@@ -56,6 +70,7 @@ public class CommunityFragment extends SherlockFragment {
 		tvDetailCount = (TextView) detailsModal.findViewById(R.id.tv_detail_count);
 		tvGroupName = (TextView) detailsModal.findViewById(R.id.tv_detail_groupname);
 		btnPregnant = (Button) detailsModal.findViewById(R.id.btn_pregnant);
+		pregnantCountRow = (TableRow) detailsModal.findViewById(R.id.pregnant_count_row);
 		
 		ListView pigListView = (ListView) view.findViewById(R.id.pig_listView);
 		
@@ -84,7 +99,39 @@ public class CommunityFragment extends SherlockFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+				View view = getActivity().getLayoutInflater().inflate(R.layout.sell_form, null, false);
+				((EditText)view.findViewById(R.id.et_sell_count)).setFilters(
+						new InputFilter[]{
+							new InputFilterMinMax("1", "" + ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).count)
+						});
+				((MainActivity) getActivity()).showAlertDialog(
+						getActivity(),
+						"Sell Pigs",
+						"",
+						true,
+						true,
+						"Cancel",
+						"Update",
+						null,
+						new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								// TODO Auto-generated method stub
+								Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
+								pig.count = pig.count - Integer.parseInt(((EditText)((Dialog)arg0).findViewById(R.id.et_sell_count)).getEditableText().toString());
+								
+								try {
+									((MainActivity) getActivity()).updatePig(currentPigIdx, pig);
+
+									showDetailsModal(currentPigIdx);
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						},
+						view);
 			}
 		});
 		
@@ -106,22 +153,15 @@ public class CommunityFragment extends SherlockFragment {
 						true,
 						"Cancel",
 						"Update",
-						new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface arg0, int arg1) {
-								// TODO Auto-generated method stub
-								
-							}
-						},
+						null,
 						new DialogInterface.OnClickListener() {
 							
 							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 								// TODO Auto-generated method stub
 								Calendar date_birth = Calendar.getInstance();
-								DatePicker datePicker = (DatePicker) getActivity().findViewById(R.id.extradate_datepicker);
-								TimePicker timePicker = (TimePicker) getActivity().findViewById(R.id.extradate_timepicker);
+								DatePicker datePicker = (DatePicker) ((Dialog)arg0).findViewById(R.id.extradate_datepicker);
+								TimePicker timePicker = (TimePicker) ((Dialog)arg0).findViewById(R.id.extradate_timepicker);
 								date_birth.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(), 
 							             timePicker.getCurrentHour(), timePicker.getCurrentMinute(), 0);
 								
@@ -133,14 +173,25 @@ public class CommunityFragment extends SherlockFragment {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
+								
+								showDetailsModal(currentPigIdx);
 							}
 						},
 						getActivity().getLayoutInflater().inflate(R.layout.extradate_picker, null, false));
 			}
 		});
+		
+		if (openListPosition != -1) {
+			showDetailsModal(openListPosition);
+			openListPosition = -1;
+		}
 	}
 	
-	private void showDetailsModal(int position) {
+	public void showDetailsModal(int position) {
+		if (position == -1) {
+			position = currentPigIdx;
+		}
+		
 		detailsModal.setVisibility(View.VISIBLE);
 		Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx = position);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
@@ -148,11 +199,16 @@ public class CommunityFragment extends SherlockFragment {
 		((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_purpose)).setText(pig.getPurpose());
-		((TextView) detailsModal.findViewById(R.id.tv_pregnancy_count)).setText("" + pig.pregnancyCount);
 		Feeds feeds = pig.getFeeds();
 		((TextView) detailsModal.findViewById(R.id.tv_feeds)).setText(feeds == null ? "" : feeds.feed);
 		((TextView) detailsModal.findViewById(R.id.tv_feeds_consumption)).setText(feeds == null ? "" : feeds.consumption);
 		((ImageView) detailsModal.findViewById(R.id.img_qrcode)).setImageBitmap(pig.getQrCodeBitmap());
+		
+		boolean btnSellEnabled = true;
+		if (pig.count <= 0) {
+			btnSellEnabled = false;
+		}
+		((Button) detailsModal.findViewById(R.id.btn_sell)).setEnabled(btnSellEnabled);
 				
 		String extraDate = "";
 		TextView tvExtraDate = ((TextView) detailsModal.findViewById(R.id.tv_detail_extradate));
@@ -163,8 +219,13 @@ public class CommunityFragment extends SherlockFragment {
 		if (pig.purpose == Pig.PURPOSE_SOW) {
 			btnPregnant.setVisibility(View.VISIBLE);
 			btnPregnant.setText(getResources().getString(R.string.pregnant));
+			
+			tvDetailCount.setVisibility(View.VISIBLE);
+			pregnantCountRow.setVisibility(View.VISIBLE);
+			((TextView) detailsModal.findViewById(R.id.tv_pregnancy_count)).setText("" + pig.pregnancyCount);
 		} else {
 			btnPregnant.setVisibility(View.GONE);
+			pregnantCountRow.setVisibility(View.GONE);
 		}
 		
 		if (!(extraDate = pig.getPregnancyDate()).equals("")) {

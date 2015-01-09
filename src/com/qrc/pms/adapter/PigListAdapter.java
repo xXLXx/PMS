@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +30,20 @@ public class PigListAdapter extends BaseAdapter{
 			@Override
 			public int compare(Pig lhs, Pig rhs) {
 				// TODO Auto-generated method stub
-				return (int) (lhs.dateAdded - rhs.dateAdded);
+				return (int) (rhs.dateAdded - lhs.dateAdded);
 			}
 		});
 		this.pigList = pigList;
+	}
+	
+	public int getPosition(String id) {
+		for (int x = 0; x < getCount(); x++) {
+			Pig pig = getItem(x);
+			if (pig.getId().equals(id)) {
+				return x;
+			}
+		}
+		return -1;
 	}
 
 	@Override
@@ -68,6 +79,8 @@ public class PigListAdapter extends BaseAdapter{
 		public TextView tvCount;
 		public TextView tvPurpose;
 		public TextView tvBday;
+		public TextView tvSold;
+		public View listEntryParent;
 	}
 
 	@Override
@@ -83,6 +96,8 @@ public class PigListAdapter extends BaseAdapter{
 			holder.tvCount = (TextView) convertView.findViewById(R.id.tv_count);
 			holder.tvPurpose = (TextView) convertView.findViewById(R.id.tv_purpose);
 			holder.tvBday = (TextView) convertView.findViewById(R.id.tv_bday);
+			holder.tvSold = (TextView) convertView.findViewById(R.id.tv_sold);
+			holder.listEntryParent = convertView.findViewById(R.id.listentry_parent);
 			
 			convertView.setTag(holder);
 		}
@@ -95,6 +110,14 @@ public class PigListAdapter extends BaseAdapter{
 		holder.tvCount.setText("" + pig.count);
 		holder.tvPurpose.setText(pig.getPurpose());
 		holder.tvBday.setText(pig.getBirthDate());
+		
+		if (pig.count <= 0) {
+			holder.listEntryParent.setBackgroundColor(context.getResources().getColor(R.color.result_view));
+			holder.tvSold.setVisibility(View.VISIBLE);
+		} else {
+			holder.listEntryParent.setBackgroundDrawable(null);
+			holder.tvSold.setVisibility(View.GONE);
+		}
 		
 		return convertView;
 	}
