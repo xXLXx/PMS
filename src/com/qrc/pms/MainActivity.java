@@ -3,6 +3,7 @@ package com.qrc.pms;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -84,7 +85,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public PigListAdapter pigListAdapter;
 	
 	public int openListPosition = -1;
-	
+
 	public UiLifecycleHelper uiHelper;
 
 	@Override
@@ -353,7 +354,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		bindService(i, serviceConnection, Context.BIND_AUTO_CREATE);
 		startService(i);
 	}
-
+	
 	private ServiceConnection serviceConnection = new ServiceConnection() {
 
 		@Override
@@ -471,13 +472,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		});
 		
 		if (twoButtons) {
-		  	alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, listenerOk);	  
+		  	alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, listenerOk);
 		  	alertDialog.setButton(Dialog.BUTTON_NEGATIVE, btnCancel, listenerCancel);
 		}
 
 		alertDialog.show();
 	}
-
+		  
 	public void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    if (state.isOpened()) {
 	        Log.e("", "Logged in...");
@@ -508,9 +509,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	    }
 	    uiHelper.onResume();
 	    startNotifierService();
-	}
+		}
+		
 
-	
 	@Override
 	public void onPause() {
 	    super.onPause();
@@ -522,7 +523,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	    super.onDestroy();
 	    uiHelper.onDestroy();
 	}
-
+	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);

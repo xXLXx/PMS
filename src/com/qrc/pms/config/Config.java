@@ -1,5 +1,8 @@
 package com.qrc.pms.config;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.os.Environment;
 
 public class Config {
@@ -12,4 +15,6 @@ public class Config {
 	public static String FILE_PATH = ROOT_FOLDER + "download.xml"; 
 	
 	public static String PREF_NAME = "PMS";
+	
+	public static int[] TIME_SLOTS = {6, 12, 18};
 }
