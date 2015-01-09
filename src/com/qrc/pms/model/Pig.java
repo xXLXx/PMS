@@ -37,6 +37,7 @@ public class Pig {
 	 */
 	private int pregnancyDate = 0;
 	private int milkingDate = 0;
+	public int pregnancyCount = 0;
 	
 	/**
 	 * Optional fields
@@ -48,7 +49,11 @@ public class Pig {
 	private String id;
 	
 	public Pig(int purpose, int birthDate) {
-		this("", purpose, birthDate, "", 1, 0, 0, System.currentTimeMillis());
+		this(purpose, birthDate, "");
+	}
+	
+	public Pig(int purpose, int birthDate, String groupName) {
+		this(purpose, birthDate, groupName, 0);
 	}
 	
 	/**
@@ -60,10 +65,11 @@ public class Pig {
 	 * @param count
 	 */
 	public Pig(int purpose, int birthDate, String groupName, int count) {
-		this("", purpose, birthDate, groupName, count, 0, 0, System.currentTimeMillis());
+		this("", purpose, birthDate, groupName, count, 0, 0, System.currentTimeMillis(), 0);
 	}
 	
-	public Pig(String id, int purpose, int birthDate, String groupName, int count, int pregnancyDate, int milkingDate, long dateAdded) {
+	public Pig(String id, int purpose, int birthDate, String groupName, int count, int pregnancyDate, int milkingDate, long dateAdded,
+			int pregnancyCount) {
 		super();
 		this.id = id;
 		this.purpose = purpose;
@@ -73,6 +79,7 @@ public class Pig {
 		this.pregnancyDate = pregnancyDate;
 		this.milkingDate = milkingDate;
 		this.dateAdded = dateAdded;
+		this.pregnancyCount = pregnancyCount;
 	}
 	
 	public static void setPurposeList(Resources res) {
@@ -92,7 +99,7 @@ public class Pig {
 			return ((QRCode) QRCode
 					.from(getSerializedString(true))
 					.to(ImageType.JPG)
-					.withSize(300, 300)
+					.withSize(400, 400)
 					.withHint(EncodeHintType.CHARACTER_SET, "UTF-8")
 					.withErrorCorrection(ErrorCorrectionLevel.H))
 					.bitmap();
@@ -112,13 +119,14 @@ public class Pig {
 		data.put("purpose", purpose);
 		data.put("birthdate", birthDate);
 		data.put("dateAdded", dateAdded);
+		data.put("groupName", groupName);
 		
 		if (!minimal) {
 			data.put("id", id);
-			data.put("groupName", groupName);
 			data.put("count", count);
 			data.put("pregnancyDate", pregnancyDate);
 			data.put("milkingDate", milkingDate);
+			data.put("pregnancyCount", pregnancyCount);
 		}
 		
 		return data;
@@ -139,7 +147,8 @@ public class Pig {
 					data.getInt("count"),
 					data.getInt("pregnancyDate"),
 					data.getInt("milkingDate"),
-					data.getLong("dateAdded")
+					data.getLong("dateAdded"),
+					data.getInt("pregnancyCount")
 					);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
@@ -196,13 +205,24 @@ public class Pig {
 		}
 	}
 	
+	public void setExtraDate(int extraDateSec) {
+		if (purpose == PURPOSE_SOW) {
+			if (milkingDate >= 0) {
+				pregnancyCount++;
+				pregnancyDate = extraDateSec;
+				milkingDate = 0;
+			} else {
+				pregnancyDate = 0;
+				milkingDate = extraDateSec;
+			}
+		}
+	}
+	
 	public Feeds getFeeds() {
 		Feeds feeds = null;
 		int changeInDate = 0;
 		
 		changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
-		
-		Log.e("-" + feeds, "" + changeInDate);
 		
 		if (changeInDate >= 3 && changeInDate <= 5) {
 			feeds = new Feeds("MILKO-PLUS", "50 ml/head/day");
@@ -226,7 +246,7 @@ public class Pig {
 				(changeInDate > 150 && (purpose == PURPOSE_FATTENING ||
 				(purpose == PURPOSE_SOW && milkingDate <= 0 && pregnancyDate <= 0)))) {
 			feeds = new Feeds("NUTRI-BIG", "2.3 to 2.5 kg per day");
-		} else if (purpose == PURPOSE_FATTENING) {
+		} else if (purpose == PURPOSE_SOW) {
 			if (milkingDate > 0) {
 				int changeInDateSec = (int) (System.currentTimeMillis() / 1000 - milkingDate);
 				changeInDate = (int) (changeInDateSec / 86400);

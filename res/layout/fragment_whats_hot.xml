@@ -3,8 +3,9 @@
  <ScrollView
        xmlns:android="http://schemas.android.com/apk/res/android"
        android:id="@+id/scrollView1"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content" >
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:fillViewport="true" >
        
      
 	<LinearLayout 
@@ -47,7 +48,7 @@
 	            android:layout_marginTop="10dp" >
 	
 	            <TextView
-	                android:id="@+id/textView1"
+	                android:id="@+id/tv_extradate"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:text="@string/no_of_pigs"
@@ -126,7 +127,7 @@
 	      	<TimePicker
 		       android:id="@+id/timePicker1"
 		       android:layout_width="wrap_content"
-		       android:layout_height="match_parent"
+		       android:layout_height="wrap_content"
 		       android:layout_weight="0.09" />
 	    </TableLayout>
 

@@ -5,12 +5,13 @@ import java.util.Calendar;
 import org.json.JSONException;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -20,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.google.zxing.client.result.ParsedResult;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.utils.InputFilterMinMax;
 
@@ -85,18 +85,43 @@ public class WhatsHotFragment extends SherlockFragment {
 				
 			}
 		});
-		
-		  add_pigs.setOnClickListener(new OnClickListener() {
+			
+		  add_pigs.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				if(num_of_pigs.getEditableText().toString().equals("") || group_name.getEditableText().toString().equals("")){
 					((MainActivity) getActivity()).showAlertDialog(getActivity(),"Error", 
-							"Please Fill in all the Fields", true, false, "OK", "");
+							"Please Fill in all the Fields", true, false, "OK", "",
+							new OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface arg0, int arg1) {
+									// TODO Auto-generated method stub
+									addPigDetails();
+								}
+							},
+							null, null);
 				} else {
 					((MainActivity) getActivity()).showAlertDialog(getActivity(),"Confirmation", 
-							"Are you sure you want to add this Pig?", true, true, "Add", "Cancel");
+							"Are you sure you want to add this Pig?", true, true, "Cancel", "Add",
+							new OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface arg0, int arg1) {
+									// TODO Auto-generated method stub
+									
+								}
+							},
+							new OnClickListener() {
+
+								@Override
+								public void onClick(DialogInterface arg0, int arg1) {
+									// TODO Auto-generated method stub
+									addPigDetails();
+								}
+							}, null);
 					
 				}
 				
@@ -132,16 +157,14 @@ public class WhatsHotFragment extends SherlockFragment {
 		
 		
 	    try {
-			((MainActivity) getActivity()).addPig(pigAddedDetails);
+			((MainActivity) getActivity()).openListPosition = ((MainActivity) getActivity()).addPig(pigAddedDetails);
+			((MainActivity) getActivity()).displayView(2);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 //		pigAddedDetails.getQrCodeBitmap();
-	    
-	    ((MainActivity) getActivity()).displayView(2);
-	
-		
+	   
 	}
 
 }

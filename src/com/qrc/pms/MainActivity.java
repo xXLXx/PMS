@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -78,6 +79,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	NotifierService notifierService;
 	
 	public PigListAdapter pigListAdapter;
+	
+	public int openListPosition = -1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -188,7 +191,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		}
 		
 		for (int x = 0; x < 30; x++) {
-			pigList.add(new Pig(x % 4 + 1, (int) (System.currentTimeMillis() / 1000 + 86400 * x), x < 10 ? x + " Little Piggies" : "", x));
+			pigList.add(new Pig(x % 4 + 1, (int) (System.currentTimeMillis() / 1000 - 86400 * x * 10), x < 10 ? x + " Little Piggies" : "", x));
 		}
 		
 		pigListAdapter = new PigListAdapter(this, pigList);
@@ -207,13 +210,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		}
 	}
 
-	public boolean addPig(Pig pig) throws JSONException {
+	public int addPig(Pig pig) throws JSONException {
 //		pigs.put(pig.getId(), pig.getSerializedObject(false));
 //		
 //		Log.e("asd", pigs.toString());
 		pigListAdapter.add(pig);
 		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
-		return false;
+		return pigListAdapter.getCount() - 1;
 	}
 	
 	public boolean updatePig(int currentPigIdx, Pig pig) throws JSONException {
@@ -438,10 +441,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
     }
 	
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
-			Boolean twoButtons, String btnOk, String btnCancel)
+			Boolean twoButtons, String btnOk, String btnCancel, OnClickListener listenerOk,
+			OnClickListener listenerCancel, View view)
 	{
 
-		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+		Builder builder = new AlertDialog.Builder(context);
+		builder.setView(view);
+		AlertDialog alertDialog = builder.create();
 		alertDialog.setTitle(title);
 		alertDialog.setMessage(message);
 		alertDialog.setButton(btnOk, new DialogInterface.OnClickListener() {
@@ -454,27 +460,12 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		});
 		
 		if (twoButtons) {
-		  alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, new OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				FragmentManager fm = getSupportFragmentManager();
-				//if you added fragment via layout xml
-				WhatsHotFragment fragment = (WhatsHotFragment)fm.findFragmentById(R.id.frame_container);
-				fragment.addPigDetails();
-			}
-		  });
+		  	alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, listenerOk);
 		  
-		   alertDialog.setButton(Dialog.BUTTON_NEGATIVE, btnCancel, new OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-			}
-		   });
+		  	alertDialog.setButton(Dialog.BUTTON_NEGATIVE, btnCancel, listenerCancel);
 		}
 		
+
 		alertDialog.show();
 	}
 

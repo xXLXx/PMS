@@ -131,6 +131,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/result_minor_text"/>
+          
+          <TextView android:id="@+id/contents_text_view"
+              	  android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:textColor="@color/result_text"
+	              android:textColorLink="@color/result_text"
+	              android:textSize="22sp"
+	              android:paddingLeft="12dip"
+	              android:visibility="gone"
+	              android:autoLink="web"/>
+
+	      <TextView android:id="@+id/contents_supplement_text_view"
+	              android:layout_width="wrap_content"
+	              android:layout_height="wrap_content"
+	              android:textColor="@color/result_text"
+	              android:textColorLink="@color/result_text"
+	              android:paddingLeft="12dip"
+	              android:visibility="gone"
+	              android:autoLink="web"/>
 
         </LinearLayout>
 
@@ -138,33 +157,53 @@
 
       <ScrollView
           android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-
-        <LinearLayout
-          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:orientation="vertical">
+          android:fillViewport="true">
 
-          <TextView android:id="@+id/contents_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/result_text"
-                    android:textColorLink="@color/result_text"
-                    android:textSize="22sp"
-                    android:paddingLeft="12dip"
-                    android:autoLink="web"/>
+	        <TableLayout
+	        	android:layout_width="match_parent"
+	       		android:layout_height="wrap_content">
+          			<TableRow >
+	               		<TextView
+	                		android:text="@string/group_name"
+	                		style="@style/DetailTextLead"  />
+	               		<TextView
+	                		android:id="@+id/tv_groupname"
+	                		android:text="@string/group_name"
+	                		style="@style/DetailText"  />
+	           		</TableRow>
+	        		<TableRow >
+	               		<TextView
+	                		android:text="@string/purpose"
+	                		style="@style/DetailTextLead"  />
+	               		<TextView
+	                		android:id="@+id/tv_detail_purpose"
+	                		android:text="@string/purpose"
+	                		style="@style/DetailText"  />
+	           		</TableRow>
+	           		<TableRow >
+                        <TextView
+	                        android:text="@string/birthdate"
+	                        style="@style/DetailTextLead"  />
 
-          <TextView android:id="@+id/contents_supplement_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/result_text"
-                    android:textColorLink="@color/result_text"
-                    android:paddingLeft="12dip"
-                    android:autoLink="web"/>
+                        <TextView
+                            android:id="@+id/tv_detail_birthdate"
+                            style="@style/DetailText"
+                            android:text="as das 3 3 ds dfs fs dfs dfsdfsf33  a" />
 
-        </LinearLayout>
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+	                        android:text="@string/date_added"
+	                        style="@style/DetailTextLead" />
+                        <TextView
+	                        android:id="@+id/tv_detail_dateadded"
+	                        android:text="@string/date_added"
+	                        style="@style/DetailText" />
+                    </TableRow>
+	        </TableLayout>
 
-      </ScrollView>
+     </ScrollView>
 
     </LinearLayout>
 
@@ -172,7 +211,11 @@
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:orientation="horizontal"
-                  android:gravity="center">
+                  android:gravity="center">  
+          
+      <Button
+          style="@style/ResultButton"
+          android:visibility="gone" />
 
       <Button style="@style/ResultButton"
               android:visibility="gone"/>
@@ -182,9 +225,14 @@
 
       <Button style="@style/ResultButton"
               android:visibility="gone"/>
-
-      <Button style="@style/ResultButton"
-              android:visibility="gone"/>
+      
+      <Button
+          style="@style/ResultButton"
+          android:text="@string/goto_details" />
+      
+      <Button
+          style="@style/ResultButton"
+          android:text="@string/cancel" />
 
     </LinearLayout>
 

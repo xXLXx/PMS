@@ -30,6 +30,7 @@
     
     
     <string-array name="purpose_list">
+        <item>Not Specified</item>
         <item>For Fattening</item>
         <item>For Sow</item>
     </string-array>
@@ -57,7 +58,12 @@
 
 
 	<string name="edit">Edit</string>
+	<string name="sell">Sell</string>
+	<string name="pregnant">Pregnant</string>
+	<string name="gave_birth">Gave Birth</string>
     <string name="save">Save</string>
+    <string name="goto_details">Go to Details</string>
+    <string name="close">Close</string>
     <string name="cancel">Cancel</string>
     <string name="count">Number of Pigs:</string>
     <string name="group_name">Group Name:</string>
@@ -68,6 +74,7 @@
 	<string name="date_giving_birth">Date of Giving Birth:</string>
 	<string name="date_pregnancy">Date of Pregnancy:</string>
 	<string name="date_added">Date Added:</string>
+	<string name="pregnancy_count">Times :</string>
 	<string name="btn_add_pigs">Add Pig</string>
 	<string name="label_purpose">Purpose:</string>
 	<string name="input_add_purpose"></string>

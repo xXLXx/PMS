@@ -22,7 +22,7 @@
         android:padding="5dp" >
 
         <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/tv_extradate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Medium Text"
@@ -55,16 +55,6 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/main_color_dark" />
             
-            <EditText
-                android:id="@+id/et_detail_groupname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:hint="@string/group_name_nocol"
-                android:inputType="text"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@color/main_color_dark"
-                android:visibility="gone" />
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -122,16 +112,6 @@
 	                        android:text="@string/count"
 	                        style="@style/DetailText" />
 
-                        <EditText
-                            android:id="@+id/et_detail_count"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="number"
-                            android:textColor="@color/secondary_color"
-                            android:visibility="gone" >
-
-                            <requestFocus />
-                        </EditText>
 
                     </TableRow>
                     <TableRow >
@@ -153,6 +133,15 @@
                         <TextView
 	                        android:id="@+id/tv_detail_extradate"
 	                        android:text="@string/date_giving_birth"
+	                        style="@style/DetailText" />
+                    </TableRow>
+                    <TableRow >
+                        <TextView
+	                        android:text="@string/date_added"
+	                        style="@style/DetailTextLead" />
+                        <TextView
+	                        android:id="@+id/tv_detail_dateadded"
+	                        android:text="@string/date_added"
 	                        style="@style/DetailText" />
                     </TableRow>
                     <TableRow >
@@ -189,9 +178,15 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/btn_edit"
+                android:id="@+id/btn_sell"
                 style="@style/ResultButton"
-                android:text="@string/edit" />
+                android:text="@string/sell" />
+            
+            <Button
+                android:id="@+id/btn_pregnant"
+                style="@style/ResultButton"
+                android:visibility="gone"
+                android:text="@string/pregnant" />
 
             <Button
                 android:id="@+id/btn_cancel"
