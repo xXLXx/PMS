@@ -82,7 +82,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 		Pig.setPurposeList(this.getResources());
 		
-		getLocation();
+//		getLocation();
 		mTitle = mDrawerTitle = getTitle();
 
 		// load slide menu items
@@ -109,7 +109,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		// Pages
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+		
 		
 
 		// Recycle the typed array
@@ -267,10 +267,14 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			break;
 		case 1:
 			if (isAdmin) {
-				
+				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+				mDrawerList.setSelection(1);
+				setTitle(navMenuTitles[1]);
+				mDrawerLayout.closeDrawer(mDrawerList);
 			} else {
 				// loginfunction
 			}
+			
 			fragment = new FindPeopleFragment();
 			break;
 		case 2:
@@ -372,7 +376,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		// TODO Auto-generated method stub
 		Config.lat = arg0.getLatitude();
 		Config.lng = arg0.getLongitude();
-		Toast.makeText(this, "" + Config.lat + " " + Config.lng, Toast.LENGTH_LONG).show();
 	}
 
 
@@ -399,34 +402,32 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	
 
 	
-	public void getLocation() {
-		Log.e("hhhg", "hjgj");
-		
-        try {
-        	locMngr = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        
-        	Log.e("hhhg", "hjgj");
-        	
-            locMngr.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-            
-            locMngr.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
- 
-    }
+//	public void getLocation() {
+//		Log.e("hhhg", "hjgj");
+//		
+//        try {
+//        	locMngr = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
+//        	
+//            locMngr.requestLocationUpdates(
+//                    LocationManager.NETWORK_PROVIDER,
+//                    MIN_TIME_BW_UPDATES,
+//                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+//            
+//            locMngr.requestLocationUpdates(
+//                    LocationManager.GPS_PROVIDER,
+//                    MIN_TIME_BW_UPDATES,
+//                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+//            
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+// 
+//    }
 	
 
 	@SuppressWarnings("deprecation")
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
-			Boolean twoButtons, String btnOk, String btnCancel, Runnable runUi)
+			Boolean twoButtons, String btnOk, String btnCancel)
 	{
 
 		AlertDialog alertDialog = new AlertDialog.Builder(context).create();
