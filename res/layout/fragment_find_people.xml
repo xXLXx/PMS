@@ -41,7 +41,7 @@
          android:layout_alignLeft="@+id/authButton"
          android:layout_below="@+id/label_no_of_pigs"
          android:layout_marginTop="47dp"
-         android:text="Medium Text"
+         android:text="@string/user_code"
          android:textAppearance="?android:attr/textAppearanceMedium" />
 
      <Button
@@ -50,7 +50,7 @@
          android:layout_height="wrap_content"
          android:layout_alignRight="@+id/editText1"
          android:layout_below="@+id/editText1"
-         android:layout_marginTop="14dp"
-         android:text="Button" />
+         android:layout_marginTop="23dp"
+         android:text="@string/loginBtn" />
 
 </RelativeLayout>

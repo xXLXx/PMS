@@ -39,6 +39,9 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
 import com.qrc.pms.adapter.NavDrawerListAdapter;
 import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.config.Config;
@@ -81,6 +84,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public PigListAdapter pigListAdapter;
 	
 	public int openListPosition = -1;
+	
+	public UiLifecycleHelper uiHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,7 +130,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
 		// setting the nav drawer list adapter
-		adapter = new NavDrawerListAdapter(getApplicationContext(),
+		adapter = new NavDrawerListAdapter(this,
 				navDrawerItems);
 		mDrawerList.setAdapter(adapter);
 
@@ -195,6 +200,12 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		}
 		
 		pigListAdapter = new PigListAdapter(this, pigList);
+		
+		 uiHelper = new UiLifecycleHelper(this, callback);
+		 uiHelper.onCreate(savedInstanceState);
+		 
+		 adapter.notifyDataSetChanged();
+	
 	}
 
 	/**
@@ -288,16 +299,15 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			fragment = new HomeFragment();
 			break;
 		case 1:
-			if (isAdmin) {
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
-				mDrawerList.setSelection(1);
-				setTitle(navMenuTitles[1]);
-				mDrawerLayout.closeDrawer(mDrawerList);
+			if (isAdmin &&  Session.getActiveSession().isOpened()) {	
+				adapter.notifyDataSetChanged();
+				Session.getActiveSession().closeAndClearTokenInformation();
+				displayView(0);
+				
 			} else {
-				// loginfunction
+				fragment = new FindPeopleFragment();
 			}
 			
-			fragment = new FindPeopleFragment();
 			break;
 		case 2:
 			fragment = new CommunityFragment();
@@ -332,19 +342,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			// error in creating fragment
 			Log.e("MainActivity", "Error in creating fragment");
 		}
+
 	}
 
 	private void startNotifierService() {
 		Intent i = new Intent(this, NotifierService.class);
 		bindService(i, serviceConnection, Context.BIND_AUTO_CREATE);
 		startService(i);
-	}
-	
-	@Override
-	protected void onResume() {
-		// TODO Auto-generated method stub
-		startNotifierService();
-		super.onResume();
 	}
 
 	private ServiceConnection serviceConnection = new ServiceConnection() {
@@ -443,6 +447,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
  
     }
 	
+	@SuppressWarnings("deprecation")
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
 			Boolean twoButtons, String btnOk, String btnCancel, OnClickListener listenerOk,
 			OnClickListener listenerCancel, View view)
@@ -463,16 +468,63 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		});
 		
 		if (twoButtons) {
-		  	alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, listenerOk);
-		  
+		  	alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, listenerOk);	  
 		  	alertDialog.setButton(Dialog.BUTTON_NEGATIVE, btnCancel, listenerCancel);
 		}
-		
 
 		alertDialog.show();
 	}
 
+	public void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	    if (state.isOpened()) {
+	        Log.e("", "Logged in...");
+	       displayView(0);
+	       isAdmin = true;
+		    
+	    } else if (state.isClosed()) {
+	    	isAdmin = false;
+	    }
+	}
 	
+	public Session.StatusCallback callback = new Session.StatusCallback() {
+	    @Override
+	    public void call(Session session, SessionState state, Exception exception) {
+	        onSessionStateChange(session, state, exception);
+	        adapter.notifyDataSetChanged();
+	    }
+	};
+
+	
+	@Override
+	public void onResume() {
+	    super.onResume();	
+	  Session session = Session.getActiveSession();
+	    if (session != null &&
+	           (session.isOpened() || session.isClosed()) ) {
+	     onSessionStateChange(session, session.getState(), null);
+	    }
+	    uiHelper.onResume();
+	    startNotifierService();
+	}
+
+	
+	@Override
+	public void onPause() {
+	    super.onPause();
+	    uiHelper.onPause();
+	}
+
+	@Override
+	public void onDestroy() {
+	    super.onDestroy();
+	    uiHelper.onDestroy();
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    uiHelper.onSaveInstanceState(outState);
+	}
 	
 	
 
