@@ -4,20 +4,20 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.qrc.pms.MainActivity;
 import com.qrc.pms.R;
@@ -75,6 +75,7 @@ public class NotifierService extends Service{
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					Log.e("TIMESLOTS", Config.TIME_SLOTS[0] + " " + Config.TIME_SLOTS[1] + " " + Config.TIME_SLOTS[2]);
 					if (inWhiteList()) {
 						notificationManager.notify(0, n);
 						soundPool.play(snd_alarm, 1f, 1f, 1, 0, 1f);
@@ -90,7 +91,7 @@ public class NotifierService extends Service{
 	}
 	
 	private boolean inWhiteList() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
 		String dateNow = dateFormat.format(new Date());
 		
 		for (String item : Config.TIME_SLOTS) {

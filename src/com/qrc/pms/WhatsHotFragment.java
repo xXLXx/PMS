@@ -61,7 +61,7 @@ public class WhatsHotFragment extends SherlockFragment {
 		add_pigs = (Button) view.findViewById(R.id.btn_add_pigs);
 		group_name = (EditText) view.findViewById(R.id.input_add_group_name);
 		datePicker = (DatePicker) view.findViewById(R.id.datePicker1);
-		timePicker = (TimePicker) view.findViewById(R.id.timePicker1);
+		timePicker = (TimePicker) view.findViewById(R.id.alarm_morning);
 		num_of_pigs.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "" + Integer.MAX_VALUE)});
 		
 		spinner_purpose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

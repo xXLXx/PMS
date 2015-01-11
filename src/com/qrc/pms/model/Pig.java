@@ -220,33 +220,33 @@ public class Pig {
 	}
 	
 	public Feeds getFeeds() {
-		Feeds feeds = null;
+		Feeds feeds = new Feeds("Not Specified", "");
 		int changeInDate = 0;
 		
 		changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
 		
 		if (changeInDate >= 3 && changeInDate <= 5) {
-			feeds = new Feeds("MILKO-PLUS", "50 ml/head/day");
+			feeds = new Feeds("MILKO-PLUS", "50 ml/head/day\n(16.67 ml/serving)");
 		} else if (changeInDate >= 6 && changeInDate <= 35) {
 			String feed = "NUTRILAC BOOSTER CRUMBLE";
 			if (changeInDate <= 28) {
-				feeds = new Feeds(feed, "20 grams/head/day");
+				feeds = new Feeds(feed, "20 grams/head/day\n(6.67 grams/serving)");
 			} else {
-				feeds = new Feeds(feed, "300 grams/head/day");
+				feeds = new Feeds(feed, "300 grams/head/day\n(100 grams/serving)");
 			}
 		} else if (changeInDate >= 36 && changeInDate <= 42) {
-			feeds = new Feeds("NUTRILAC-PLUS PELLET", "350 grams/head/day");
+			feeds = new Feeds("NUTRILAC-PLUS PELLET", "350 grams/head/day\n(116.67 grams/serving)");
 		} else if (changeInDate >= 42 && changeInDate <= 55) {
-			feeds = new Feeds("NUTRILAC-PLUS PELLET", "0.5 to 0.8 kg per day");
+			feeds = new Feeds("NUTRILAC-PLUS PELLET", "0.5 to 0.8 kg per day\n(0.17 to 0.27 kg/serving)");
 		} else if (changeInDate >= 55 && changeInDate <= 90) {
-			feeds = new Feeds("NUTRI-START", "1.25 to 1.5 kg per day");
+			feeds = new Feeds("NUTRI-START", "1.25 to 1.5 kg per day\n(0.42 kg to 0.5 kg/serving)");
 		} else if (changeInDate >= 90 && changeInDate <= 120) {
-			feeds = new Feeds("NUTRI-GRO", "1.75 to 2.0 kg per day");
+			feeds = new Feeds("NUTRI-GRO", "1.75 to 2.0 kg per day\n(0.58 to 0.67 kg/serving)");
 		} else if (
 				(changeInDate >= 120 && changeInDate <= 150) ||
 				(changeInDate > 150 && (purpose == PURPOSE_FATTENING ||
 				(purpose == PURPOSE_SOW && milkingDate <= 0 && pregnancyDate <= 0)))) {
-			feeds = new Feeds("NUTRI-BIG", "2.3 to 2.5 kg per day");
+			feeds = new Feeds("NUTRI-BIG", "2.3 to 2.5 kg per day\n(0.77 to 0.83 kg/serving)");
 		} else if (purpose == PURPOSE_SOW) {
 			if (milkingDate > 0) {
 				int changeInDateSec = (int) (System.currentTimeMillis() / 1000 - milkingDate);
@@ -254,37 +254,37 @@ public class Pig {
 				String feed = "LITTER-SAVER";
 				
 				if (changeInDateSec / 3600 <= 6) {
-					feeds = new Feeds("Minimal feeding (as needed) " + feed, "Maximum of 100 grams");
+					feeds = new Feeds("Minimal feeding (as needed) " + feed, "Maximum of 100 grams\n(33.33 grams/serving)");
 				} else if (changeInDate >= 2 && changeInDate <= 27) {
-					feeds = new Feeds(feed, "3 kgs. plus 250g per piglet");
+					feeds = new Feeds(feed, "3 kgs. plus 250g per piglet\n(1 kg plus 83g per piglet/serving)");
 				} else if (changeInDate <= 28) {
-					feeds = new Feeds(feed, "4.0 kgs");
+					feeds = new Feeds(feed, "4.0 kgs\n(1.33 kgs/serving)");
 				} else if (changeInDate <= 29) {
-					feeds = new Feeds(feed, "3.0 kgs");
+					feeds = new Feeds(feed, "3.0 kgs\n(1 kg/serving)");
 				} else {
-					feeds = new Feeds(feed, "2.5 kgs");
+					feeds = new Feeds(feed, "2.5 kgs\n(0.83 kg/serving)");
 				}
 			} else if (pregnancyDate > 0) {
 				changeInDate = (int) ((System.currentTimeMillis() / 1000 - pregnancyDate) / 86400);
 				if (changeInDate >= 1 && changeInDate <= 21) {
-					feeds = new Feeds("NUTRI-GRO", "1.50 kgs/day");
+					feeds = new Feeds("NUTRI-GRO", "1.50 kgs/day\n(0.5 kg/serving)");
 				} else if (changeInDate >= 22 && changeInDate <= 105) {
 					String feed = "PREG-SOW";
 					if (changeInDate <= 30) {
-						feeds = new Feeds(feed, "1.75 kgs/day");
+						feeds = new Feeds(feed, "1.75 kgs/day\n(0.58 kg/serving)");
 					} else if (changeInDate <= 61) {
-						feeds = new Feeds(feed, "2.00 kgs/day");
+						feeds = new Feeds(feed, "2.00 kgs/day\n(0.67 kg/serving)");
 					} else if (changeInDate <= 91) {
-						feeds = new Feeds(feed, "2.25 kgs/day");
+						feeds = new Feeds(feed, "2.25 kgs/day\n(0.75 kg/serving)");
 					} else {
-						feeds = new Feeds(feed, "2.00 kgs/day");
+						feeds = new Feeds(feed, "2.00 kgs/day\n(0.67 kg/serving)");
 					}
 				} else if (changeInDate >= 106) {
 					String feed = "LITTER-SAVER";
 					if (changeInDate <= 109) {
-						feeds = new Feeds(feed, "1.75 kgs/day");
+						feeds = new Feeds(feed, "1.75 kgs/day\n(0.58 kg/serving)");
 					} else {
-						feeds = new Feeds(feed, "1.00 kg/day");
+						feeds = new Feeds(feed, "1.00 kg/day\n(0.33 kg/serving)");
 					}
 				}
 			}

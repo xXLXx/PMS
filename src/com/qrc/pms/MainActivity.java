@@ -3,8 +3,9 @@ package com.qrc.pms;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -20,6 +21,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
@@ -32,8 +34,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -189,6 +193,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 		prefs = getSharedPreferences(Config.PREF_NAME, MODE_PRIVATE);
 		
+		SharedPreferences settings = getSharedPreferences(Config.PREF_NAME_TIMESLOTS, MODE_PRIVATE);
+		Map<String, ?> settingsTimeslots = settings.getAll();
+		int ctr = 0;
+		for (Object timeSlot : settingsTimeslots.values()) {
+			Config.TIME_SLOTS[ctr++] = timeSlot.toString();
+		}
+		
 		ArrayList<Pig> pigList = new ArrayList<Pig>();
 		
 		Map<String, ?> pigMap = prefs.getAll();
@@ -256,13 +267,53 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// toggle nav drawer on selecting action bar app icon/title
 		//edited
-		toggleMenuDrawer();
+//		toggleMenuDrawer();
 		// Handle action bar actions click
 		switch (item.getItemId()) {
-		case R.id.action_settings:
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.action_settings:
+				View view = getLayoutInflater().inflate(R.layout.settings, null, false);
+				final TimePicker alarmMorning = (TimePicker) view.findViewById(R.id.alarm_morning);
+				final TimePicker alarmNoon = (TimePicker) view.findViewById(R.id.alarm_noon);
+				final TimePicker alarmEvening = (TimePicker) view.findViewById(R.id.alarm_evening);
+				
+				alarmMorning.setCurrentHour(Integer.parseInt(Config.TIME_SLOTS[0].substring(0, 2)));
+				alarmMorning.setCurrentMinute(Integer.parseInt(Config.TIME_SLOTS[0].substring(3, 5)));
+				alarmNoon.setCurrentHour(Integer.parseInt(Config.TIME_SLOTS[1].substring(0, 2)));
+				alarmNoon.setCurrentMinute(Integer.parseInt(Config.TIME_SLOTS[1].substring(3, 5)));
+				alarmEvening.setCurrentHour(Integer.parseInt(Config.TIME_SLOTS[2].substring(0, 2)));
+				alarmEvening.setCurrentMinute(Integer.parseInt(Config.TIME_SLOTS[2].substring(3, 5)));
+				
+				showAlertDialog(this, "Settings", "", true, true, "Cancel", "Save",
+						null,
+						new OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								// TODO Auto-generated method stub
+								
+								SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+								Date date = new Date();
+								
+								SharedPreferences settings = getSharedPreferences(Config.PREF_NAME_TIMESLOTS, MODE_PRIVATE);
+								Editor editor = settings.edit();
+								editor.clear();
+								date.setHours(alarmMorning.getCurrentHour());
+								date.setMinutes(alarmMorning.getCurrentMinute());
+								editor.putString("morning", (Config.TIME_SLOTS[0] = dateFormat.format(date)));
+								date.setHours(alarmNoon.getCurrentHour());
+								date.setMinutes(alarmNoon.getCurrentMinute());
+								editor.putString("noon", (Config.TIME_SLOTS[1] = dateFormat.format(date)));
+								date.setHours(alarmEvening.getCurrentHour());
+								date.setMinutes(alarmEvening.getCurrentMinute());
+								editor.putString("evening", (Config.TIME_SLOTS[2] = dateFormat.format(date)));
+								editor.commit();
+							}
+						},
+						view);
+				return true;
+			default:
+				toggleMenuDrawer();
+				return true;
 		}
 	}
 	
@@ -362,14 +413,14 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			// TODO Auto-generated method stub
 			NotifierBinder binder = (NotifierBinder) service;
 			notifierService = (NotifierService) binder.getService();
-			Toast.makeText(getApplicationContext(), "Connected to service", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(getApplicationContext(), "Connected to service", Toast.LENGTH_SHORT).show();
 		}
 
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 			// TODO Auto-generated method stub
 			notifierService = null;
-			Toast.makeText(getApplicationContext(), "Disconnected to service", Toast.LENGTH_SHORT).show();
+//			Toast.makeText(getApplicationContext(), "Disconnected to service", Toast.LENGTH_SHORT).show();
 		}
 		
 	};
@@ -451,31 +502,20 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
  
     }
 	
-	@SuppressWarnings("deprecation")
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
-			Boolean twoButtons, String btnOk, String btnCancel, OnClickListener listenerOk,
-			OnClickListener listenerCancel, View view)
+			Boolean twoButtons, String btnCancel, String btnOk, OnClickListener listenerCancel,
+			OnClickListener listenerOk, View view)
 	{
 
 		Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
-		AlertDialog alertDialog = builder.create();
-		alertDialog.setTitle(title);
-		alertDialog.setMessage(message);
-		alertDialog.setButton(btnOk, new DialogInterface.OnClickListener() {
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
+		builder.setTitle(title);
+		builder.setMessage(message);
+		builder.setPositiveButton(btnCancel, listenerCancel);
 		if (twoButtons) {
-		  	alertDialog.setButton(Dialog.BUTTON_POSITIVE, btnOk, listenerOk);
-		  	alertDialog.setButton(Dialog.BUTTON_NEGATIVE, btnCancel, listenerCancel);
+		  	builder.setNegativeButton(btnOk, listenerOk);
 		}
-
+		AlertDialog alertDialog = builder.create();
 		alertDialog.show();
 	}
 		  

@@ -15,6 +15,7 @@ public class Config {
 	public static String FILE_PATH = ROOT_FOLDER + "download.xml"; 
 	
 	public static String PREF_NAME = "PMS";
+	public static String PREF_NAME_TIMESLOTS = "PMS_timeslots";
 	
-	public static String[] TIME_SLOTS = {"06:00:00", "12:00:00", "18:00:00"};
+	public static String[] TIME_SLOTS = {"06:00", "11:00", "17:00"};
 }

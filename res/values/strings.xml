@@ -89,5 +89,8 @@
 	<string name="stock">In Stock:</string>
 	<string name="sold">Sold</string>
 	<string name="user_code">User Code</string>	
-	<string name="loginBtn">Login</string>
+	<string name="loginBtn">Login</string>	
+	<string name="alarm_morning">Morning Alarm</string>	
+	<string name="alarm_noon">Noon Alarm</string>	
+	<string name="alarm_evening">Evening Alarm</string>
 </resources>

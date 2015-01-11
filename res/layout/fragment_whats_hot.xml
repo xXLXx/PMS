@@ -125,7 +125,7 @@
 	        </TableRow>
 			
 	      	<TimePicker
-		       android:id="@+id/timePicker1"
+		       android:id="@+id/alarm_morning"
 		       android:layout_width="wrap_content"
 		       android:layout_height="wrap_content"
 		       android:layout_weight="0.09" />
