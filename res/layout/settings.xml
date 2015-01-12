@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+
+    <LinearLayout
+    	android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:padding="10dp"
+		android:orientation="vertical" >
+		
+        <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/alarm_morning"
+		    android:textAppearance="?android:attr/textAppearanceMedium"
+		    android:textColor="@color/main_color" />
+		
+		<TimePicker
+		    android:id="@+id/alarm_morning"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal" />
+		
+		<TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/alarm_noon"
+		    android:textAppearance="?android:attr/textAppearanceMedium"
+		    android:textColor="@color/main_color" />
+		
+		<TimePicker
+		    android:id="@+id/alarm_noon"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal" />
+		
+		<TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/alarm_evening"
+		    android:textAppearance="?android:attr/textAppearanceMedium"
+		    android:textColor="@color/main_color" />
+		
+		<TimePicker
+		    android:id="@+id/alarm_evening"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_gravity="center_horizontal" />
+    </LinearLayout>
+</ScrollView>
