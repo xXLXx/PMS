@@ -35,6 +35,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
@@ -510,15 +511,16 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
 		builder.setTitle(title);
-		builder.setMessage(message);
 		builder.setPositiveButton(btnCancel, listenerCancel);
-		if (twoButtons) {
+		if (twoButtons) { 
 		  	builder.setNegativeButton(btnOk, listenerOk);
 		}
 		AlertDialog alertDialog = builder.create();
+
 		alertDialog.show();
 	}
 		  
+
 	public void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    if (state.isOpened()) {
 	        Log.e("", "Logged in...");
