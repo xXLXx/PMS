@@ -61,7 +61,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;	
 	
 	public boolean isAdmin = false;
-	
+	public boolean isLoogedIn = false;
 //	public boolean isMain = t;
 	// nav drawer title
 	public CharSequence mDrawerTitle;
@@ -74,7 +74,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public TypedArray navMenuIcons;
 
 	public ArrayList<NavDrawerItem> navDrawerItems;
-	private NavDrawerListAdapter adapter;
+	public NavDrawerListAdapter adapter;
 
 	public JSONObject pigs = new JSONObject();
 	public SharedPreferences prefs;
@@ -299,14 +299,17 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			fragment = new HomeFragment();
 			break;
 		case 1:
-			if (isAdmin &&  Session.getActiveSession().isOpened()) {	
+			if (isAdmin &&  Session.getActiveSession().isOpened() || isLoogedIn) {	
 				adapter.notifyDataSetChanged();
 				Session.getActiveSession().closeAndClearTokenInformation();
 				displayView(0);
 				
+				
 			} else {
+
 				fragment = new FindPeopleFragment();
 			}
+			
 			
 			break;
 		case 2:
@@ -486,6 +489,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		    
 	    } else if (state.isClosed()) {
 	    	isAdmin = false;
+	    	isLoogedIn = false;
 	    }
 	}
 	

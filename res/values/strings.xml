@@ -87,6 +87,9 @@
 	<string name="label_date_of_birth">Date of Birth:</string>	
 	<string name="add_time_of_birth">Time of Birth:</string>	
 	<string name="stock">In Stock:</string>	
+	<string name="sold">Sold</string>
 	<string name="user_code">User Code</string>	
-	<string name="loginBtn">Login</string>
+	<string name="loginBtn">Login</string>	
+	<string name="total_pigs">Total Pigs:</string>	
+	<string name="totalPigsCount"></string>
 </resources>

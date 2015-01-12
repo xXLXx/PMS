@@ -26,7 +26,7 @@
          android:textAppearance="?android:attr/textAppearanceLarge" />
 
      <EditText
-         android:id="@+id/editText1"
+         android:id="@+id/txt_userCode"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_below="@+id/tv_extradate"
@@ -45,11 +45,11 @@
          android:textAppearance="?android:attr/textAppearanceMedium" />
 
      <Button
-         android:id="@+id/button1"
+         android:id="@+id/btn_localLogin"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:layout_alignRight="@+id/editText1"
-         android:layout_below="@+id/editText1"
+         android:layout_alignRight="@+id/txt_userCode"
+         android:layout_below="@+id/txt_userCode"
          android:layout_marginTop="23dp"
          android:text="@string/loginBtn" />
 
