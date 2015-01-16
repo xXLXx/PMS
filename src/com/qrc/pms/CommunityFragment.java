@@ -184,6 +184,7 @@ public class CommunityFragment extends SherlockFragment {
 		if (openListPosition != -1) {
 			showDetailsModal(openListPosition);
 			openListPosition = -1;
+			((MainActivity) getActivity()).pigListAdapter.sort();
 		}
 	}
 	
@@ -238,6 +239,15 @@ public class CommunityFragment extends SherlockFragment {
 		} else {
 			tvExtraDate.setVisibility(View.GONE);
 			tvExtraDateLead.setVisibility(View.GONE);
+		}
+		
+		String vaccine = "";
+		View vaccingRow = detailsModal.findViewById(R.id.vaccine_row);
+		if (!(vaccine = pig.getVaccine()).equals("")) {
+			vaccingRow.setVisibility(View.VISIBLE);
+			((TextView) detailsModal.findViewById(R.id.tv_detail_vaccine)).setText(vaccine);
+		} else {
+			vaccingRow.setVisibility(View.GONE);
 		}
 	}
 	

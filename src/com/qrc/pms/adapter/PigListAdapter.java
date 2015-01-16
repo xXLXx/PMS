@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.qrc.pms.MainActivity;
 import com.qrc.pms.R;
 import com.qrc.pms.model.Pig;
 
@@ -25,15 +26,28 @@ public class PigListAdapter extends BaseAdapter{
 		super();
 		// TODO Auto-generated constructor stub
 		this.context = context;
+		this.pigList = pigList;
+		sort();
+	}
+	
+	public void sort() {
 		Collections.sort(pigList, new Comparator<Pig>() {
 
 			@Override
 			public int compare(Pig lhs, Pig rhs) {
 				// TODO Auto-generated method stub
-				return (int) (rhs.dateAdded - lhs.dateAdded);
+				final int sortOrder = ((MainActivity) context).sortOrder;
+				switch (sortOrder) {
+				case R.id.radio_birthdate:
+					return (int) (rhs.birthDate - lhs.birthDate);
+				case R.id.radio_purpose:
+					return (int) (rhs.purpose - lhs.purpose);	
+				default:
+					return (int) (rhs.dateAdded - lhs.dateAdded);
+				}
 			}
 		});
-		this.pigList = pigList;
+		notifyDataSetChanged();
 	}
 	
 	public int getPosition(String id) {

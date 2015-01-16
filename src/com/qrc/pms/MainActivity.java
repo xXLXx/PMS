@@ -38,6 +38,8 @@ import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -66,7 +68,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; 
 	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;	
 	
-	public boolean isAdmin = false;
+	public boolean isAdmin = true;
 	
 //	public boolean isMain = t;
 	// nav drawer title
@@ -92,6 +94,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public int openListPosition = -1;
 
 	public UiLifecycleHelper uiHelper;
+	
+	public int sortOrder = R.id.radio_dateadded;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -518,6 +522,21 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		AlertDialog alertDialog = builder.create();
 
 		alertDialog.show();
+	}
+	
+	public void displaySort(View view) {
+		View dialogView = getLayoutInflater().inflate(R.layout.sort_options, null);
+		((RadioButton) dialogView.findViewById(sortOrder)).setChecked(true);
+		
+		showAlertDialog(this, "Sort", "", true, true, "Cancel", "Sort", null, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				// TODO Auto-generated method stub
+				sortOrder = ((RadioGroup) ((Dialog)arg0).findViewById(R.id.radio_sort)).getCheckedRadioButtonId();
+				pigListAdapter.sort();
+			}
+		}, dialogView);
 	}
 		  
 

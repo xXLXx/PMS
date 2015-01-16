@@ -70,7 +70,9 @@
     <string name="group_name">Group Name:</string>
     <string name="invalid_qr">Invalid QR Code</string>
     <string name="group_name_nocol">Group Name</string>
+    <string name="sort">Sort</string>
     <string name="purpose">Purpose:</string>
+    <string name="vaccine">Vaccine/Medication:</string>
     <string name="timebirth">Time of Birth:</string>
 	<string name="birthdate">Date of Birth:</string>
 	<string name="date_giving_birth">Date of Giving Birth:</string>

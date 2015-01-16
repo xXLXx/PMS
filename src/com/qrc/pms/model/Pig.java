@@ -219,6 +219,32 @@ public class Pig {
 		}
 	}
 	
+	public String getVaccine() {
+		String vaccine = "";
+		
+		int changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
+		
+		if (changeInDate == 1) {
+			vaccine = "Instant Iron - Drops 1ml";
+		} else if (changeInDate == 3) {
+			vaccine = "Iron Dextran - Inject 1ml";
+		} else if (changeInDate == 7) {
+			vaccine = "Respisure - Inject 2ml";
+		} else if (changeInDate == 14) {
+			vaccine = "Iron Dextran - Inject 1ml, Castration - Inject Terramycin Long Acting 1ml";
+		} else if (changeInDate == 21) {
+			vaccine = "Respisure - Inject 2ml";
+		} else if (changeInDate == 28) {
+			vaccine = "Hog Cholera Vaccine (Dosage depending on brand)";
+		} else if (changeInDate == 30) {
+			vaccine = "Weaning, Inject Terramycin Long Acting";
+		} else if (changeInDate == 55 || changeInDate == 90 || changeInDate == 120) {
+			vaccine = "Deworm";
+		}
+		
+		return vaccine;
+	}
+	
 	public Feeds getFeeds() {
 		Feeds feeds = new Feeds("Not Specified", "");
 		int changeInDate = 0;
