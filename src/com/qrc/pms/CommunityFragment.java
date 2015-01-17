@@ -1,8 +1,6 @@
 package com.qrc.pms;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
 
 import org.json.JSONException;
 
@@ -10,7 +8,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,7 +24,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.model.Pig.Feeds;
 import com.qrc.pms.utils.InputFilterMinMax;
@@ -36,6 +32,15 @@ import com.qrc.pms.utils.InputFilterMinMax;
 public class CommunityFragment extends SherlockFragment {
 	
 	private int openListPosition = -1;
+	private View detailsModal;
+	
+	private TextView tvDetailCount, totalPig;
+	private TextView tvGroupName;
+	private Button btnPregnant;
+	private TableRow pregnantCountRow;
+	long setTotalPig;
+	private int currentPigIdx = -1;
+	
 	public CommunityFragment() {}
 
 	@Override
@@ -44,15 +49,6 @@ public class CommunityFragment extends SherlockFragment {
 		// TODO Auto-generated method stub
 		super.setArguments(args);
 	}
-
-	private View detailsModal;
-	
-	private TextView tvDetailCount;
-	private TextView tvGroupName;
-	private Button btnPregnant;
-	private TableRow pregnantCountRow;
-	
-	private int currentPigIdx = -1;
 
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,10 +67,15 @@ public class CommunityFragment extends SherlockFragment {
 		tvGroupName = (TextView) detailsModal.findViewById(R.id.tv_detail_groupname);
 		btnPregnant = (Button) detailsModal.findViewById(R.id.btn_pregnant);
 		pregnantCountRow = (TableRow) detailsModal.findViewById(R.id.pregnant_count_row);
+		totalPig = (TextView) view.findViewById(R.id.total_count);
 		
 		ListView pigListView = (ListView) view.findViewById(R.id.pig_listView);
 		
 		pigListView.setAdapter(((MainActivity) getActivity()).pigListAdapter);
+		
+		totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+		
+		
 		pigListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -198,6 +199,7 @@ public class CommunityFragment extends SherlockFragment {
 		((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
 		tvDetailCount.setText("" + pig.count);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
+		((TextView) detailsModal.findViewById(R.id.tv_detail_age)).setText(pig.getAge());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_purpose)).setText(pig.getPurpose());
 		Feeds feeds = pig.getFeeds();

@@ -41,6 +41,7 @@ public final class CustomCaptureActivity extends CaptureActivity{
 			((TextView) findViewById(R.id.tv_detail_purpose)).setText(pig.getPurpose());
 			((TextView) findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
 			((TextView) findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
+			((TextView) findViewById(R.id.tv_detail_age)).setText(pig.getAge());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

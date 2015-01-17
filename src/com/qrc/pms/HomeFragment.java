@@ -1,8 +1,6 @@
 package com.qrc.pms;
 
-import com.google.zxing.client.android.CaptureActivity;
 import android.app.Activity;
-import android.app.Instrumentation.ActivityResult;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,10 +18,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.qrc.pms.R;
-import com.qrc.pms.model.Pig;
-import com.qrc.pms.views.CustomCaptureActivity;
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.qrc.pms.views.CustomCaptureActivity;
 
 //edited
 public class HomeFragment extends SherlockFragment {

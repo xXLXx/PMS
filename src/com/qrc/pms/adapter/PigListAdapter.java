@@ -50,6 +50,21 @@ public class PigListAdapter extends BaseAdapter{
 		notifyDataSetChanged();
 	}
 	
+	public String getTotalPigCount(){
+		long totalPigcount= 0;
+		long soldCount = 0;
+		
+		for (Pig pig : pigList) {
+			if(soldCount <= 0){
+				soldCount++;			
+			}
+			totalPigcount += pig.count;
+		}
+				
+	  return "" + totalPigcount;
+	}
+	
+
 	public int getPosition(String id) {
 		for (int x = 0; x < getCount(); x++) {
 			Pig pig = getItem(x);

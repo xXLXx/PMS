@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.Session;
-import com.facebook.SessionState;
 import com.qrc.pms.MainActivity;
 import com.qrc.pms.R;
 import com.qrc.pms.model.NavDrawerItem;
@@ -32,12 +29,14 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return navDrawerItems.size() - (!((MainActivity) context).isAdmin ? blackListPos.length : 0);
+		return navDrawerItems.size() - (!((MainActivity) context).isAdmin &&
+				!((MainActivity) context).isLoogedIn ? blackListPos.length : 0);
 	}
 
 	@Override
 	public Object getItem(int position) {		
-		return !((MainActivity) context).isAdmin && inBlackList(position) ? null : navDrawerItems.get(position);
+		return !((MainActivity) context).isAdmin && !((MainActivity) context).isLoogedIn &&
+				inBlackList(position) ? null : navDrawerItems.get(position);
 	}
 	
 	private boolean inBlackList(int position) {
@@ -54,7 +53,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		if (!((MainActivity) context).isAdmin && inBlackList(position)) 
+		if (!((MainActivity) context).isAdmin && inBlackList(position) && !((MainActivity) context).isLoogedIn) 
 			return null;
 		
 		if (convertView == null) {
@@ -78,7 +77,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
         	// hide the counter view
 //        	txtCount.setVisibility(View.GONE);
         }
-        if(((MainActivity) context).isAdmin && position == 1)
+        if(((MainActivity) context).isAdmin && position == 1 && ((MainActivity) context).isLoogedIn)
         {
         	txtTitle.setText("Log Out");
         }

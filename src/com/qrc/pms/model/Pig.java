@@ -1,7 +1,8 @@
 package com.qrc.pms.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
@@ -13,7 +14,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateFormat;
-import android.util.Log;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -217,6 +217,17 @@ public class Pig {
 				milkingDate = extraDateSec;
 			} 
 		}
+	}
+	
+	public String getAge() {
+		int changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
+		
+		if (changeInDate <= 0) {
+			return "Not yet born";
+		} else if (changeInDate <= 1) {
+			return changeInDate + " days old";
+		}
+        return changeInDate + " days old";
 	}
 	
 	public String getVaccine() {

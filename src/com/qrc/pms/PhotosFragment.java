@@ -1,23 +1,12 @@
 package com.qrc.pms;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import ru.truba.touchgallery.GalleryWidget.FilePagerAdapter;
 import ru.truba.touchgallery.GalleryWidget.GalleryViewPager;
-
-import com.actionbarsherlock.app.SherlockFragment;
-import com.qrc.pms.R;
-
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.actionbarsherlock.app.SherlockFragment;
 
 //edited
 public class PhotosFragment extends SherlockFragment {

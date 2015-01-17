@@ -25,11 +25,20 @@
             android:id="@+id/tv_extradate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medium Text"
-            android:layout_weight="1"
+            android:text="@string/total_pigs"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/secondary_color" />
 
+        <TextView
+            android:id="@+id/total_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/totalPigsCount"
+            android:textColor="#ffffff"
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+        
         <Button
             android:onClick="displaySort"
             style="?android:attr/buttonStyleSmall"
@@ -55,8 +64,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp" >
+            android:padding="10dp" >
 
             <TextView
                 android:id="@+id/tv_detail_groupname"
@@ -173,6 +181,18 @@
 	                    android:paddingLeft="10dp"
 	                    android:paddingRight="10dp">
                         <TextView
+	                        android:text="@string/age"
+	                        style="@style/DetailTextLead"  />
+
+                        <TextView
+                            android:id="@+id/tv_detail_age"
+                            style="@style/DetailText" />
+
+                    </TableRow>
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
+                        <TextView
                             android:id="@+id/tv_detaillead_extradate"
 	                        android:text="@string/date_giving_birth"
 	                        style="@style/DetailTextLead" />
@@ -211,14 +231,12 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="5dp"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
                         android:src="@color/main_color" />
 
                 </TableLayout>
                 
 
-            </ScrollView>
+</ScrollView>
             	
         </LinearLayout>
             

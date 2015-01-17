@@ -3,7 +3,6 @@ package com.qrc.pms;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -11,18 +10,15 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
-
-import com.qrc.pms.R;
-import com.qrc.pms.adapter.TopFiveListEntryAdapter;
-import com.qrc.pms.config.Config;
-import com.qrc.pms.model.TopFiveEntryList;
 
 import android.app.Activity;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.ListView;
+
+import com.qrc.pms.adapter.TopFiveListEntryAdapter;
+import com.qrc.pms.config.Config;
+import com.qrc.pms.model.TopFiveEntryList;
 
 public class DownloadUpadatesTask extends AsyncTask<String, Integer, String>
 {
