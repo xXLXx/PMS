@@ -204,6 +204,16 @@
                     </TableRow>
                     <TableRow >
                         <TextView
+	                        android:text="@string/age"
+	                        style="@style/DetailTextLead"  />
+
+                        <TextView
+                            android:id="@+id/tv_detail_age"
+                            style="@style/DetailText" />
+
+                    </TableRow>
+                    <TableRow >
+                        <TextView
 	                        android:text="@string/date_added"
 	                        style="@style/DetailTextLead" />
                         <TextView

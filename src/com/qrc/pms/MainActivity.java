@@ -33,6 +33,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
@@ -57,6 +59,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	private ActionBarDrawerToggle mDrawerToggle;
 	
 	public boolean isAdmin = false;
+	
 	public boolean isLoogedIn = false;
 //	public boolean isMain = t;
 	// nav drawer title
@@ -82,6 +85,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public int openListPosition = -1;
 
 	public UiLifecycleHelper uiHelper;
+	
+	public int sortOrder = R.id.radio_dateadded;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -331,12 +336,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 				Session.getActiveSession().closeAndClearTokenInformation();
 				displayView(0);
 				
-				
 			} else {
-
 				fragment = new FindPeopleFragment();
 			}
-			
 			
 			break;
 		case 2:
@@ -474,6 +476,21 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		AlertDialog alertDialog = builder.create();
 
 		alertDialog.show();
+	}
+	
+	public void displaySort(View view) {
+		View dialogView = getLayoutInflater().inflate(R.layout.sort_options, null);
+		((RadioButton) dialogView.findViewById(sortOrder)).setChecked(true);
+		
+		showAlertDialog(this, "Sort", "", true, true, "Cancel", "Sort", null, new OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface arg0, int arg1) {
+				// TODO Auto-generated method stub
+				sortOrder = ((RadioGroup) ((Dialog)arg0).findViewById(R.id.radio_sort)).getCheckedRadioButtonId();
+				pigListAdapter.sort();
+			}
+		}, dialogView);
 	}
 		  
 

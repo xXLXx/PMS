@@ -51,8 +51,6 @@ public class CommunityFragment extends SherlockFragment {
 		super.setArguments(args);
 	}
 
-
-
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
@@ -189,6 +187,7 @@ public class CommunityFragment extends SherlockFragment {
 		if (openListPosition != -1) {
 			showDetailsModal(openListPosition);
 			openListPosition = -1;
+			((MainActivity) getActivity()).pigListAdapter.sort();
 		}
 	}
 	
@@ -202,6 +201,7 @@ public class CommunityFragment extends SherlockFragment {
 		((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
 		tvDetailCount.setText("" + pig.count);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
+		((TextView) detailsModal.findViewById(R.id.tv_detail_age)).setText(pig.getAge());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_purpose)).setText(pig.getPurpose());
 		Feeds feeds = pig.getFeeds();
@@ -215,7 +215,6 @@ public class CommunityFragment extends SherlockFragment {
 		}
 		((Button) detailsModal.findViewById(R.id.btn_sell)).setEnabled(btnSellEnabled);
 			
-
 		String extraDate = "";
 		TextView tvExtraDate = ((TextView) detailsModal.findViewById(R.id.tv_detail_extradate));
 		TextView tvExtraDateLead = ((TextView) detailsModal.findViewById(R.id.tv_detaillead_extradate));
@@ -244,25 +243,18 @@ public class CommunityFragment extends SherlockFragment {
 			tvExtraDate.setText(extraDate);
 			tvExtraDateLead.setText(getResources().getString(R.string.date_giving_birth));
 		} else {
-			
 			tvExtraDate.setVisibility(View.GONE);
 			tvExtraDateLead.setVisibility(View.GONE);
 		}
 		
 		if(!((MainActivity) getActivity()).isAdmin){
-			
 			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.GONE);
 			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.GONE);
-			
 		} else if(pig.purpose == Pig.PURPOSE_SOW && ((MainActivity) getActivity()).isAdmin) {
-			
 			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
 			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.VISIBLE);
 		}
-		
 	}
-	
-	
 	
 	
 }

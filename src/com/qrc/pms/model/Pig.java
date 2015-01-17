@@ -1,8 +1,7 @@
 package com.qrc.pms.model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
@@ -15,7 +14,6 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateFormat;
-import android.util.Log;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -245,6 +243,43 @@ public class Pig {
 				milkingDate = extraDateSec;
 			} 
 		}
+	}
+	
+	public String getAge() {
+		int changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
+		
+		if (changeInDate <= 0) {
+			return "Not yet born";
+		} else if (changeInDate <= 1) {
+			return changeInDate + " days old";
+		}
+        return changeInDate + " days old";
+	}
+	
+	public String getVaccine() {
+		String vaccine = "";
+		
+		int changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
+		
+		if (changeInDate == 1) {
+			vaccine = "Instant Iron - Drops 1ml";
+		} else if (changeInDate == 3) {
+			vaccine = "Iron Dextran - Inject 1ml";
+		} else if (changeInDate == 7) {
+			vaccine = "Respisure - Inject 2ml";
+		} else if (changeInDate == 14) {
+			vaccine = "Iron Dextran - Inject 1ml, Castration - Inject Terramycin Long Acting 1ml";
+		} else if (changeInDate == 21) {
+			vaccine = "Respisure - Inject 2ml";
+		} else if (changeInDate == 28) {
+			vaccine = "Hog Cholera Vaccine (Dosage depending on brand)";
+		} else if (changeInDate == 30) {
+			vaccine = "Weaning, Inject Terramycin Long Acting";
+		} else if (changeInDate == 55 || changeInDate == 90 || changeInDate == 120) {
+			vaccine = "Deworm";
+		}
+		
+		return vaccine;
 	}
 	
 	public Feeds getFeeds() {

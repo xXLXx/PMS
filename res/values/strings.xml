@@ -67,12 +67,15 @@
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
     <string name="count">Number of Pigs:</string>
-    <string name="group_name">Group Name:</string>
+    <string name="group_name">Name:</string>
     <string name="invalid_qr">Invalid QR Code</string>
     <string name="group_name_nocol">Group Name</string>
+    <string name="sort">Sort</string>
     <string name="purpose">Purpose:</string>
+    <string name="vaccine">Vaccine/Medication:</string>
     <string name="timebirth">Time of Birth:</string>
 	<string name="birthdate">Date of Birth:</string>
+	<string name="age">Age:</string>
 	<string name="date_giving_birth">Date of Giving Birth:</string>
 	<string name="date_pregnancy">Date of Pregnancy:</string>
 	<string name="date_added">Date Added:</string>
@@ -91,7 +94,7 @@
 	<string name="user_code">User Code</string>	
 	<string name="loginBtn">Login</string>	
 	<string name="total_pigs">Total Pigs:</string>	
-	<string name="totalPigsCount"></string>
+	<string name="totalPigsCount">0</string>
 	<string name="alarm_morning">Morning Alarm</string>
 	<string name="alarm_noon">Noon Alarm</string>	
 	<string name="alarm_evening">Evening Alarm</string>

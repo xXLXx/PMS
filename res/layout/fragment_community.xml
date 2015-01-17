@@ -35,8 +35,18 @@
             android:layout_height="wrap_content"
             android:text="@string/totalPigsCount"
             android:textColor="#ffffff"
+            android:layout_weight="1"
             android:layout_marginLeft="10dp"
             android:textAppearance="?android:attr/textAppearanceMedium" />
+        
+        <Button
+            android:onClick="displaySort"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="30dp"
+            android:paddingRight="30dp"
+            android:text="@string/sort" />
 
     </LinearLayout>
 
@@ -45,31 +55,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#b0000000"
-        android:visibility="gone"
         android:clickable="true"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:visibility="gone" >
 	
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="0dp" >
+            android:padding="10dp" >
 
             <TextView
                 android:id="@+id/tv_detail_groupname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="Large Text"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="@color/main_color_dark" />
-            
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
                 android:background="#3FFFFFFF" >
 
@@ -79,17 +92,21 @@
                 android:id="@+id/tv_feeds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="NUTRI-GRO"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="@color/secondary_color"
-                android:layout_gravity="center_horizontal" />
+                android:textColor="@color/secondary_color" />
             
             <TextView
                 android:id="@+id/tv_feeds_consumption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center_horizontal"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:text="50ml/head/day\n(16.7ml per serving)"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/secondary_color" />
@@ -102,7 +119,28 @@
                 <TableLayout
                     android:layout_width="match_parent"
 	                android:layout_height="wrap_content">
-	                <TableRow >
+
+	                <TableRow
+	                    android:id="@+id/vaccine_row"
+	                    android:background="#74D95082"
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp" >
+
+                        <TextView
+                            style="@style/DetailTextLead"
+                            android:text="@string/vaccine"
+                            android:textColor="@color/list_item_title" />
+
+                        <TextView
+                            android:id="@+id/tv_detail_vaccine"
+                            style="@style/DetailText"
+                            android:text="@string/vaccine"
+                            android:textColor="@color/secondary_color" />
+
+                    </TableRow>
+	                <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
                         <TextView
 	                        android:text="@string/purpose"
 	                        style="@style/DetailTextLead"  />
@@ -112,7 +150,9 @@
 	                        style="@style/DetailText"  />
 
                     </TableRow>
-                    <TableRow >
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
 	                	<TextView
 	                        android:text="@string/count"
 	                        style="@style/DetailTextLead" />
@@ -124,7 +164,9 @@
 
 
                     </TableRow>
-                    <TableRow >
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
                         <TextView
 	                        android:text="@string/birthdate"
 	                        style="@style/DetailTextLead"  />
@@ -135,7 +177,21 @@
                             android:text="as das 3 3 ds dfs fs dfs dfsdfsf33  a" />
 
                     </TableRow>
-                    <TableRow >
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
+                        <TextView
+	                        android:text="@string/age"
+	                        style="@style/DetailTextLead"  />
+
+                        <TextView
+                            android:id="@+id/tv_detail_age"
+                            style="@style/DetailText" />
+
+                    </TableRow>
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
                         <TextView
                             android:id="@+id/tv_detaillead_extradate"
 	                        android:text="@string/date_giving_birth"
@@ -146,6 +202,8 @@
 	                        style="@style/DetailText" />
                     </TableRow>
                     <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp"
                         android:id="@+id/pregnant_count_row">
                         <TextView
 	                        android:text="@string/pregnancy_count"
@@ -155,7 +213,9 @@
 	                        android:text="@string/pregnancy_count"
 	                        style="@style/DetailText" />
                     </TableRow>
-                    <TableRow >
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
                         <TextView
 	                        android:text="@string/date_added"
 	                        style="@style/DetailTextLead" />
@@ -164,16 +224,19 @@
 	                        android:text="@string/date_added"
 	                        style="@style/DetailText" />
                     </TableRow>
-                    
+
                     <ImageView
-	                    android:id="@+id/img_qrcode"
-	                    android:layout_width="match_parent"
-	                    android:layout_height="wrap_content"
-	                    android:layout_gravity="center_horizontal"
-	                    android:src="@color/main_color" />
+                        android:id="@+id/img_qrcode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="5dp"
+                        android:src="@color/main_color" />
+
                 </TableLayout>
                 
-            </ScrollView>
+
+</ScrollView>
             	
         </LinearLayout>
             
