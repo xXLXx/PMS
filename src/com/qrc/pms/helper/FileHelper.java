@@ -29,7 +29,7 @@ public class FileHelper {
 	    private static String upLoadServerUri = null;
 	   
 	
-		public static void savedFile(File pictureFile, byte image[], File txtFile, String details)
+		public static void savedFile(File pictureFile, byte image[])
 		{	
 			try
 			{
@@ -37,11 +37,6 @@ public class FileHelper {
 				  fos.write(image);
 				  fos.close();
 				  fos.flush();
-				  FileWriter f = new FileWriter(txtFile);
-		          f.write(details);
-		          f.close();
-		          
-		          Log.e("Copied File:", "" + fos + ", " + f);
 		        
 			}
 			catch (FileNotFoundException e) {
@@ -55,63 +50,56 @@ public class FileHelper {
 		}
 		
 		
-		public static void sendFiles(List<String> subRoot, final Activity act, ProgressDialog dialog) 
+		public static void sendFiles(List<String> subRoot, Activity act) 
 		{
 			Log.e("subroot", ""+subRoot);
+			
 			for(String subsubRoot : subRoot)
 			{
 				File f = new File(subsubRoot);
 				Log.e("EEEE", ""+f);
-				File[] files = f.listFiles(); 
-	
-				for(int x = 0; x < files.length; x++)
-				{	
-					Log.e("dsfdfgdfg", "akfjsjg");
-					int i = -1;	
-					i = uploadFile(""+ files[x], act, x, dialog);
-					
-					
-					while(i == -1) 
-					{
-						try 
-						{							
-							Thread.sleep(100);
-						} 
-						catch (InterruptedException e) 
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-				}
+				uploadFile(""+ subsubRoot, act, 0);
+//				File[] files = f.listFiles(); 
+//	
+//				for(int x = 0; x < files.length; x++)
+//				{	
+//					Log.e("dsfdfgdfg", "akfjsjg");
+//					
+//					int i = -1;	
+//					
+//					i = uploadFile(""+ files[x], act, x);
+//					
+//					
+//					while(i == -1) 
+//					{
+//						try 
+//						{							
+//							Thread.sleep(100);
+//						} 
+//						catch (InterruptedException e) 
+//						{
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//				}
 				
-				deleteChildFolder(f);
 			
 			
 			}
-			
-			dialog.cancel();
-			act.runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					// TODO Auto-generated method stub
-					Toast.makeText(act, "File Upload Complete.", Toast.LENGTH_SHORT).show();
-				}
-			});
-			
 		
 		}
 		
 		public static List<String> getFiles(String parent){
 			List<String> list = new ArrayList<String>();
 			File files = new File(parent);
-			File[] allfiles = files.listFiles();
+			File[] allfiles =  files.listFiles();
+			
 			for(File file : allfiles)
 			{
 				if(file.isDirectory())
 				{
-				list.add("" + file);
+					list.add("" + file);
 				}
 			}
 			
@@ -119,13 +107,27 @@ public class FileHelper {
 		}
 		
 		
+		
+		public static List<String> getLastFile(String parent){
+			
+			File files = new File(parent);
+			File[] allfiles =  files.listFiles();
+			List<String> filesList = new ArrayList<String>();
+			filesList.add(allfiles[allfiles.length - 1].toString());
+			return filesList;
+				
+		}
+		
+		
+		
+		
 		// para ni sa na save na images na walay net. .	
 		
 		
-		 public static int uploadFile(String sourceFileUri, final Activity a, int index, final ProgressDialog progressDialog) {
+		 public static int uploadFile(String sourceFileUri,  Activity a, int index) {
 			 
-			 Log.e("SDFDFdf", "F#EEEEEEEEEEEEEEEEEEe");
-			 upLoadServerUri = "http://www.csis-dvo.tk/upload_file";
+			 Log.e("SDFDFdf", "" + sourceFileUri);
+			 upLoadServerUri = "http://pmsqr.co.nf/upload_file.php";
 			 Log.e("SDFDFdf", ""+upLoadServerUri); 
 			 
 	    	  String fileName = sourceFileUri;
@@ -165,10 +167,13 @@ public class FileHelper {
 		               conn.setDoOutput(true); // Allow Outputs
 		               conn.setUseCaches(false); // Don't use a Cached Copy
 		               conn.setRequestMethod("POST");
+		               
 		               conn.setRequestProperty("Connection", "Keep-Alive");
 		               conn.setRequestProperty("ENCTYPE", "multipart/form-data");
 		               conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+		               
 		               fileName = fileName.replace(".csis", "");
+		               
 		               conn.setRequestProperty("uploaded_file", fileName); 
 		               Log.e("FILE", ""+ fileName);
 		               dos = new DataOutputStream(conn.getOutputStream());
@@ -214,12 +219,7 @@ public class FileHelper {
 		            	  
 		                   a.runOnUiThread(new Runnable() {
 		                        public void run() {
-		                        	
-//		                        	String msg = "File Upload Completed.\n\n See uploaded file here : \n\n"
-//		                        		          + uploadFilePath
-//		                        		          +uploadFileName;
-//		                        	
-//		                        	messageText.setText(msg);
+
 		                      
 		                        }
 		                    });                
@@ -234,33 +234,14 @@ public class FileHelper {
 		        	  
 		             // dialog.dismiss();  
 		              ex.printStackTrace();
-		              
-		              a.runOnUiThread(new Runnable() {
-		                  public void run() {
-		                	  //messageText.setText("MalformedURLException Exception : check script url.");
-		                      Toast.makeText(a.getApplicationContext(), "MalformedURLException", Toast.LENGTH_SHORT).show();
-		                  }
-		              });
-		              
+
 		              Log.e("Upload file to server", "error: " + ex.getMessage(), ex);  
 		          } catch (Exception e) {
 		        	  
 		              //dialog.dismiss();  
 		              e.printStackTrace();
 		              
-		              a.runOnUiThread(new Runnable() {
-		                  public void run() {
-		                	 // messageText.setText("Got Exception : see logcat ");
-		                     
-		                	  progressDialog.cancel();
-		                	  Toast.makeText(a.getApplicationContext(), "FILE NOT UPLOADED, Server Error ", 
-		                    		  Toast.LENGTH_LONG).show();
-		                  }
-		              });
-		              Log.e("Upload file to server Exception", "Exception : " 
-		            		                           + e.getMessage(), e);  
-		          }
-		          //dialog.dismiss();       
+		          }    
 		          return serverResponseCode; 
 		          
 	           } // End else block 

@@ -92,4 +92,7 @@
 	<string name="loginBtn">Login</string>	
 	<string name="total_pigs">Total Pigs:</string>	
 	<string name="totalPigsCount"></string>
+	<string name="alarm_morning">Morning Alarm</string>
+	<string name="alarm_noon">Noon Alarm</string>	
+	<string name="alarm_evening">Evening Alarm</string>
 </resources>

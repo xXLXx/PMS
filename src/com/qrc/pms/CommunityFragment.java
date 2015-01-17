@@ -171,6 +171,7 @@ public class CommunityFragment extends SherlockFragment {
 								
 								Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
 								pig.setExtraDate((int) (date_birth.getTimeInMillis() / 1000));
+								
 								try {
 									((MainActivity) getActivity()).updatePig(currentPigIdx, pig);
 								} catch (JSONException e) {
@@ -234,9 +235,11 @@ public class CommunityFragment extends SherlockFragment {
 		}
 		
 		if (!(extraDate = pig.getPregnancyDate()).equals("")) {
+			
 			tvExtraDate.setText(extraDate);
 			tvExtraDateLead.setText(getResources().getString(R.string.date_pregnancy));
 			btnPregnant.setText(getResources().getString(R.string.gave_birth));
+			
 		} else if (!(extraDate = pig.getMilkingDate()).equals("")) {
 			tvExtraDate.setText(extraDate);
 			tvExtraDateLead.setText(getResources().getString(R.string.date_giving_birth));
@@ -247,9 +250,12 @@ public class CommunityFragment extends SherlockFragment {
 		}
 		
 		if(!((MainActivity) getActivity()).isAdmin){
+			
 			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.GONE);
 			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.GONE);
+			
 		} else if(pig.purpose == Pig.PURPOSE_SOW && ((MainActivity) getActivity()).isAdmin) {
+			
 			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
 			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.VISIBLE);
 		}

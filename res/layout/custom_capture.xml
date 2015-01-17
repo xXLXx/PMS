@@ -224,16 +224,23 @@
                   android:gravity="center">  
           
       <Button
+          android:id="@+id/button_gone1"
           style="@style/ResultButton"
           android:visibility="gone" />
 
-      <Button style="@style/ResultButton"
+      <Button
+          android:id="@+id/button_gone2"
+          style="@style/ResultButton"
           android:visibility="gone"/>
 
-      <Button style="@style/ResultButton"
+      <Button
+          android:id="@+id/button_gone3"
+          style="@style/ResultButton"
           android:visibility="gone"/>
 
-      <Button style="@style/ResultButton"
+      <Button
+          android:id="@+id/button_gone4"
+          style="@style/ResultButton"
           android:visibility="gone"/>
       
       <Button

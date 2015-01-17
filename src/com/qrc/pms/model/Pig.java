@@ -1,7 +1,8 @@
 package com.qrc.pms.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
@@ -9,6 +10,7 @@ import net.glxn.qrgen.core.image.ImageType;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -18,6 +20,7 @@ import android.util.Log;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import com.qrc.pms.R;
+import com.qrc.pms.config.Config;
 
 public class Pig {
 	public static final int PURPOSE_FATTENING = 1;
@@ -94,20 +97,45 @@ public class Pig {
 		return groupName.equals("") ? "Pig Added " + formatDate(dateAdded) : groupName;
 	}
 	
-	public Bitmap getQrCodeBitmap() {
+	public void saveQrCode(File pictureFile) throws FileNotFoundException {
+		FileOutputStream fos = new FileOutputStream(pictureFile);
+		getQrCode().writeTo(fos);
+	}
+	
+	@SuppressLint("SimpleDateFormat")
+	public File getOutputMediaFile(String timeStamp) {
+		  File childFolder = new File(Config.ROOT_FOLDER);
+		   
+		  if (!childFolder.exists()){
+            childFolder.mkdirs();
+            Log.e("File Created:", "" + childFolder);
+		  }
+		  
+		  File mediaFile;
+		  mediaFile = new File(childFolder + File.separator + timeStamp + ".jpg");
+		  
+		  Log.e("File Created:", "" + mediaFile);
+	      return mediaFile;
+		  
+	}
+	
+	private QRCode getQrCode() {
 		try {
 			return ((QRCode) QRCode
 					.from(getSerializedString(true))
 					.to(ImageType.JPG)
 					.withSize(800, 800)
 					.withHint(EncodeHintType.CHARACTER_SET, "UTF-8")
-					.withErrorCorrection(ErrorCorrectionLevel.H))
-					.bitmap();
+					.withErrorCorrection(ErrorCorrectionLevel.H));
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public Bitmap getQrCodeBitmap() {
+		return getQrCode().bitmap();
 	}
 	
 	public String getSerializedString(boolean minimal) throws JSONException {

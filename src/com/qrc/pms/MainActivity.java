@@ -1,8 +1,6 @@
 package com.qrc.pms;
 
 
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,9 +9,9 @@ import java.util.Map;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -26,7 +24,6 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -34,12 +31,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -51,7 +45,6 @@ import com.facebook.UiLifecycleHelper;
 import com.qrc.pms.adapter.NavDrawerListAdapter;
 import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.config.Config;
-import com.qrc.pms.helper.ConnectionHelper;
 import com.qrc.pms.model.NavDrawerItem;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.service.NotifierService;
@@ -62,9 +55,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public DrawerLayout mDrawerLayout;
 	public ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
-	private LocationManager locMngr;
-	private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; 
-	private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;	
 	
 	public boolean isAdmin = false;
 	public boolean isLoogedIn = false;
@@ -174,24 +164,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			displayView(0);
 		}
 		
-		Thread t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-			try {
-				ConnectionHelper.downloadFile("http://192.168.184.1/csis/dl_list", Config.ROOT_FOLDER, Config.FILE_PATH, false);
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			}
-		});
-		t.start();
-		
 		prefs = getSharedPreferences(Config.PREF_NAME, MODE_PRIVATE);
 		
 		SharedPreferences settings = getSharedPreferences(Config.PREF_NAME_TIMESLOTS, MODE_PRIVATE);
@@ -288,6 +260,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 						null,
 						new OnClickListener() {
 							
+							@SuppressLint("SimpleDateFormat") 
+							@SuppressWarnings("deprecation")
 							@Override
 							public void onClick(DialogInterface arg0, int arg1) {
 								// TODO Auto-generated method stub
@@ -459,8 +433,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	@Override
 	public void onLocationChanged(Location arg0) {
 		// TODO Auto-generated method stub
-		Config.lat = arg0.getLatitude();
-		Config.lng = arg0.getLongitude();
 	}
 
 
@@ -482,29 +454,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 	}
 	
-	public void getLocation() {
-		Log.e("hhhg", "hjgj");
-		
-        try {
-        	locMngr = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        
-        	Log.e("hhhg", "hjgj");
-        	
-            locMngr.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER,
-                    MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-            
-            locMngr.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
- 
-    }
+
 	
 	public void showAlertDialog(Context context, String title, String message, Boolean status, 
 			Boolean twoButtons, String btnCancel, String btnOk, OnClickListener listenerCancel,
@@ -513,6 +463,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 
 		Builder builder = new AlertDialog.Builder(context);
 		builder.setView(view);
+		if (!message.equals("")) {
+			 builder.setMessage(message);
+		}
 		builder.setTitle(title);
 		builder.setPositiveButton(btnCancel, listenerCancel);
 		if (twoButtons) { 

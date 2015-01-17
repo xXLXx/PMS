@@ -2,7 +2,6 @@ package com.qrc.pms;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.actionbarsherlock.app.SherlockFragment;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
-import com.google.zxing.Result;
 
 //edited
 public class FindPeopleFragment extends SherlockFragment {
@@ -39,6 +37,7 @@ public class FindPeopleFragment extends SherlockFragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
+		
 		 LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 		 btn_localLogin = (Button) view.findViewById(R.id.btn_localLogin);
 		 inputUserCode = (EditText) view.findViewById(R.id.txt_userCode);
@@ -89,8 +88,6 @@ public class FindPeopleFragment extends SherlockFragment {
 					}
 				}
 			});
-	        
-	        
 	}
 	
 	@Override

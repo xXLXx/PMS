@@ -1,9 +1,14 @@
 package com.qrc.pms;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.json.JSONException;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -21,6 +26,8 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.qrc.pms.config.Config;
+import com.qrc.pms.helper.FileHelper;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.utils.InputFilterMinMax;
 
@@ -33,7 +40,7 @@ public class WhatsHotFragment extends SherlockFragment {
 	public Calendar date_birth;
 	public Button add_pigs;
 	public AlertDialog alertErroraddPig;
-
+	Boolean isInternetPresent = false;
 	Integer purpose, birthDate, count;
 	String groupName;
 	
@@ -155,10 +162,43 @@ public class WhatsHotFragment extends SherlockFragment {
 		
 		pigAddedDetails = new Pig(purpose, birthDate, groupName, count);
 		
+
 		
 	    try {
 			((MainActivity) getActivity()).openListPosition = ((MainActivity) getActivity()).addPig(pigAddedDetails);
 			((MainActivity) getActivity()).displayView(2);
+			
+			Thread thread =  new Thread(new Runnable() {
+				
+				@SuppressLint("SimpleDateFormat")
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+					File mediaFile = pigAddedDetails.getOutputMediaFile(timeStamp);
+					
+					while(mediaFile == null) {
+						try {
+							Thread.sleep(100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+									
+					try {
+						pigAddedDetails.saveQrCode(mediaFile);
+						
+						FileHelper.sendFiles(FileHelper.getLastFile(Config.ROOT_FOLDER), getActivity());
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+				}
+			});
+			thread.start();
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

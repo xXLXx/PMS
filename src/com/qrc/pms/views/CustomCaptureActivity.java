@@ -50,6 +50,11 @@ public final class CustomCaptureActivity extends CaptureActivity{
 		}
 		// TODO Auto-generated method stub
 		super.handleDecode(rawResult, barcode, scaleFactor);
+		
+		findViewById(R.id.button_gone1).setVisibility(View.GONE);
+		findViewById(R.id.button_gone2).setVisibility(View.GONE);
+		findViewById(R.id.button_gone3).setVisibility(View.GONE);
+		findViewById(R.id.button_gone4).setVisibility(View.GONE);
 	}
 	
 	public void gotoDetails(View v) {
