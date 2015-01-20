@@ -128,6 +128,7 @@ public class FileHelper {
 			 
 			 Log.e("SDFDFdf", "" + sourceFileUri);
 			 upLoadServerUri = "http://pmsqr.co.nf/upload_file.php";
+			 // upLoadServerUri = "ip_address/upload_file.php";
 			 Log.e("SDFDFdf", ""+upLoadServerUri); 
 			 
 	    	  String fileName = sourceFileUri;

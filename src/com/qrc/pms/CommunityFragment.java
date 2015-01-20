@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
-import com.qrc.pms.adapter.PigListAdapter;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.model.Pig.Feeds;
 import com.qrc.pms.utils.InputFilterMinMax;
@@ -55,7 +54,8 @@ public class CommunityFragment extends SherlockFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
  
-        View rootView = inflater.inflate(R.layout.fragment_community, container, false);     
+        View rootView = inflater.inflate(R.layout.fragment_community, container, false);  
+        
         return rootView;
     }
 
@@ -101,6 +101,8 @@ public class CommunityFragment extends SherlockFragment {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
+//				totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+				
 				View view = getActivity().getLayoutInflater().inflate(R.layout.sell_form, null, false);
 				((EditText)view.findViewById(R.id.et_sell_count)).setFilters(
 						new InputFilter[]{
@@ -122,6 +124,8 @@ public class CommunityFragment extends SherlockFragment {
 								// TODO Auto-generated method stub
 								Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
 								pig.count = pig.count - Integer.parseInt(((EditText)((Dialog)arg0).findViewById(R.id.et_sell_count)).getEditableText().toString());
+								totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+								
 								
 								try {
 									((MainActivity) getActivity()).updatePig(currentPigIdx, pig);
