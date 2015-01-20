@@ -209,12 +209,6 @@ public class CommunityFragment extends SherlockFragment {
 		((TextView) detailsModal.findViewById(R.id.tv_feeds_consumption)).setText(feeds == null ? "" : feeds.consumption);
 		((ImageView) detailsModal.findViewById(R.id.img_qrcode)).setImageBitmap(pig.getQrCodeBitmap());
 		
-		boolean btnSellEnabled = true;
-		if (pig.count <= 0) {
-			btnSellEnabled = false;
-		}
-		((Button) detailsModal.findViewById(R.id.btn_sell)).setEnabled(btnSellEnabled);
-			
 		String extraDate = "";
 		TextView tvExtraDate = ((TextView) detailsModal.findViewById(R.id.tv_detail_extradate));
 		TextView tvExtraDateLead = ((TextView) detailsModal.findViewById(R.id.tv_detaillead_extradate));
@@ -247,6 +241,15 @@ public class CommunityFragment extends SherlockFragment {
 			tvExtraDateLead.setVisibility(View.GONE);
 		}
 		
+		String vaccine = "";
+		View vaccingRow = detailsModal.findViewById(R.id.vaccine_row);
+		if (!(vaccine = pig.getVaccine()).equals("")) {
+			vaccingRow.setVisibility(View.VISIBLE);
+			((TextView) detailsModal.findViewById(R.id.tv_detail_vaccine)).setText(vaccine);
+		} else {
+			vaccingRow.setVisibility(View.GONE);
+		}
+		
 		if(!((MainActivity) getActivity()).isAdmin){
 			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.GONE);
 			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.GONE);
@@ -254,6 +257,13 @@ public class CommunityFragment extends SherlockFragment {
 			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
 			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.VISIBLE);
 		}
+		
+		boolean btnSellEnabled = true;
+		if (pig.count <= 0) {
+			btnSellEnabled = false;
+			btnPregnant.setVisibility(View.GONE);
+		}
+		((Button) detailsModal.findViewById(R.id.btn_sell)).setEnabled(btnSellEnabled);
 	}
 	
 	

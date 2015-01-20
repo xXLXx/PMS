@@ -1,7 +1,8 @@
 package com.qrc.pms.model;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
@@ -14,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.text.format.DateFormat;
+import android.util.Log;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;

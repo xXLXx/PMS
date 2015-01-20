@@ -12,6 +12,7 @@ import org.json.JSONObject;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -185,9 +186,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			pigList.add(Pig.getPig(pig.toString()));
 		}
 		
-		for (int x = 0; x < 30; x++) {
-			pigList.add(new Pig(x % 4 + 1, (int) (System.currentTimeMillis() / 1000 - 86400 * x * 10), x < 10 ? x + " Little Piggies" : "", x));
-		}
+//		for (int x = 0; x < 30; x++) {
+//			pigList.add(new Pig(x % 4 + 1, (int) (System.currentTimeMillis() / 1000 - 86400 * x * 10), x < 10 ? x + " Little Piggies" : "", x));
+//		}
 		
 		pigListAdapter = new PigListAdapter(this, pigList);
 		
