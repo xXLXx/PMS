@@ -80,6 +80,11 @@ public class PigListAdapter extends BaseAdapter{
 		// TODO Auto-generated method stub
 		return pigList.size();
 	}
+	
+	public void clearAll() {
+		pigList.clear();
+		notifyDataSetChanged();
+	}
 
 	@Override
 	public Pig getItem(int arg0) {

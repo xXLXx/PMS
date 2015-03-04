@@ -3,6 +3,7 @@ package com.qrc.pms.model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.HashMap;
 
 import net.glxn.qrgen.android.QRCode;
 import net.glxn.qrgen.core.image.ImageType;
@@ -50,6 +51,11 @@ public class Pig {
 	public long dateAdded = 0;
 	
 	private String id;
+		
+	/**
+	 * Extra data for additional info
+	 */
+	public String action = "";
 	
 	public Pig(int purpose, int birthDate) {
 		this(purpose, birthDate, "");
@@ -139,15 +145,25 @@ public class Pig {
 	}
 	
 	public String getSerializedString(boolean minimal) throws JSONException {
-		return getSerializedObject(minimal).toString();
+		return getSerializedObject(minimal, "").toString();
+	}
+	
+	public String getSerializedString(boolean minimal, String action) throws JSONException {
+		return getSerializedObject(minimal, action).toString();
 	}
 	
 	public Object getSerializedObject(boolean minimal) throws JSONException {
+		return getSerializedObject(minimal, "");
+	}
+	
+	public Object getSerializedObject(boolean minimal, String action) throws JSONException {
 		JSONObject data = new JSONObject();
 		data.put("purpose", purpose);
 		data.put("birthdate", birthDate);
 		data.put("dateAdded", dateAdded);
-		
+		if (!action.equals("")) {
+			data.put("action", action);
+		}
 		
 		if (!minimal) {
 			data.put("groupName", groupName);
@@ -161,6 +177,25 @@ public class Pig {
 		return data;
 	}
 	
+	public HashMap<String, String> getHashMap(boolean minimal) {
+		HashMap<String, String> data = new HashMap<String, String>();
+		data.put("purpose", "" + purpose);
+		data.put("birthdate", "" + birthDate);
+		data.put("dateAdded", "" + dateAdded);
+		
+		
+		if (!minimal) {
+			data.put("groupName", groupName);
+			data.put("id", id);
+			data.put("count", "" + count);
+			data.put("pregnancyDate", "" + pregnancyDate);
+			data.put("milkingDate", "" + milkingDate);
+			data.put("pregnancyCount", "" + pregnancyCount);
+		}
+		
+		return data;
+	}
+	
 	public static Pig getPig(SharedPreferences prefs, String id) {
 		return Pig.getPig(prefs.getString(id, ""));
 	}
@@ -168,7 +203,7 @@ public class Pig {
 	public static Pig getPig(String json) {
 		try {
 			JSONObject data = new JSONObject(json);
-			return new Pig(
+			Pig pig = new Pig(
 					data.getString("id"),
 					data.getInt("purpose"),
 					data.getInt("birthdate"),
@@ -179,6 +214,10 @@ public class Pig {
 					data.getLong("dateAdded"),
 					data.getInt("pregnancyCount")
 					);
+			if (data.has("action")) {
+				pig.action = data.getString("action");
+			}
+			return pig;
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -250,10 +289,10 @@ public class Pig {
 	public String getAge() {
 		int changeInDate = (int) ((System.currentTimeMillis() / 1000 - birthDate) / 86400);
 		
-		if (changeInDate <= 0) {
+		if (changeInDate < 0) {
 			return "Not yet born";
 		} else if (changeInDate <= 1) {
-			return changeInDate + " days old";
+			return changeInDate + " day old";
 		}
         return changeInDate + " days old";
 	}

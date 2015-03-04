@@ -4,12 +4,15 @@ package com.qrc.pms;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -25,6 +28,8 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.location.Location;
 import android.location.LocationListener;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -47,7 +52,9 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.qrc.pms.adapter.NavDrawerListAdapter;
 import com.qrc.pms.adapter.PigListAdapter;
+import com.qrc.pms.asynctasks.PreloadPigsAsyncTask;
 import com.qrc.pms.config.Config;
+import com.qrc.pms.helper.ConnectionHelper;
 import com.qrc.pms.model.NavDrawerItem;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.service.NotifierService;
@@ -89,6 +96,7 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	
 	public int sortOrder = R.id.radio_dateadded;
 
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -192,11 +200,17 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 		pigListAdapter = new PigListAdapter(this, pigList);
 		
-		 uiHelper = new UiLifecycleHelper(this, callback);
-		 uiHelper.onCreate(savedInstanceState);
+		uiHelper = new UiLifecycleHelper(this, callback);
+		uiHelper.onCreate(savedInstanceState);
 		 
-		 adapter.notifyDataSetChanged();
-	
+		adapter.notifyDataSetChanged();
+		
+		PreloadPigsAsyncTask task = new PreloadPigsAsyncTask();
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+			task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, this);
+		} else {
+			task.execute(this);
+		}
 	}
 
 	/**
@@ -212,18 +226,57 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		}
 	}
 
-	public int addPig(Pig pig) throws JSONException {
+	public int addPig(final Pig pig) throws JSONException {
 //		pigs.put(pig.getId(), pig.getSerializedObject(false));
 //		
 //		Log.e("asd", pigs.toString());
 		pigListAdapter.add(pig);
 		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if (!ConnectionHelper.sendPost(Config.BASE_URL + "pig.php?f=addPig", pig.getHashMap(false)).equals("1")) {
+					SharedPreferences failedPrefs = getSharedPreferences(Config.PREF_NAME_FAILEDPOSTS, MODE_PRIVATE);
+					try {
+						failedPrefs.edit().putString(pig.getId(), pig.getSerializedString(false, "addPig")).commit();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
+		
 		return pigListAdapter.getCount() - 1;
 	}
 	
-	public boolean updatePig(int currentPigIdx, Pig pig) throws JSONException {
+	public boolean updatePig(int currentPigIdx, final Pig pig) throws JSONException {
 		pigListAdapter.set(currentPigIdx, pig);
 		prefs.edit().putString(pig.getId(), pig.getSerializedString(false)).commit();
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				SharedPreferences failedPrefs = getSharedPreferences(Config.PREF_NAME_FAILEDPOSTS, MODE_PRIVATE);
+				HashMap<String, String> pigMap = pig.getHashMap(false);
+				if (!ConnectionHelper.sendPost(Config.BASE_URL + "pig.php?f=updatePig", pigMap).equals("1")) {
+					try {
+						failedPrefs.edit().putString(pig.getId(), pig.getSerializedString(false, "updatePig")).commit();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				} else {
+					failedPrefs.edit().remove(pig.getId()).commit();
+				}
+			}
+		}).start();
+
 		return false;
 	}
 	

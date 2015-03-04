@@ -1,9 +1,14 @@
 package com.qrc.pms;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import org.json.JSONException;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -24,6 +29,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.qrc.pms.config.Config;
+import com.qrc.pms.helper.FileHelper;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.model.Pig.Feeds;
 import com.qrc.pms.utils.InputFilterMinMax;
@@ -201,7 +208,7 @@ public class CommunityFragment extends SherlockFragment {
 		}
 		
 		detailsModal.setVisibility(View.VISIBLE);
-		Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx = position);
+		final Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx = position);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
 		tvDetailCount.setText("" + pig.count);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
@@ -268,6 +275,44 @@ public class CommunityFragment extends SherlockFragment {
 			btnPregnant.setVisibility(View.GONE);
 		}
 		((Button) detailsModal.findViewById(R.id.btn_sell)).setEnabled(btnSellEnabled);
+		
+		((Button) detailsModal.findViewById(R.id.btn_reprint)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				new Thread(new Runnable() {
+					
+					@SuppressLint("SimpleDateFormat")
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+						File mediaFile = pig.getOutputMediaFile(timeStamp);
+						
+						while(mediaFile == null) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+										
+						try {
+							pig.saveQrCode(mediaFile);
+							
+							FileHelper.sendFiles(FileHelper.getLastFile(Config.ROOT_FOLDER), getActivity());
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						
+					}
+				}).start();
+			}
+		});
 	}
 	
 	

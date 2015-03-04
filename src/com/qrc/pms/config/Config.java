@@ -10,6 +10,9 @@ public class Config {
 	
 	public static String PREF_NAME = "PMS";
 	public static String PREF_NAME_TIMESLOTS = "PMS_timeslots";
+	public static String PREF_NAME_FAILEDPOSTS = "PMS_failed";
 	
 	public static String[] TIME_SLOTS = {"06:00", "11:00", "17:00"};
+	
+	public static String BASE_URL = "http://192.168.212.1/pms/";
 }

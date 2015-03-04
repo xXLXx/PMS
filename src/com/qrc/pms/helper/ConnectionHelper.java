@@ -1,12 +1,17 @@
 package com.qrc.pms.helper;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import android.app.Activity;
 import android.content.Context;
@@ -120,6 +125,54 @@ public class ConnectionHelper {
         } catch(IOException e) {
         	e.printStackTrace();
         }
+		
+		return str;
+	}
+	
+	public static String sendPost(String uri, HashMap<String, String> params) {
+		String str = "";
+		String query = "";
+		try {
+			URL url = new URL(uri);
+			Log.d("DownloadString: ", uri);
+	    	HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+	    	connection.setConnectTimeout(Config.CONNECTION_TIMEOUTE_MILIS);
+	    	connection.setReadTimeout(Config.CONNECTION_TIMEOUTE_MILIS);
+	    	connection.setRequestMethod("POST");
+	    	connection.setDoOutput(true);
+	    	connection.setDoInput(true);
+	    	
+	    	for (Entry<String, String> item : params.entrySet()) {
+	    		if (!query.equals("")) {
+	    			query += "&";
+	    		}
+				query += URLEncoder.encode(item.getKey(), "UTF-8") + "=" + URLEncoder.encode(item.getValue(), "UTF-8");
+			}
+	    	
+	    	OutputStream os = connection.getOutputStream();
+	    	BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os, "UTF-8"));
+	    	writer.write(query);
+	    	writer.flush();
+	    	writer.close();
+	    	os.close();
+
+	    	connection.connect();
+	    	InputStream xml = connection.getInputStream();
+	    	
+	    	byte[] buffer = new byte[1024];
+			int read;
+			
+			while ((read = xml.read(buffer)) != -1)
+				str = str.concat(new String(buffer, 0, read));
+	    
+		} catch(MalformedURLException e) {
+        	e.printStackTrace();
+        } catch(IOException e) {
+        	e.printStackTrace();
+        }
+		
+		Log.e("Request: ", query);
+		Log.e("Response: ", str);
 		
 		return str;
 	}
