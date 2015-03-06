@@ -71,6 +71,9 @@ public class WhatsHotFragment extends SherlockFragment {
 		timePicker = (TimePicker) view.findViewById(R.id.alarm_morning);
 		num_of_pigs.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "" + Integer.MAX_VALUE)});
 		
+		final String defaultGroupName = "Pig Added " + Pig.formatDate(System.currentTimeMillis());
+		group_name.setHint(defaultGroupName);
+		
 		spinner_purpose.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 			@Override
 			public void onItemSelected(AdapterView<?> arg0, View arg1,
@@ -98,7 +101,7 @@ public class WhatsHotFragment extends SherlockFragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if(num_of_pigs.getEditableText().toString().equals("") || group_name.getEditableText().toString().equals("")){
+				if(num_of_pigs.getEditableText().toString().equals("")){
 					((MainActivity) getActivity()).showAlertDialog(getActivity(),"Error", 
 							"Please Fill in all the Fields", true, false, "OK", "",
 							new OnClickListener() {
@@ -106,7 +109,7 @@ public class WhatsHotFragment extends SherlockFragment {
 								@Override
 								public void onClick(DialogInterface arg0, int arg1) {
 									// TODO Auto-generated method stub
-									addPigDetails();
+									
 								}
 							},
 							null, null);
@@ -126,6 +129,9 @@ public class WhatsHotFragment extends SherlockFragment {
 								@Override
 								public void onClick(DialogInterface arg0, int arg1) {
 									// TODO Auto-generated method stub
+									if (group_name.getEditableText().toString().equals("")) {
+										group_name.setText(defaultGroupName);
+									}
 									addPigDetails();
 								}
 							}, null);

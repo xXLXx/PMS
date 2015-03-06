@@ -50,7 +50,8 @@ public class PreloadPigsAsyncTask extends AsyncTask<Object, Integer, Integer>{
 					pigObj.getInt("pregnancyDate"),
 					pigObj.getInt("milkingDate"),
 					pigObj.getLong("dateAdded"),
-					pigObj.getInt("pregnancyCount")
+					pigObj.getInt("pregnancyCount"),
+					pigObj.getInt("removed")
 				);
 				((MainActivity)arg0[0]).pigListAdapter.add(pig);
 				editor.putString(pig.getId(), pig.getSerializedString(false));

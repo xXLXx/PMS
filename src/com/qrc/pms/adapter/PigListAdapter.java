@@ -58,7 +58,7 @@ public class PigListAdapter extends BaseAdapter{
 			if(soldCount <= 0){
 				soldCount++;			
 			}
-			totalPigcount += pig.count;
+			totalPigcount += pig.getCount();
 		}
 				
 	  return "" + totalPigcount;
@@ -115,11 +115,13 @@ public class PigListAdapter extends BaseAdapter{
 		public TextView tvBday;
 		public TextView tvSold;
 		public View listEntryParent;
+		public View listEntryBase;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
+		
 		ViewHolder holder;
 		if(convertView == null) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -132,6 +134,7 @@ public class PigListAdapter extends BaseAdapter{
 			holder.tvBday = (TextView) convertView.findViewById(R.id.tv_bday);
 			holder.tvSold = (TextView) convertView.findViewById(R.id.tv_sold);
 			holder.listEntryParent = convertView.findViewById(R.id.listentry_parent);
+			holder.listEntryBase = convertView.findViewById(R.id.listentry_base);
 			
 			convertView.setTag(holder);
 		}
@@ -140,17 +143,36 @@ public class PigListAdapter extends BaseAdapter{
 		}
 		
 		Pig pig = pigList.get(position);
+		
+//		if (!((MainActivity) context).isAdmin && pig.getCount() == 0) {
+//			return null;
+//		}
+		
 		holder.tvGroupName.setText(pig.getGroupName());
-		holder.tvCount.setText("" + pig.count);
+		holder.tvCount.setText("" + pig.getCount());
 		holder.tvPurpose.setText(pig.getPurpose());
 		holder.tvBday.setText(pig.getBirthDate());
 		
-		if (pig.count <= 0) {
+		if (pig.getCount() <= 0) {
 			holder.listEntryParent.setBackgroundColor(context.getResources().getColor(R.color.result_view));
 			holder.tvSold.setVisibility(View.VISIBLE);
+			if (pig.count == pig.removed) {
+				holder.tvSold.setText(context.getResources().getString(R.string.removed));
+			} else {
+				holder.tvSold.setText(context.getResources().getString(R.string.sold));
+			}
 		} else {
 			holder.listEntryParent.setBackgroundDrawable(null);
 			holder.tvSold.setVisibility(View.GONE);
+		}
+		
+		int nowSec = (int) (System.currentTimeMillis() / 1000);
+		if (nowSec >= pig.pregnancyDate && nowSec - pig.pregnancyDate <= 86400 * 3) {
+			holder.listEntryBase.setBackgroundColor(Color.parseColor("#74d58512"));
+		} else if (!pig.getVaccine().equals("")) {
+			holder.listEntryBase.setBackgroundColor(Color.parseColor("#74D95082"));
+		} else {
+			holder.listEntryBase.setBackgroundDrawable(null);
 		}
 		
 		return convertView;

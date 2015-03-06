@@ -39,9 +39,9 @@ import com.qrc.pms.utils.InputFilterMinMax;
 public class CommunityFragment extends SherlockFragment {
 	
 	private int openListPosition = -1;
-	private View detailsModal;
+	public View detailsModal;
 	
-	private TextView tvDetailCount, totalPig;
+	private TextView tvDetailCount, tvDetailRemoved, totalPig;
 	private TextView tvGroupName;
 	private Button btnPregnant;
 	private TableRow pregnantCountRow;
@@ -72,6 +72,7 @@ public class CommunityFragment extends SherlockFragment {
 		detailsModal = view.findViewById(R.id.details_modal);
 
 		tvDetailCount = (TextView) detailsModal.findViewById(R.id.tv_detail_count);
+		tvDetailRemoved = (TextView) detailsModal.findViewById(R.id.tv_detail_removed);
 		tvGroupName = (TextView) detailsModal.findViewById(R.id.tv_detail_groupname);
 		btnPregnant = (Button) detailsModal.findViewById(R.id.btn_pregnant);
 		pregnantCountRow = (TableRow) detailsModal.findViewById(R.id.pregnant_count_row);
@@ -113,7 +114,7 @@ public class CommunityFragment extends SherlockFragment {
 				View view = getActivity().getLayoutInflater().inflate(R.layout.sell_form, null, false);
 				((EditText)view.findViewById(R.id.et_sell_count)).setFilters(
 						new InputFilter[]{
-							new InputFilterMinMax("1", "" + ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).count)
+							new InputFilterMinMax("1", "" + ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).getCount())
 						});
 				((MainActivity) getActivity()).showAlertDialog(
 						getActivity(),
@@ -131,6 +132,51 @@ public class CommunityFragment extends SherlockFragment {
 								// TODO Auto-generated method stub
 								Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
 								pig.count = pig.count - Integer.parseInt(((EditText)((Dialog)arg0).findViewById(R.id.et_sell_count)).getEditableText().toString());
+								totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+								
+								
+								try {
+									((MainActivity) getActivity()).updatePig(currentPigIdx, pig);
+
+									showDetailsModal(currentPigIdx);
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
+						},
+						view);
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_addremoved)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+//				totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+				
+				View view = getActivity().getLayoutInflater().inflate(R.layout.remove_form, null, false);
+				((EditText)view.findViewById(R.id.et_remove_count)).setFilters(
+						new InputFilter[]{
+							new InputFilterMinMax("1", "" + ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).getCount())
+						});
+				((MainActivity) getActivity()).showAlertDialog(
+						getActivity(),
+						"Remove Pigs",
+						"",
+						true,
+						true,
+						"Cancel",
+						"Update",
+						null,
+						new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								// TODO Auto-generated method stub
+								Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
+								pig.removed = pig.removed + Integer.parseInt(((EditText)((Dialog)arg0).findViewById(R.id.et_remove_count)).getEditableText().toString());
 								totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
 								
 								
@@ -210,7 +256,8 @@ public class CommunityFragment extends SherlockFragment {
 		detailsModal.setVisibility(View.VISIBLE);
 		final Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx = position);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_groupname)).setText(pig.getGroupName());
-		tvDetailCount.setText("" + pig.count);
+		tvDetailCount.setText("" + pig.getCount());
+		tvDetailRemoved.setText("" + pig.removed);
 		((TextView) detailsModal.findViewById(R.id.tv_detail_birthdate)).setText(pig.getBirthDate());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_age)).setText(pig.getAge());
 		((TextView) detailsModal.findViewById(R.id.tv_detail_dateadded)).setText(pig.getDateAdded());
@@ -270,7 +317,7 @@ public class CommunityFragment extends SherlockFragment {
 		}
 		
 		boolean btnSellEnabled = true;
-		if (pig.count <= 0) {
+		if (pig.getCount() <= 0) {
 			btnSellEnabled = false;
 			btnPregnant.setVisibility(View.GONE);
 		}

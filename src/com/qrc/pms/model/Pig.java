@@ -36,10 +36,11 @@ public class Pig {
 	
 	public int purpose = 0;
 	public int birthDate = 0;
+	public int removed = 0;
 	/**
 	 * For pregnant date or date of giving birth
 	 */
-	private int pregnancyDate = 0;
+	public int pregnancyDate = 0;
 	private int milkingDate = 0;
 	public int pregnancyCount = 0;
 	
@@ -74,11 +75,11 @@ public class Pig {
 	 * @param count
 	 */
 	public Pig(int purpose, int birthDate, String groupName, int count) {
-		this("", purpose, birthDate, groupName, count, 0, 0, System.currentTimeMillis(), 0);
+		this("", purpose, birthDate, groupName, count, 0, 0, System.currentTimeMillis(), 0, 0);
 	}
 	
 	public Pig(String id, int purpose, int birthDate, String groupName, int count, int pregnancyDate, int milkingDate, long dateAdded,
-			int pregnancyCount) {
+			int pregnancyCount, int removed) {
 		super();
 		this.id = id;
 		this.purpose = purpose;
@@ -89,6 +90,7 @@ public class Pig {
 		this.milkingDate = milkingDate;
 		this.dateAdded = dateAdded;
 		this.pregnancyCount = pregnancyCount;
+		this.removed = removed;
 	}
 	
 	public static void setPurposeList(Resources res) {
@@ -97,6 +99,10 @@ public class Pig {
 	
 	public String getId() {
 		return "" + dateAdded;
+	}
+	
+	public int getCount() {
+		return count - removed;
 	}
 	
 	public String getGroupName() {
@@ -172,6 +178,7 @@ public class Pig {
 			data.put("pregnancyDate", pregnancyDate);
 			data.put("milkingDate", milkingDate);
 			data.put("pregnancyCount", pregnancyCount);
+			data.put("removed", removed);
 		}
 		
 		return data;
@@ -191,6 +198,7 @@ public class Pig {
 			data.put("pregnancyDate", "" + pregnancyDate);
 			data.put("milkingDate", "" + milkingDate);
 			data.put("pregnancyCount", "" + pregnancyCount);
+			data.put("removed", "" + removed);
 		}
 		
 		return data;
@@ -212,7 +220,8 @@ public class Pig {
 					data.getInt("pregnancyDate"),
 					data.getInt("milkingDate"),
 					data.getLong("dateAdded"),
-					data.getInt("pregnancyCount")
+					data.getInt("pregnancyCount"),
+					data.getInt("removed")
 					);
 			if (data.has("action")) {
 				pig.action = data.getString("action");
@@ -237,7 +246,7 @@ public class Pig {
 		return formatDate((long)seconds * 1000);
 	}
 	
-	public String formatDate(long milliseconds) {
+	public static String formatDate(long milliseconds) {
 		return DateFormat.format("MM/dd/yyyy", milliseconds).toString();
 	}
 	

@@ -95,6 +95,8 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public UiLifecycleHelper uiHelper;
 	
 	public int sortOrder = R.id.radio_dateadded;
+	
+	private SherlockFragment fragment = null;
 
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	@Override
@@ -292,6 +294,21 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		getSupportMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+	
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		if (fragment instanceof CommunityFragment) {
+			if (((CommunityFragment) fragment).detailsModal.getVisibility() == View.VISIBLE) {
+				((CommunityFragment) fragment).detailsModal.setVisibility(View.GONE);
+			} else {
+				super.onBackPressed();
+			}
+		} else {
+			super.onBackPressed();
+		}
+		
+	}
 
 	
 	//edited
@@ -379,7 +396,6 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	 * */
 	public void displayView(int position) {
 		// update the main content by replacing fragments
-		SherlockFragment fragment = null;
 		switch (position) {
 		case 0:
 			fragment = new HomeFragment();

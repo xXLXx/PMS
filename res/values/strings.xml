@@ -60,6 +60,7 @@
 	<string name="edit">Edit</string>
 	<string name="sell">Sell</string>
 	<string name="sell_count">Pigs Sold:</string>
+	<string name="remove_count">Pigs Removed:</string>
 	<string name="pregnant">Pregnant</string>
 	<string name="gave_birth">Gave Birth</string>
     <string name="save">Save</string>
@@ -67,6 +68,7 @@
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
     <string name="count">Number of Pigs:</string>
+    <string name="removed_count">Removed:</string>
     <string name="group_name">Name:</string>
     <string name="invalid_qr">Invalid QR Code</string>
     <string name="group_name_nocol">Group Name</string>
@@ -91,12 +93,13 @@
 	<string name="add_time_of_birth">Time of Birth:</string>	
 	<string name="stock">In Stock:</string>	
 	<string name="sold">Sold</string>
+	<string name="removed">Removed</string>
 	<string name="user_code">User Code</string>	
 	<string name="loginBtn">Login</string>	
 	<string name="total_pigs">Total Pigs:</string>	
 	<string name="totalPigsCount">0</string>
-	<string name="alarm_morning">Morning Alarm</string>
-	<string name="alarm_noon">Noon Alarm</string>	
-	<string name="alarm_evening">Evening Alarm</string>
+	<string name="alarm_morning">1st Alarm</string>
+	<string name="alarm_noon">2nd Alarm</string>	
+	<string name="alarm_evening">3rd Alarm</string>
 	<string name="reprint">Re-Print</string>
 </resources>

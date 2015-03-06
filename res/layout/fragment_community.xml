@@ -167,6 +167,34 @@
                     <TableRow
 	                    android:paddingLeft="10dp"
 	                    android:paddingRight="10dp">
+	                	<LinearLayout
+	                	    android:orientation="horizontal"
+	                	    android:layout_width="match_parent"
+	                	    android:layout_height="wrap_content">
+	                	    <TextView
+		                        android:text="@string/removed_count"
+		                        style="@style/DetailTextLead" />
+
+	                	    <Button
+	                	        android:id="@+id/btn_addremoved"
+	                	        style="?android:attr/buttonStyleSmall"
+	                	        android:layout_width="20dp"
+	                	        android:layout_height="20dp"
+	                	        android:layout_gravity="center_vertical"
+	                	        android:background="@drawable/btn_addremove" />
+	                	    
+	                	</LinearLayout>
+	                	
+                        <TextView
+	                        android:id="@+id/tv_detail_removed"
+	                        android:text="@string/removed_count"
+	                        style="@style/DetailText" />
+
+
+                    </TableRow>
+                    <TableRow
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
                         <TextView
 	                        android:text="@string/birthdate"
 	                        style="@style/DetailTextLead"  />

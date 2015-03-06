@@ -38,12 +38,12 @@ public class FindPeopleFragment extends SherlockFragment {
 		// TODO Auto-generated method stub
 		super.onViewCreated(view, savedInstanceState);
 		
-		 LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+//		 LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 		 btn_localLogin = (Button) view.findViewById(R.id.btn_localLogin);
 		 inputUserCode = (EditText) view.findViewById(R.id.txt_userCode);
 		 
-	        authButton.setFragment(this);
-	        authButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
+//	        authButton.setFragment(this);
+//	        authButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);
 //	        authButton.setReadPermissions(Arrays.asList("user_likes", "user_status"));
 	        
 	        btn_localLogin.setOnClickListener(new OnClickListener() {
