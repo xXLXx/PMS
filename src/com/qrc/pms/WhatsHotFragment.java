@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -40,6 +41,7 @@ public class WhatsHotFragment extends SherlockFragment {
 	public Calendar date_birth;
 	public Button add_pigs;
 	public AlertDialog alertErroraddPig;
+	private CheckBox checkboxAsGroup;
 	Boolean isInternetPresent = false;
 	Integer purpose, birthDate, count;
 	String groupName;
@@ -70,6 +72,7 @@ public class WhatsHotFragment extends SherlockFragment {
 		datePicker = (DatePicker) view.findViewById(R.id.datePicker1);
 		timePicker = (TimePicker) view.findViewById(R.id.alarm_morning);
 		num_of_pigs.setFilters(new InputFilter[]{ new InputFilterMinMax("1", "" + Integer.MAX_VALUE)});
+		checkboxAsGroup = (CheckBox) view.findViewById(R.id.checkbox_as_group);
 		
 		final String defaultGroupName = "Pig Added " + Pig.formatDate(System.currentTimeMillis());
 		group_name.setHint(defaultGroupName);
@@ -132,7 +135,7 @@ public class WhatsHotFragment extends SherlockFragment {
 									if (group_name.getEditableText().toString().equals("")) {
 										group_name.setText(defaultGroupName);
 									}
-									addPigDetails();
+									addPigDetails(checkboxAsGroup.isChecked());
 								}
 							}, null);
 					
@@ -145,7 +148,7 @@ public class WhatsHotFragment extends SherlockFragment {
 	}
 	
 	
-	public void  addPigDetails() {
+	public void  addPigDetails(Boolean asGroup) {
 		
 		date_birth = Calendar.getInstance();
 		
@@ -166,12 +169,20 @@ public class WhatsHotFragment extends SherlockFragment {
 		
 		Log.e("", "" + birthDate);
 		
-		pigAddedDetails = new Pig(purpose, birthDate, groupName, count);
-		
-
-		
 	    try {
-			((MainActivity) getActivity()).openListPosition = ((MainActivity) getActivity()).addPig(pigAddedDetails);
+	    	int loop = asGroup ? 1 : count;
+	    	for (int x = 1; x <= loop; x++) {
+		    	pigAddedDetails = new Pig(purpose, birthDate, groupName, asGroup ? count : 1);
+				((MainActivity) getActivity()).openListPosition = ((MainActivity) getActivity()).addPig(pigAddedDetails);
+
+	    		try {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			((MainActivity) getActivity()).displayView(2);
 			
 			Thread thread =  new Thread(new Runnable() {

@@ -3,8 +3,10 @@ package com.qrc.pms;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import org.json.JSONException;
 
@@ -20,17 +22,21 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.qrc.pms.adapter.LogsListAdapter;
 import com.qrc.pms.config.Config;
 import com.qrc.pms.helper.FileHelper;
+import com.qrc.pms.model.Log;
 import com.qrc.pms.model.Pig;
 import com.qrc.pms.model.Pig.Feeds;
 import com.qrc.pms.utils.InputFilterMinMax;
@@ -145,6 +151,144 @@ public class CommunityFragment extends SherlockFragment {
 								}
 							}
 						},
+						view);
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_logvaccine)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+//				totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+				
+				final View view = getActivity().getLayoutInflater().inflate(R.layout.log_form, null, false);
+				((TextView) view.findViewById(R.id.tv_description)).setText(getResources().getString(R.string.label_vaccine));
+				((EditText)view.findViewById(R.id.et_description)).setText(((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).getVaccine());
+				((MainActivity) getActivity()).showAlertDialog(
+						getActivity(),
+						getResources().getString(R.string.logvaccine),
+						"",
+						true,
+						true,
+						"Cancel",
+						"Save",
+						null,
+						new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								// TODO Auto-generated method stub
+								try {
+									((MainActivity) getActivity()).addLog(new Log(
+											((EditText)view.findViewById(R.id.et_description)).getText().toString(),
+											((EditText)view.findViewById(R.id.et_notes)).getText().toString(),
+											((CheckBox)view.findViewById(R.id.checkbox_done)).isChecked(),
+											(int)(System.currentTimeMillis() / 1000),
+											((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).dateAdded,
+											Log.TYPE_VACCINE));
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								showDetailsModal(currentPigIdx);
+							}
+						},
+						view);
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_logfeeds)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+//				totalPig.setText(((MainActivity) getActivity()).pigListAdapter.getTotalPigCount());
+				
+				final View view = getActivity().getLayoutInflater().inflate(R.layout.log_form, null, false);
+				((TextView) view.findViewById(R.id.tv_description)).setText(getResources().getString(R.string.label_feeds));
+				((EditText)view.findViewById(R.id.et_description)).setText(((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).getFeeds().toString());
+				((MainActivity) getActivity()).showAlertDialog(
+						getActivity(),
+						getResources().getString(R.string.logfeeds),
+						"",
+						true,
+						true,
+						"Cancel",
+						"Save",
+						null,
+						new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface arg0, int arg1) {
+								// TODO Auto-generated method stub
+								try {
+									((MainActivity) getActivity()).addLog(new Log(
+											((EditText)view.findViewById(R.id.et_description)).getText().toString(),
+											((EditText)view.findViewById(R.id.et_notes)).getText().toString(),
+											((CheckBox)view.findViewById(R.id.checkbox_done)).isChecked(),
+											(int)(System.currentTimeMillis() / 1000),
+											((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx).dateAdded,
+											Log.TYPE_FEEDS));
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
+								showDetailsModal(currentPigIdx);
+							}
+						},
+						view);
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_view_feedslog)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
+				
+				View view = getActivity().getLayoutInflater().inflate(R.layout.logs_list, null, false);
+				LogsListAdapter logsListAdapter = new LogsListAdapter(getActivity(), new ArrayList<Log>());
+				logsListAdapter.init(pig.getId(), Log.TYPE_FEEDS, view);
+				((ListView) view.findViewById(R.id.logs_listView)).setAdapter(logsListAdapter);
+				
+				((MainActivity) getActivity()).showAlertDialog(
+						getActivity(),
+						"Feeds Logs",
+						"",
+						true,
+						false,
+						"OK",
+						null,
+						null,
+						null,
+						view);
+			}
+		});
+		
+		((Button) view.findViewById(R.id.btn_view_vaccinelog)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Pig pig = ((MainActivity) getActivity()).pigListAdapter.getItem(currentPigIdx);
+				
+				View view = getActivity().getLayoutInflater().inflate(R.layout.logs_list, null, false);
+				LogsListAdapter logsListAdapter = new LogsListAdapter(getActivity(), new ArrayList<Log>());
+				logsListAdapter.init(pig.getId(), Log.TYPE_VACCINE, view);
+				((ListView) view.findViewById(R.id.logs_listView)).setAdapter(logsListAdapter);
+				
+				((MainActivity) getActivity()).showAlertDialog(
+						getActivity(),
+						"Vaccine Logs",
+						"",
+						true,
+						false,
+						"OK",
+						null,
+						null,
+						null,
 						view);
 			}
 		});
@@ -308,12 +452,28 @@ public class CommunityFragment extends SherlockFragment {
 			vaccingRow.setVisibility(View.GONE);
 		}
 		
-		if(!((MainActivity) getActivity()).isAdmin){
-			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.GONE);
-			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.GONE);
-		} else if(pig.purpose == Pig.PURPOSE_SOW && ((MainActivity) getActivity()).isAdmin) {
-			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
-			((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.VISIBLE);
+		((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.GONE);
+		((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.GONE);
+		
+		detailsModal.findViewById(R.id.row_removed).setVisibility(View.GONE);
+		detailsModal.findViewById(R.id.row_feedslogs).setVisibility(View.GONE);
+		detailsModal.findViewById(R.id.row_vaccinelogs).setVisibility(View.GONE);
+		
+		if(((MainActivity) getActivity()).isAdmin) {
+			detailsModal.findViewById(R.id.row_removed).setVisibility(View.VISIBLE);
+			detailsModal.findViewById(R.id.row_feedslogs).setVisibility(View.VISIBLE);
+			
+			if (!pig.getVaccine().equals("")) {
+				detailsModal.findViewById(R.id.row_vaccinelogs).setVisibility(View.VISIBLE);
+				if (pig.getVaccine(getActivity()).equals("")) {
+					detailsModal.findViewById(R.id.btn_logvaccine).setVisibility(View.GONE);
+				}
+			}
+			
+			if (pig.purpose == Pig.PURPOSE_SOW) {
+				((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
+				((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.VISIBLE);
+			}
 		}
 		
 		boolean btnSellEnabled = true;
@@ -360,6 +520,8 @@ public class CommunityFragment extends SherlockFragment {
 				}).start();
 			}
 		});
+		
+		((ScrollView) detailsModal.findViewById(R.id.sv_details)).scrollTo(0, 0);
 	}
 	
 	

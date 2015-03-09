@@ -12,6 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -57,6 +58,12 @@ public class Pig {
 	 * Extra data for additional info
 	 */
 	public String action = "";
+	
+	/**
+	 * Inherited attr from logs
+	 */
+	private int lastVaccineLog = 0;
+	private int lastFeedsLog = 0;
 	
 	public Pig(int purpose, int birthDate) {
 		this(purpose, birthDate, "");
@@ -306,6 +313,20 @@ public class Pig {
         return changeInDate + " days old";
 	}
 	
+	public String getVaccine(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(Config.PREF_NAME_VACCINE_DONE + getId(), Context.MODE_PRIVATE);
+		if (prefs.getBoolean("" + com.qrc.pms.model.Log.getGroupId((int) (System.currentTimeMillis() / 1000)), false)) {
+			return "";
+		}
+		
+		return getVaccine();
+	}
+	
+	public boolean hasFeedsNotification(Context context) {
+		SharedPreferences prefs = context.getSharedPreferences(Config.PREF_NAME_FEEDS_DONE + getId(), Context.MODE_PRIVATE);
+		return !prefs.getBoolean("" + com.qrc.pms.model.Log.getGroupId((int) (System.currentTimeMillis() / 1000)), false);
+	}
+	
 	public String getVaccine() {
 		String vaccine = "";
 		
@@ -416,5 +437,10 @@ public class Pig {
 			this.consumption = consumption;
 		}
 		
+		@Override
+		public String toString() {
+			// TODO Auto-generated method stub
+			return feed + " " + consumption;
+		}
 	}
 }

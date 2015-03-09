@@ -60,6 +60,10 @@
 	<string name="edit">Edit</string>
 	<string name="sell">Sell</string>
 	<string name="sell_count">Pigs Sold:</string>
+	<string name="date">Date:</string>
+	<string name="time">Time:</string>
+	<string name="notes">Notes:</string>
+	<string name="done">Done:</string>
 	<string name="remove_count">Pigs Removed:</string>
 	<string name="pregnant">Pregnant</string>
 	<string name="gave_birth">Gave Birth</string>
@@ -75,6 +79,8 @@
     <string name="sort">Sort</string>
     <string name="purpose">Purpose:</string>
     <string name="vaccine">Vaccine/Medication:</string>
+    <string name="label_vaccine">Vaccine:</string>
+    <string name="label_feeds">Feeds:</string>
     <string name="timebirth">Time of Birth:</string>
 	<string name="birthdate">Date of Birth:</string>
 	<string name="age">Age:</string>
@@ -84,11 +90,14 @@
 	<string name="pregnancy_count">Times Pregnant:</string>
 	<string name="btn_add_pigs">Add Pig</string>
 	<string name="label_purpose">Purpose:</string>
+	<string name="label_vaccinelog">Vaccine Logs:</string>
+	<string name="label_feedslog">Feeds Logs:</string>
 	<string name="input_add_purpose"></string>
 	<string name="add_pig">Add Pig</string>
 	<string name="no_of_pigs">Number of Pigs:</string>	
 	<string name="input_add_noof_pigs"></string>	
-	<string name="label_group_name">Group Name:</string>	
+	<string name="label_group_name">Name:</string>	
+	<string name="label_as_group">As Group:</string>
 	<string name="label_date_of_birth">Date of Birth:</string>	
 	<string name="add_time_of_birth">Time of Birth:</string>	
 	<string name="stock">In Stock:</string>	
@@ -102,4 +111,11 @@
 	<string name="alarm_noon">2nd Alarm</string>	
 	<string name="alarm_evening">3rd Alarm</string>
 	<string name="reprint">Re-Print</string>
+	<string name="logvaccine">Log Vaccine/Medication</string>
+	<string name="logfeeds">Log Feeds</string>
+	<string name="add">Add</string>
+	<string name="view">View</string>
+	<string name="hint_optional">(optional)</string>
+	<string name="hint_remove_notif">(remove notification)</string>
+	<string name="empty_logs">No logs for this pig.</string>
 </resources>

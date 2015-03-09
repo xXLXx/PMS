@@ -66,9 +66,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	
-	public boolean isAdmin = false;
+	public boolean isAdmin = true;
 	
-	public boolean isLoogedIn = false;
+	public boolean isLoogedIn = true;
 //	public boolean isMain = t;
 	// nav drawer title
 	public CharSequence mDrawerTitle;
@@ -253,6 +253,37 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		}).start();
 		
 		return pigListAdapter.getCount() - 1;
+	}
+	
+	public void addLog(final com.qrc.pms.model.Log log) throws JSONException {
+		String prefName = (log.type == com.qrc.pms.model.Log.TYPE_VACCINE ? Config.PREF_NAME_VACCINE_LOGS : Config.PREF_NAME_FEEDS_LOGS) + log.pig_id;
+		Editor logsEditor = getSharedPreferences(prefName, Context.MODE_PRIVATE).edit();
+		logsEditor.putString(log.getId(), log.getSerializedString());
+		logsEditor.commit();
+		
+		if (log.done) {
+			Editor doneLogs = getSharedPreferences((log.type == com.qrc.pms.model.Log.TYPE_VACCINE ? Config.PREF_NAME_VACCINE_DONE : Config.PREF_NAME_FEEDS_DONE) + log.pig_id, Context.MODE_PRIVATE).edit();
+			doneLogs.putBoolean("" + log.getGroupId(), true);
+			doneLogs.commit();
+			pigListAdapter.notifyDataSetChanged();
+		}
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+				if (!ConnectionHelper.sendPost(Config.BASE_URL + "pig.php?f=" + log.getAction(), log.getHashMap()).equals("1")) {
+					SharedPreferences failedPrefs = getSharedPreferences(Config.PREF_NAME_FAILEDLOGS, MODE_PRIVATE);
+					try {
+						failedPrefs.edit().putString(log.getId(), log.getSerializedString()).commit();
+					} catch (JSONException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}).start();
 	}
 	
 	public boolean updatePig(int currentPigIdx, final Pig pig) throws JSONException {

@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 
 import com.qrc.pms.MainActivity;
 import com.qrc.pms.R;
+import com.qrc.pms.config.Config;
+import com.qrc.pms.model.Log;
 import com.qrc.pms.model.Pig;
 
 public class PigListAdapter extends BaseAdapter{
@@ -169,7 +173,9 @@ public class PigListAdapter extends BaseAdapter{
 		int nowSec = (int) (System.currentTimeMillis() / 1000);
 		if (nowSec >= pig.pregnancyDate && nowSec - pig.pregnancyDate <= 86400 * 3) {
 			holder.listEntryBase.setBackgroundColor(Color.parseColor("#74d58512"));
-		} else if (!pig.getVaccine().equals("")) {
+		} else if (!pig.getVaccine(context).equals("")) {
+			holder.listEntryBase.setBackgroundColor(Color.parseColor("#74D95082"));
+		} else if (pig.hasFeedsNotification(context)) {
 			holder.listEntryBase.setBackgroundColor(Color.parseColor("#74D95082"));
 		} else {
 			holder.listEntryBase.setBackgroundDrawable(null);

@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import com.qrc.pms.MainActivity;
 import com.qrc.pms.config.Config;
 import com.qrc.pms.helper.ConnectionHelper;
+import com.qrc.pms.model.Log;
 import com.qrc.pms.model.Pig;
 
 public class PreloadPigsAsyncTask extends AsyncTask<Object, Integer, Integer>{
@@ -32,6 +33,9 @@ public class PreloadPigsAsyncTask extends AsyncTask<Object, Integer, Integer>{
 		// TODO Auto-generated method stub
 		Editor editor = ((MainActivity)arg0[0]).prefs.edit();
 		
+		/**
+		 * Get Pigs
+		 */
 		String pigsJson = ConnectionHelper.getStringFrom(Config.BASE_URL + "pig.php?f=getPigs");
 		try {
 			JSONArray pigsArr = new JSONArray(pigsJson);
@@ -64,6 +68,97 @@ public class PreloadPigsAsyncTask extends AsyncTask<Object, Integer, Integer>{
 			return STATUS_FAILED;
 		}
 		
+		/**
+		 * Get Vaccine Logs
+		 */
+		String vaccineLogsJson = ConnectionHelper.getStringFrom(Config.BASE_URL + "pig.php?f=getVaccineLogs");
+		try {
+			JSONArray vaccineLogsArr = new JSONArray(vaccineLogsJson);
+			
+			long currentPigId = -1;
+			
+			Editor logsEditor = null;
+			
+			for (int x = 0; x < vaccineLogsArr.length(); x++) {
+				JSONObject logObj = vaccineLogsArr.getJSONObject(x);
+				long tmpPidId = logObj.getLong("pig_id");
+				if (currentPigId != tmpPidId) {
+					if (logsEditor != null) {
+						logsEditor.commit();
+					}
+					
+					String prefName = Config.PREF_NAME_VACCINE_LOGS + currentPigId;
+					logsEditor = ((Context)arg0[0]).getSharedPreferences(prefName, Context.MODE_PRIVATE).edit();
+					logsEditor.clear();
+					
+					currentPigId = tmpPidId;
+				} else if (logsEditor != null){
+					logsEditor.putString(logObj.getString("created_at"), logObj.toString());
+					
+					if (logObj.has("done")) {
+						if (logObj.getBoolean("done")) {
+							Editor doneLogs = ((Context)arg0[0]).getSharedPreferences(Config.PREF_NAME_VACCINE_DONE + logObj.getInt("pig_id"), Context.MODE_PRIVATE).edit();
+							doneLogs.putBoolean("" + Log.getGroupId(logObj.getInt("created_at")), true);
+							doneLogs.commit();
+						}
+						
+					}
+				}
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return STATUS_FAILED;
+		}
+		
+		/**
+		 * Get Feeds Logs
+		 */
+		String feedsLogsJson = ConnectionHelper.getStringFrom(Config.BASE_URL + "pig.php?f=getFeedsLogs");
+		try {
+			JSONArray feedsLogsArr = new JSONArray(feedsLogsJson);
+			
+			long currentPigId = -1;
+			
+			Editor logsEditor = null;
+			
+			for (int x = 0; x < feedsLogsArr.length(); x++) {
+				JSONObject logObj = feedsLogsArr.getJSONObject(x);
+				long tmpPidId = logObj.getLong("pig_id");
+				if (currentPigId != tmpPidId) {
+					if (logsEditor != null) {
+						logsEditor.commit();
+					}
+					
+					String prefName = Config.PREF_NAME_FEEDS_LOGS + currentPigId;
+					logsEditor = ((Context)arg0[0]).getSharedPreferences(prefName, Context.MODE_PRIVATE).edit();
+					logsEditor.clear();
+					
+					currentPigId = tmpPidId;
+				} else if (logsEditor != null){
+					logsEditor.putString(logObj.getString("created_at"), logObj.toString());
+					
+					if (logObj.has("done")) {
+						if (logObj.getBoolean("done")) {
+							Editor doneLogs = ((Context)arg0[0]).getSharedPreferences(Config.PREF_NAME_FEEDS_DONE + logObj.getInt("pig_id"), Context.MODE_PRIVATE).edit();
+							doneLogs.putBoolean("" + Log.getGroupId(logObj.getInt("created_at")), true);
+							doneLogs.commit();
+						}
+						
+					}
+				}
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return STATUS_FAILED;
+		}
+		
+		/**
+		 * Uncomitted server post changes
+		 */
 		final SharedPreferences failedPrefs = ((Context)arg0[0]).getSharedPreferences(Config.PREF_NAME_FAILEDPOSTS, Context.MODE_PRIVATE);
 		Map<String, ?> failedMap = failedPrefs.getAll();
 		for (Object failed : failedMap.values()) {
@@ -90,6 +185,25 @@ public class PreloadPigsAsyncTask extends AsyncTask<Object, Integer, Integer>{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		/**
+		 * Uncomitted server logs changes
+		 */
+		final SharedPreferences failedLogsPrefs = ((Context)arg0[0]).getSharedPreferences(Config.PREF_NAME_FAILEDLOGS, Context.MODE_PRIVATE);
+		Map<String, ?> failedLogsMap = failedLogsPrefs.getAll();
+		for (Object failed : failedLogsMap.values()) {
+			final Log log = Log.getLog(failed.toString());
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					// TODO Auto-generated method stub
+					if (ConnectionHelper.sendPost(Config.BASE_URL + "pig.php?f=" + log.getAction(), log.getHashMap()).equals("1")) {
+						failedLogsPrefs.edit().remove(log.getId()).commit();
+					}
+				}
+			}).start();
 		}
 		
 		return STATUS_SUCCESS;
