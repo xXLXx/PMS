@@ -12,9 +12,10 @@
         <item>PMS QR Code</item>
         <item>Log In</item>
         <item>Pig Lists</item>
+         <item>Add a Pig</item>
         <item>About This Application</item>
         <item>How to?</item>
-        <item>Add a Pig</item>
+       
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -23,9 +24,9 @@
         <item>@drawable/ic_home</item>
         <item>@drawable/ic_people</item>
         <item>@drawable/ic_facts</item>
+        <item>@drawable/ic_whats_hot</item>
         <item>@drawable/ic_communities</item>
         <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_whats_hot</item>
     </array>
     
     
@@ -85,6 +86,7 @@
 	<string name="birthdate">Date of Birth:</string>
 	<string name="age">Age:</string>
 	<string name="date_giving_birth">Date of Giving Birth:</string>
+	<string name="expected_milking_date">Expected Delivery:</string>
 	<string name="date_pregnancy">Date of Pregnancy:</string>
 	<string name="date_added">Date Added:</string>
 	<string name="pregnancy_count">Times Pregnant:</string>
@@ -107,9 +109,9 @@
 	<string name="loginBtn">Login</string>	
 	<string name="total_pigs">Total Pigs:</string>	
 	<string name="totalPigsCount">0</string>
-	<string name="alarm_morning">1st Alarm</string>
-	<string name="alarm_noon">2nd Alarm</string>	
-	<string name="alarm_evening">3rd Alarm</string>
+	<string name="alarm_morning">Morning Alarm</string>
+	<string name="alarm_noon">Noon Alarm</string>	
+	<string name="alarm_evening">Afternoon Alarm</string>
 	<string name="reprint">Re-Print</string>
 	<string name="logvaccine">Log Vaccine/Medication</string>
 	<string name="logfeeds">Log Feeds</string>

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -42,6 +41,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TimePicker;
+import android.widget.TimePicker.OnTimeChangedListener;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
@@ -129,11 +129,11 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Communities, Will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
-		// Pages
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
+//		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+//		// Pages
+//		navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
-		navDrawerItems.add(new NavDrawerItem(navMenuTitles[5], navMenuIcons.getResourceId(5, -1), true, "50+"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "50+"));
 		
 
 		// Recycle the typed array
@@ -341,6 +341,45 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 		
 	}
 
+	private void setTimePickerBounds(TimePicker timePicker, final int minHour, final int minMin, final int maxHour, final int maxMin) {
+		timePicker.setOnTimeChangedListener(new OnTimeChangedListener() {
+			
+			@Override
+			public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+				// TODO Auto-generated method stub
+				boolean valid = true;
+				int hour = 0, min = 0;
+				
+				if (hourOfDay < minHour) {
+					valid = false;
+					hour = minHour;
+				} else if (hourOfDay == minHour) {
+					if (minute < minMin) {
+						valid = false;
+						min = minMin;
+					}
+				}
+				
+				if (valid) {
+					if (hourOfDay > maxHour) {
+						valid = false;
+						hour = maxHour;
+					} else if (hourOfDay == maxHour) {
+						if (minute > maxMin) {
+							valid = false;
+							min = maxMin;
+						}
+					}
+				}
+				
+				
+				if (!valid) {
+					view.setCurrentHour(hour);
+					view.setCurrentMinute(min);
+				}
+			}
+		});
+	}
 	
 	//edited
 	@Override
@@ -358,10 +397,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 				
 				alarmMorning.setCurrentHour(Integer.parseInt(Config.TIME_SLOTS[0].substring(0, 2)));
 				alarmMorning.setCurrentMinute(Integer.parseInt(Config.TIME_SLOTS[0].substring(3, 5)));
+				setTimePickerBounds(alarmMorning, 5, 0, 10, 0);
 				alarmNoon.setCurrentHour(Integer.parseInt(Config.TIME_SLOTS[1].substring(0, 2)));
 				alarmNoon.setCurrentMinute(Integer.parseInt(Config.TIME_SLOTS[1].substring(3, 5)));
+				setTimePickerBounds(alarmNoon, 10, 1, 14, 0);
 				alarmEvening.setCurrentHour(Integer.parseInt(Config.TIME_SLOTS[2].substring(0, 2)));
 				alarmEvening.setCurrentMinute(Integer.parseInt(Config.TIME_SLOTS[2].substring(3, 5)));
+				setTimePickerBounds(alarmEvening, 14, 1, 19, 0);
 				
 				showAlertDialog(this, "Settings", "", true, true, "Cancel", "Save",
 						null,
@@ -449,13 +491,13 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 			fragment.setArguments(bundle);
 			break;
 		case 3:
-			fragment = new PhotosFragment();
+			fragment = new WhatsHotFragment();
 			break;
 		case 4:
 			fragment = new PagesFragment();
 			break;
 		case 5:
-			fragment = new WhatsHotFragment();
+			fragment = new PhotosFragment();
 			break;
 
 		default:

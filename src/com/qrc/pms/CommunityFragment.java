@@ -429,11 +429,15 @@ public class CommunityFragment extends SherlockFragment {
 			pregnantCountRow.setVisibility(View.GONE);
 		}
 		
+		detailsModal.findViewById(R.id.row_expected_milking).setVisibility(View.GONE);
 		if (!(extraDate = pig.getPregnancyDate()).equals("")) {
 			
 			tvExtraDate.setText(extraDate);
 			tvExtraDateLead.setText(getResources().getString(R.string.date_pregnancy));
 			btnPregnant.setText(getResources().getString(R.string.gave_birth));
+			
+			detailsModal.findViewById(R.id.row_expected_milking).setVisibility(View.VISIBLE);
+			((TextView)detailsModal.findViewById(R.id.tv_expected_milking)).setText(pig.formatDate(pig.pregnancyDate + 114 * 86400));
 			
 		} else if (!(extraDate = pig.getMilkingDate()).equals("")) {
 			tvExtraDate.setText(extraDate);
@@ -469,9 +473,9 @@ public class CommunityFragment extends SherlockFragment {
 					detailsModal.findViewById(R.id.btn_logvaccine).setVisibility(View.GONE);
 				}
 			}
-			
+
+			((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
 			if (pig.purpose == Pig.PURPOSE_SOW) {
-				((Button) detailsModal.findViewById(R.id.btn_sell)).setVisibility(View.VISIBLE);
 				((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.VISIBLE);
 			}
 		}
@@ -480,6 +484,9 @@ public class CommunityFragment extends SherlockFragment {
 		if (pig.getCount() <= 0) {
 			btnSellEnabled = false;
 			btnPregnant.setVisibility(View.GONE);
+			detailsModal.findViewById(R.id.btn_addremoved).setVisibility(View.GONE);
+		} else {
+			detailsModal.findViewById(R.id.btn_addremoved).setVisibility(View.VISIBLE);
 		}
 		((Button) detailsModal.findViewById(R.id.btn_sell)).setEnabled(btnSellEnabled);
 		

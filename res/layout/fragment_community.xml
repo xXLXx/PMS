@@ -231,6 +231,18 @@
 	                        android:text="@string/date_giving_birth"
 	                        style="@style/DetailText" />
                     </TableRow>
+                     <TableRow
+                        android:id="@+id/row_expected_milking"
+	                    android:paddingLeft="10dp"
+	                    android:paddingRight="10dp">
+                        <TextView
+	                        android:text="@string/expected_milking_date"
+	                        style="@style/DetailTextLead" />
+                        <TextView
+	                        android:id="@+id/tv_expected_milking"
+	                        android:text="@string/expected_milking_date"
+	                        style="@style/DetailText" />
+                    </TableRow>
                     <TableRow
 	                    android:paddingLeft="10dp"
 	                    android:paddingRight="10dp"

@@ -20,7 +20,7 @@ public class NavDrawerListAdapter extends BaseAdapter {
 	private Context context;
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	
-	private int[] blackListPos = {5};
+	private int[] blackListPos = {3};
 	
 	public NavDrawerListAdapter(Context context, ArrayList<NavDrawerItem> navDrawerItems){
 		this.context = context;
