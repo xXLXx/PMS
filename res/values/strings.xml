@@ -105,7 +105,7 @@
 	<string name="stock">In Stock:</string>	
 	<string name="sold">Sold</string>
 	<string name="removed">Removed</string>
-	<string name="user_code">User Code</string>	
+	<string name="user_code">Admin Code</string>	
 	<string name="loginBtn">Login</string>	
 	<string name="total_pigs">Total Pigs:</string>	
 	<string name="totalPigsCount">0</string>

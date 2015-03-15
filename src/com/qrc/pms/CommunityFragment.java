@@ -460,12 +460,12 @@ public class CommunityFragment extends SherlockFragment {
 		((Button) detailsModal.findViewById(R.id.btn_pregnant)).setVisibility(View.GONE);
 		
 		detailsModal.findViewById(R.id.row_removed).setVisibility(View.GONE);
-		detailsModal.findViewById(R.id.row_feedslogs).setVisibility(View.GONE);
-		detailsModal.findViewById(R.id.row_vaccinelogs).setVisibility(View.GONE);
+//		detailsModal.findViewById(R.id.row_feedslogs).setVisibility(View.GONE);
+//		detailsModal.findViewById(R.id.row_vaccinelogs).setVisibility(View.GONE);
 		
 		if(((MainActivity) getActivity()).isAdmin) {
-			detailsModal.findViewById(R.id.row_removed).setVisibility(View.VISIBLE);
-			detailsModal.findViewById(R.id.row_feedslogs).setVisibility(View.VISIBLE);
+//			detailsModal.findViewById(R.id.row_removed).setVisibility(View.VISIBLE);
+//			detailsModal.findViewById(R.id.row_feedslogs).setVisibility(View.VISIBLE);
 			
 			if (!pig.getVaccine().equals("")) {
 				detailsModal.findViewById(R.id.row_vaccinelogs).setVisibility(View.VISIBLE);

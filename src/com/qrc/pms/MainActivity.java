@@ -66,9 +66,9 @@ public class MainActivity extends SherlockFragmentActivity implements LocationLi
 	public ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 	
-	public boolean isAdmin = true;
+	public boolean isAdmin = false;
 	
-	public boolean isLoogedIn = true;
+	public boolean isLoogedIn = false;
 //	public boolean isMain = t;
 	// nav drawer title
 	public CharSequence mDrawerTitle;

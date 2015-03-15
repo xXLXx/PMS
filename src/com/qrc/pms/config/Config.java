@@ -16,6 +16,7 @@ public class Config {
 	public static String PREF_NAME_FEEDS_LOGS = "PMS_feeds_";
 	public static String PREF_NAME_VACCINE_DONE = "PMS_vaccine_done_";
 	public static String PREF_NAME_FEEDS_DONE = "PMS_feeds_done_";
+	public static String PREF_NAME_LAST_UPDATE = "PMS_last_update";
 	
 	public static String[] TIME_SLOTS = {"06:00", "11:00", "17:00"};
 	
